@@ -4,31 +4,117 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.theloffle.ui.components.BloqueRegistro
 import com.example.theloffle.ui.components.BloqueCard
 import com.example.theloffle.ui.components.Header
+// Para animatedVisibility && overlay
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+// Para implementar remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+//
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.ui.unit.sp
 
 @Composable
 // Le pasamos como parametro el modifier que le define los margenes
 fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
-    Column(
-        // Definimos el tamaño maximo, margenes y separaciones entre bloques
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 26.dp)
-            .padding(bottom = 26.dp),
-        verticalArrangement = Arrangement.spacedBy(30.dp)
-    )
-    {
-        Header()
-        // Los cuatro bloques, les pasamos el modifier con la altura
-        BloqueCard(Modifier.height(80.dp))
-        BloqueCard(Modifier.height(80.dp))
-        BloqueCard(Modifier.height(80.dp))
-        BloqueCard(Modifier.weight(1f)) // El bloque final de recetas se lleva lo que sobra
-                                        // ASi lo ajustamos a cualquier movil
+
+    var comidaSeleccionada by remember { mutableStateOf<String?>(null) }
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        Column(
+            // Definimos el tamaño maximo, margenes y separaciones entre bloques
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 26.dp)
+                .padding(bottom = 26.dp),
+            verticalArrangement = Arrangement.spacedBy(30.dp)
+        ) {
+            Header()
+            // Los cuatro bloques, les pasamos el modifier con la altura
+            BloqueRegistro(
+                modifier = Modifier.height(80.dp),
+                onComidaClick = { comida ->
+                    comidaSeleccionada = comida
+                }
+            )
+            BloqueCard(Modifier.height(80.dp))
+            BloqueCard(Modifier.height(80.dp))
+            BloqueCard(Modifier.weight(1f)) // El bloque final de recetas se lleva lo que sobra
+            // ASi lo ajustamos a cualquier movil
+        }
+        // OVERLAY
+        AnimatedVisibility(
+            visible = comidaSeleccionada != null,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Color.Black.copy(alpha = 0.5f)
+                    )
+                    .clickable {
+                        comidaSeleccionada = null
+                    }
+            )
+        }
+        // PANEL EXPANDIDO
+        AnimatedVisibility(
+            visible = comidaSeleccionada != null,
+            enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
+            exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Top),
+            modifier = Modifier.align(Alignment.TopCenter)
+        ) {
+            Box(
+                // Habria que ver de alguna manera hacerlo dinamico en vez de hardcode(los dp)
+                modifier = Modifier
+                    .padding(top = 150.dp)
+                    .width(400.dp)
+                    .height(600.dp)
+                    .background(
+                        Color.White,
+                        RoundedCornerShape(10.dp)
+                    )
+            ) {
+                when (comidaSeleccionada) {
+                    "Desayuno" -> {
+                        Text("Desayuno", fontSize = 24.sp)
+                    }
+                    "Merienda" -> {
+                        Text("Merienda", fontSize = 24.sp)
+                    }
+                    "Comida" -> {
+                        Text("Comida", fontSize = 24.sp)
+                    }
+                    "Merienda2" -> {
+                        Text("Merienda2", fontSize = 24.sp)
+                    }
+                    "Cena" -> {
+                        Text("Cena", fontSize = 24.sp)
+                    }
+                }
+            }
+        }
     }
 }

@@ -8,12 +8,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.theloffle.ui.components.BottomBar
 import com.example.theloffle.ui.home.HomeScreen
+import androidx.compose.ui.graphics.Color
+
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
         Scaffold(
+            containerColor = Color.White,
             bottomBar = {BottomBar()}
         ){
             // Margen para la BottomBar

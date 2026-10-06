@@ -16,10 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
-import theloffle.shared.generated.resources.grayHome
-import theloffle.shared.generated.resources.recipes
-import theloffle.shared.generated.resources.search
-import theloffle.shared.generated.resources.user
+import theloffle.shared.generated.resources.main_unfilled
+import theloffle.shared.generated.resources.main_filled
+import theloffle.shared.generated.resources.recipe_unfilled
+import theloffle.shared.generated.resources.recipe_filled
+import theloffle.shared.generated.resources.search_unfilled
+import theloffle.shared.generated.resources.search_filled
+import theloffle.shared.generated.resources.profile_unfilled
+import theloffle.shared.generated.resources.profile_filled
 
 @Composable
 fun BottomBar(){
@@ -37,22 +41,22 @@ fun BottomBar(){
     {
         // Cada imagen de la barra
         Image(
-            painter = painterResource(Res.drawable.grayHome),
-            contentDescription = "Home Gris",
+            painter = painterResource(Res.drawable.main_filled),
+            contentDescription = "Inicio",
             modifier = Modifier.size(60.dp)
         )
         Image(
-            painter = painterResource(Res.drawable.recipes),
+            painter = painterResource(Res.drawable.recipe_unfilled),
             contentDescription = "Recetas",
             modifier = Modifier.size(60.dp)
         )
         Image(
-            painter = painterResource(Res.drawable.search),
+            painter = painterResource(Res.drawable.search_unfilled),
             contentDescription = "Buscar",
             modifier = Modifier.size(60.dp)
         )
         Image(
-            painter = painterResource(Res.drawable.user),
+            painter = painterResource(Res.drawable.profile_unfilled),
             contentDescription = "Usuario",
             modifier = Modifier.size(60.dp)
         )

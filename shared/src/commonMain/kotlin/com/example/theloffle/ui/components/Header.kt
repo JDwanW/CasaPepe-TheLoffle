@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
@@ -35,5 +36,6 @@ fun Header(){
         // Espacio entre logo y nombre y el nombre
         Spacer(Modifier.width(12.dp))
         Text("The Löffel", fontSize = 24.sp)
+        // Falta introducirle la font
     }
 }
