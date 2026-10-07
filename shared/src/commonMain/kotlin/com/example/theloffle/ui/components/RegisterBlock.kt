@@ -33,13 +33,13 @@ import theme.AppColors
 @Composable
 fun BloqueRegistro(
     modifier: Modifier = Modifier,
-    onComidaClick: (FoodPages) -> Unit
+    onMealSelected: (FoodPages) -> Unit
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                Color(0x00B8E6A3),                  //Random Color, Transparent
+                Color(0x00FFFFFF),                  //Random Color, Transparent
                 RoundedCornerShape(10.dp)
             )
             .navigationBarsPadding()
@@ -53,9 +53,9 @@ fun BloqueRegistro(
         ) {
             Button(
                 onClick = {
-                    onComidaClick(FoodPages.BREAKFAST)
+                    onMealSelected(FoodPages.BREAKFAST)
                 },
-                modifier = Modifier.size(65.dp),
+                modifier = Modifier.size(70.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -67,15 +67,15 @@ fun BloqueRegistro(
                         Res.drawable.breakfast
                     ),
                     contentDescription = "Desayuno",
-                    modifier = Modifier.size(65.dp)
+                    modifier = Modifier.size(70.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick(FoodPages.SNACK1)
+                    onMealSelected(FoodPages.SNACK1)
                 },
-                modifier = Modifier.size(65.dp),
+                modifier = Modifier.size(70.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -87,15 +87,15 @@ fun BloqueRegistro(
                         Res.drawable.snack
                     ),
                     contentDescription = "Merienda",
-                    modifier = Modifier.size(65.dp)
+                    modifier = Modifier.size(70.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick(FoodPages.LUNCH)
+                    onMealSelected(FoodPages.LUNCH)
                 },
-                modifier = Modifier.size(65.dp),
+                modifier = Modifier.size(70.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -107,15 +107,15 @@ fun BloqueRegistro(
                         Res.drawable.lunch
                     ),
                     contentDescription = "Comida",
-                    modifier = Modifier.size(65.dp)
+                    modifier = Modifier.size(70.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick(FoodPages.SNACK2)
+                    onMealSelected(FoodPages.SNACK2)
                 },
-                modifier = Modifier.size(65.dp),
+                modifier = Modifier.size(70.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -127,15 +127,15 @@ fun BloqueRegistro(
                         Res.drawable.snack
                     ),
                     contentDescription = "Merienda",
-                    modifier = Modifier.size(65.dp)
+                    modifier = Modifier.size(70.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick(FoodPages.DINNER)
+                    onMealSelected(FoodPages.DINNER)
                 },
-                modifier = Modifier.size(65.dp),
+                modifier = Modifier.size(70.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -147,7 +147,7 @@ fun BloqueRegistro(
                         Res.drawable.dinner
                     ),
                     contentDescription = "Cena",
-                    modifier = Modifier.size(65.dp)
+                    modifier = Modifier.size(70.dp)
                 )
             }
         }

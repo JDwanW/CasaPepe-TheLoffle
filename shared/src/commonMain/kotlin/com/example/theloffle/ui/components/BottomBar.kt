@@ -38,16 +38,18 @@ fun BottomBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .height(60.dp)
             .background(
                 AppColors.buttonPrimary,
                 RoundedCornerShape(10.dp)
             )
-            .navigationBarsPadding() // Para el margen con el simbolo del sistema
+            .navigationBarsPadding(), // Para el margen con el simbolo del sistema
+        contentAlignment = Alignment.Center
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp),
+                .height(50.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

@@ -54,7 +54,7 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
             // Los cuatro bloques, les pasamos el modifier con la altura
             BloqueRegistro(
                 modifier = Modifier.height(80.dp),
-                onComidaClick = { comida ->
+                onMealSelected = { comida ->
                     comidaSeleccionada = comida
                 }
             )
@@ -81,6 +81,7 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
             )
         }
         // PANEL EXPANDIDO
+        // Todo : Make the container dynamicly and a Class FillMeal.kt to create the UI
         AnimatedVisibility(
             visible = comidaSeleccionada != FoodPages.NONE,
             enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
