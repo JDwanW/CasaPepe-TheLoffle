@@ -16,6 +16,6 @@ fun BloqueCard(modifier: Modifier = Modifier){
         // Maxima anchura, altura que le pasemos y gris redondeado
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.LightGray, RoundedCornerShape(10.dp))
+            .background(Color(0xFFB8E6A3), RoundedCornerShape(10.dp))
     )
 }

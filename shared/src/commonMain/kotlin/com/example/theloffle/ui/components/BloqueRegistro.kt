@@ -41,7 +41,8 @@ fun BloqueRegistro(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                Color.LightGray,
+                //Normal B8E6A3, Hover 7FC97F, Press 3E7C59
+                Color(0x00B8E6A3),
                 RoundedCornerShape(10.dp)
             )
             .navigationBarsPadding()

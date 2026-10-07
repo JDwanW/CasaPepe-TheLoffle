@@ -31,7 +31,7 @@ fun BottomBar(){
         modifier = Modifier.fillMaxWidth()
             // En el color las dos primeros digitos son la opacidad y el resto el color
             // Por si hay que cambiarlo luego
-            .background(Color(0xFFE3FFD7), RoundedCornerShape(10.dp))
+            .background(Color(0xFFB8E6A3), RoundedCornerShape(10.dp))
             .navigationBarsPadding() // Para el margen con el simbolo del sistema
             .height(55.dp),
 
