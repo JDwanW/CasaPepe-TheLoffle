@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.home
+package com.example.theloffle.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,12 +32,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.ui.unit.sp
+import page.FoodPages
 
 @Composable
 // Le pasamos como parametro el modifier que le define los margenes
 fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
 
-    var comidaSeleccionada by remember { mutableStateOf<String?>(null) }
+    var comidaSeleccionada by remember { mutableStateOf<FoodPages>(FoodPages.NONE) }
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -64,7 +65,7 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
         }
         // OVERLAY
         AnimatedVisibility(
-            visible = comidaSeleccionada != null,
+            visible = comidaSeleccionada != FoodPages.NONE,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -75,13 +76,13 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
                         Color.Black.copy(alpha = 0.5f)
                     )
                     .clickable {
-                        comidaSeleccionada = null
+                        comidaSeleccionada = FoodPages.NONE
                     }
             )
         }
         // PANEL EXPANDIDO
         AnimatedVisibility(
-            visible = comidaSeleccionada != null,
+            visible = comidaSeleccionada != FoodPages.NONE,
             enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
             exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Top),
             modifier = Modifier.align(Alignment.TopCenter)
@@ -97,20 +98,23 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
                         RoundedCornerShape(10.dp)
                     )
             ) {
+                //Todo : We need another val to take control of each meal, if this one has been added
+                //Todo : the button of that meal should be AppColor.foodDone, eoc AppColor.foodMissed
                 when (comidaSeleccionada) {
-                    "Desayuno" -> {
+                    FoodPages.NONE -> {}
+                    FoodPages.BREAKFAST -> {
                         Text("Desayuno", fontSize = 24.sp)
                     }
-                    "Merienda" -> {
+                    FoodPages.SNACK1 -> {
                         Text("Merienda", fontSize = 24.sp)
                     }
-                    "Comida" -> {
+                    FoodPages.LUNCH -> {
                         Text("Comida", fontSize = 24.sp)
                     }
-                    "Merienda2" -> {
+                    FoodPages.SNACK2 -> {
                         Text("Merienda2", fontSize = 24.sp)
                     }
-                    "Cena" -> {
+                    FoodPages.DINNER -> {
                         Text("Cena", fontSize = 24.sp)
                     }
                 }

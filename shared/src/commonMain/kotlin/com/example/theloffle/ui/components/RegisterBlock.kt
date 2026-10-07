@@ -21,28 +21,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
+import page.FoodPages
 // Para todos los recursos
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.breakfast
 import theloffle.shared.generated.resources.lunch
 import theloffle.shared.generated.resources.dinner
 import theloffle.shared.generated.resources.snack
-
+import theme.AppColors
 
 @Composable
 fun BloqueRegistro(
     modifier: Modifier = Modifier,
-    onComidaClick: (String) -> Unit
+    onComidaClick: (FoodPages) -> Unit
 ) {
-    // Colores para los botones
-    val registradoColor = Color(0xFF4CAF50)
-    val pendienteColor = Color(0xFFF44336)
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                //Normal B8E6A3, Hover 7FC97F, Press 3E7C59
-                Color(0x00B8E6A3),
+                Color(0x00B8E6A3),                  //Random Color, Transparent
                 RoundedCornerShape(10.dp)
             )
             .navigationBarsPadding()
@@ -56,13 +53,13 @@ fun BloqueRegistro(
         ) {
             Button(
                 onClick = {
-                    onComidaClick("Desayuno")
+                    onComidaClick(FoodPages.BREAKFAST)
                 },
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(65.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = registradoColor
+                    containerColor = AppColors.foodDone
                 )
             ) {
                 Image(
@@ -70,19 +67,19 @@ fun BloqueRegistro(
                         Res.drawable.breakfast
                     ),
                     contentDescription = "Desayuno",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(65.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick("Merienda")
+                    onComidaClick(FoodPages.SNACK1)
                 },
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(65.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = pendienteColor
+                    containerColor = AppColors.foodMissed
                 )
             ) {
                 Image(
@@ -90,19 +87,19 @@ fun BloqueRegistro(
                         Res.drawable.snack
                     ),
                     contentDescription = "Merienda",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(65.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick("Comida")
+                    onComidaClick(FoodPages.LUNCH)
                 },
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(65.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = pendienteColor
+                    containerColor = AppColors.foodMissed
                 )
             ) {
                 Image(
@@ -110,19 +107,19 @@ fun BloqueRegistro(
                         Res.drawable.lunch
                     ),
                     contentDescription = "Comida",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(65.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick("Merienda")
+                    onComidaClick(FoodPages.SNACK2)
                 },
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(65.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = pendienteColor
+                    containerColor = AppColors.foodMissed
                 )
             ) {
                 Image(
@@ -130,19 +127,19 @@ fun BloqueRegistro(
                         Res.drawable.snack
                     ),
                     contentDescription = "Merienda",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(65.dp)
                 )
             }
 
             Button(
                 onClick = {
-                    onComidaClick("Cena")
+                    onComidaClick(FoodPages.DINNER)
                 },
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(65.dp),
                 shape = RoundedCornerShape(10.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = pendienteColor
+                    containerColor = AppColors.foodMissed
                 )
             ) {
                 Image(
@@ -150,7 +147,7 @@ fun BloqueRegistro(
                         Res.drawable.dinner
                     ),
                     contentDescription = "Cena",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(65.dp)
                 )
             }
         }

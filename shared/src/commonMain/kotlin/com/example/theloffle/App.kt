@@ -1,26 +1,44 @@
 package com.example.theloffle
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.theloffle.ui.components.BottomBar
-import com.example.theloffle.ui.home.HomeScreen
-import androidx.compose.ui.graphics.Color
+import com.example.theloffle.ui.screen.HomeScreen
+import page.AppPages
+import theme.AppColors
 
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    //MaterialTheme { We gonna use this after we create our LightSchemeTheme and DarkSchemeTheme
+        var pageSeleccionada by remember { mutableStateOf(AppPages.HOME)}
         Scaffold(
-            containerColor = Color.White,
-            bottomBar = {BottomBar()}
+            containerColor = AppColors.background,
+            bottomBar = {
+                BottomBar(
+                    pageSeleccionada = pageSeleccionada,
+                    onPageClick = { page ->
+                        pageSeleccionada = page
+                    }
+                )
+            }
         ){
             // Margen para la BottomBar
-            innerPadding -> HomeScreen(modifier = Modifier.padding(innerPadding))
+            innerPadding ->
+            when (pageSeleccionada) {
+                AppPages.HOME -> {HomeScreen(modifier = Modifier.padding(innerPadding))}
+                AppPages.RECIPE -> {}
+                AppPages.SEARCH -> {}
+                AppPages.PROFILE -> {}
+            }
         }
-    }
+    //}
 }
