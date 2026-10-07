@@ -23,8 +23,10 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 // Para todos los recursos
 import theloffle.shared.generated.resources.Res
-import theloffle.shared.generated.resources.recipe_filled
-import theloffle.shared.generated.resources.recipe_unfilled
+import theloffle.shared.generated.resources.breakfast
+import theloffle.shared.generated.resources.lunch
+import theloffle.shared.generated.resources.dinner
+import theloffle.shared.generated.resources.snack
 
 
 @Composable
@@ -64,7 +66,7 @@ fun BloqueRegistro(
             ) {
                 Image(
                     painter = painterResource(
-                        Res.drawable.recipe_filled
+                        Res.drawable.breakfast
                     ),
                     contentDescription = "Desayuno",
                     modifier = Modifier.size(60.dp)
@@ -84,7 +86,7 @@ fun BloqueRegistro(
             ) {
                 Image(
                     painter = painterResource(
-                        Res.drawable.recipe_unfilled
+                        Res.drawable.snack
                     ),
                     contentDescription = "Merienda",
                     modifier = Modifier.size(60.dp)
@@ -104,7 +106,7 @@ fun BloqueRegistro(
             ) {
                 Image(
                     painter = painterResource(
-                        Res.drawable.recipe_unfilled
+                        Res.drawable.lunch
                     ),
                     contentDescription = "Comida",
                     modifier = Modifier.size(60.dp)
@@ -124,7 +126,7 @@ fun BloqueRegistro(
             ) {
                 Image(
                     painter = painterResource(
-                        Res.drawable.recipe_unfilled
+                        Res.drawable.snack
                     ),
                     contentDescription = "Merienda",
                     modifier = Modifier.size(60.dp)
@@ -144,7 +146,7 @@ fun BloqueRegistro(
             ) {
                 Image(
                     painter = painterResource(
-                        Res.drawable.recipe_unfilled
+                        Res.drawable.dinner
                     ),
                     contentDescription = "Cena",
                     modifier = Modifier.size(60.dp)
