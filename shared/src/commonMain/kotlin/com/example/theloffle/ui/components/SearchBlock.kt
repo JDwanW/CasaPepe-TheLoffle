@@ -25,17 +25,21 @@ fun SearchBlock(modifier: Modifier = Modifier){
         modifier = modifier
             .fillMaxWidth()
             .height(100.dp)
-            .background(Color.LightGray, RoundedCornerShape(10.dp)),
+            .background(Color.Black, RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ){
         Box(
             modifier = Modifier
-                .fillMaxWidth(0.9f)  // Ocupe el 90%
-                .height(70.dp)
+                .fillMaxWidth(0.98f)  // Ocupe el 90%
+                .height(90.dp)
                 .background(Color.White, RoundedCornerShape(10.dp))
         )
         {
             TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp)
+                    .background(Color.Gray, RoundedCornerShape(10.dp)),
                 value = texto,
                 onValueChange = {texto = it},
                 placeholder = { Text("Busca recetas...") }
