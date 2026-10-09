@@ -153,3 +153,5 @@ fun BloqueRegistro(
         }
     }
 }
+
+// Estos botones se podrian hacer funcion tambien

@@ -53,6 +53,7 @@ fun BottomBar(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Logica del Boton de Home
             Button(
                 onClick = {
                     onPageClick(AppPages.HOME)
@@ -78,6 +79,7 @@ fun BottomBar(
                     modifier = Modifier.size(45.dp)
                 )
             }
+            // Logica del Boton de Recetas
             Button(
                 onClick = {
                     onPageClick(AppPages.RECIPE)
@@ -103,6 +105,7 @@ fun BottomBar(
                     modifier = Modifier.size(45.dp)
                 )
             }
+            // LOgica del Boton de Buscar
             Button(
                 onClick = {
                     onPageClick(AppPages.SEARCH)
@@ -119,7 +122,7 @@ fun BottomBar(
             ) {
                 Image(
                     painter = painterResource(
-                        if (pageSeleccionada == AppPages.RECIPE)
+                        if (pageSeleccionada == AppPages.SEARCH)
                             Res.drawable.search_filled
                         else
                             Res.drawable.search_unfilled
@@ -128,6 +131,7 @@ fun BottomBar(
                     modifier = Modifier.size(45.dp)
                 )
             }
+            // Logica del Boton de PErfil
             Button(
                 onClick = {
                     onPageClick(AppPages.PROFILE)
@@ -156,3 +160,6 @@ fun BottomBar(
         }
     }
 }
+
+// La logica de los botones se podria meter en una funcion
+// Los botones son identicos solo cambia el parametro que le pasas
