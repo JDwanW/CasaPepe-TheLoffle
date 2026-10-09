@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.theloffle.ui.components.Filters
 import com.example.theloffle.ui.components.Header
 import com.example.theloffle.ui.components.SearchBlock
 
@@ -19,5 +20,8 @@ fun SearchScreen(modifier: Modifier = Modifier) {
     ){
         Header()
         SearchBlock()
+        Filters(modifier
+            .weight(1f)
+            .padding(bottom = 50.dp))
     }
 }
