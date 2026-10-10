@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import page.FoodPages
 // Para todos los recursos
@@ -51,107 +52,36 @@ fun BloqueRegistro(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(
-                onClick = {
-                    onMealSelected(FoodPages.BREAKFAST)
-                },
-                modifier = Modifier.size(70.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.foodDone
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        Res.drawable.breakfast
-                    ),
-                    contentDescription = "Desayuno",
-                    modifier = Modifier.size(70.dp)
-                )
-            }
-
-            Button(
-                onClick = {
-                    onMealSelected(FoodPages.SNACK1)
-                },
-                modifier = Modifier.size(70.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.foodMissed
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        Res.drawable.snack
-                    ),
-                    contentDescription = "Merienda",
-                    modifier = Modifier.size(70.dp)
-                )
-            }
-
-            Button(
-                onClick = {
-                    onMealSelected(FoodPages.LUNCH)
-                },
-                modifier = Modifier.size(70.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.foodMissed
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        Res.drawable.lunch
-                    ),
-                    contentDescription = "Comida",
-                    modifier = Modifier.size(70.dp)
-                )
-            }
-
-            Button(
-                onClick = {
-                    onMealSelected(FoodPages.SNACK2)
-                },
-                modifier = Modifier.size(70.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.foodMissed
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        Res.drawable.snack
-                    ),
-                    contentDescription = "Merienda",
-                    modifier = Modifier.size(70.dp)
-                )
-            }
-
-            Button(
-                onClick = {
-                    onMealSelected(FoodPages.DINNER)
-                },
-                modifier = Modifier.size(70.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.foodMissed
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        Res.drawable.dinner
-                    ),
-                    contentDescription = "Cena",
-                    modifier = Modifier.size(70.dp)
-                )
-            }
+            //Todo : need a boolean to represent if meal is registered
+            CreateRegisterButton(FoodPages.BREAKFAST,"Desayuno", Res.drawable.breakfast,onMealSelected);
+            CreateRegisterButton(FoodPages.SNACK1,"Merienda 1",Res.drawable.snack,onMealSelected);
+            CreateRegisterButton(FoodPages.LUNCH,"Comida",Res.drawable.lunch,onMealSelected);
+            CreateRegisterButton(FoodPages.SNACK2,"Merienda 2",Res.drawable.snack,onMealSelected);
+            CreateRegisterButton(FoodPages.DINNER,"Cena",Res.drawable.dinner,onMealSelected);
         }
     }
 }
-
-// Estos botones se podrian hacer funcion tambien
+@Composable
+fun CreateRegisterButton(
+        typeMeal : FoodPages,
+        text : String,
+        image : DrawableResource,
+        onMealSelected : (FoodPages) -> Unit
+){
+    Button(
+        onClick = { onMealSelected(typeMeal) },
+        modifier = Modifier.size(70.dp),
+        shape = RoundedCornerShape(10.dp),
+        contentPadding = PaddingValues(0.dp),
+        //Todo : color depend on var bool
+        colors = ButtonDefaults.buttonColors(
+            containerColor = AppColors.foodDone
+        )
+    ) {
+        Image(
+            painter = painterResource(image),
+            contentDescription = text,
+            modifier = Modifier.size(70.dp)
+        )
+    }
+}

@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+// Blocks
 import com.example.theloffle.ui.components.BloqueRegistro
 import com.example.theloffle.ui.components.BloqueCard
+import com.example.theloffle.ui.components.PostBlock
 import com.example.theloffle.ui.components.Header
 // Para animatedVisibility && overlay
 import androidx.compose.animation.AnimatedVisibility
@@ -60,7 +62,7 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
             )
             BloqueCard(Modifier.height(80.dp))
             BloqueCard(Modifier.height(80.dp))
-            BloqueCard(Modifier.weight(1f)) // El bloque final de recetas se lleva lo que sobra
+            PostBlock(Modifier.weight(1f)) // El bloque final de recetas se lleva lo que sobra
             // ASi lo ajustamos a cualquier movil
         }
         // OVERLAY

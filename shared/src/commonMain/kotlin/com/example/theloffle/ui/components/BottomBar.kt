@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import page.AppPages
 import theloffle.shared.generated.resources.Res
@@ -53,113 +54,43 @@ fun BottomBar(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Logica del Boton de Home
-            Button(
-                onClick = {
-                    onPageClick(AppPages.HOME)
-                },
-                modifier = Modifier.size(45.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (pageSeleccionada == AppPages.HOME)
-                        AppColors.buttonSecondary
-                    else
-                        AppColors.buttonPrimary
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        if (pageSeleccionada == AppPages.HOME)
-                            Res.drawable.main_filled
-                        else
-                            Res.drawable.main_unfilled
-                    ),
-                    contentDescription = "Inicio",
-                    modifier = Modifier.size(45.dp)
-                )
-            }
-            // Logica del Boton de Recetas
-            Button(
-                onClick = {
-                    onPageClick(AppPages.RECIPE)
-                },
-                modifier = Modifier.size(45.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (pageSeleccionada == AppPages.RECIPE)
-                        AppColors.buttonSecondary
-                    else
-                        AppColors.buttonPrimary
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        if (pageSeleccionada == AppPages.RECIPE)
-                            Res.drawable.recipe_filled
-                        else
-                            Res.drawable.recipe_unfilled
-                    ),
-                    contentDescription = "Recetas",
-                    modifier = Modifier.size(45.dp)
-                )
-            }
-            // LOgica del Boton de Buscar
-            Button(
-                onClick = {
-                    onPageClick(AppPages.SEARCH)
-                },
-                modifier = Modifier.size(45.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (pageSeleccionada == AppPages.SEARCH)
-                        AppColors.buttonSecondary
-                    else
-                        AppColors.buttonPrimary
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        if (pageSeleccionada == AppPages.SEARCH)
-                            Res.drawable.search_filled
-                        else
-                            Res.drawable.search_unfilled
-                    ),
-                    contentDescription = "Search",
-                    modifier = Modifier.size(45.dp)
-                )
-            }
-            // Logica del Boton de PErfil
-            Button(
-                onClick = {
-                    onPageClick(AppPages.PROFILE)
-                },
-                modifier = Modifier.size(45.dp),
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (pageSeleccionada == AppPages.PROFILE)
-                        AppColors.buttonSecondary
-                    else
-                        AppColors.buttonPrimary
-                )
-            ) {
-                Image(
-                    painter = painterResource(
-                        if (pageSeleccionada == AppPages.PROFILE)
-                            Res.drawable.profile_filled
-                        else
-                            Res.drawable.profile_unfilled
-                    ),
-                    contentDescription = "Usuario",
-                    modifier = Modifier.size(45.dp)
-                )
-            }
+            CreateOptionButton(pageSeleccionada,AppPages.HOME,"Inicio",Res.drawable.main_filled,Res.drawable.main_unfilled, onPageClick)
+            CreateOptionButton(pageSeleccionada,AppPages.RECIPE,"Recetas",Res.drawable.recipe_filled,Res.drawable.recipe_unfilled, onPageClick)
+            CreateOptionButton(pageSeleccionada,AppPages.SEARCH,"Buscar",Res.drawable.search_filled,Res.drawable.search_unfilled, onPageClick)
+            CreateOptionButton(pageSeleccionada,AppPages.PROFILE,"Perfil",Res.drawable.profile_filled,Res.drawable.profile_unfilled, onPageClick)
         }
     }
 }
-
-// La logica de los botones se podria meter en una funcion
-// Los botones son identicos solo cambia el parametro que le pasas
+@Composable
+fun CreateOptionButton(
+    PageSelect : AppPages,
+    typePage : AppPages,
+    text : String,
+    imageSelect : DrawableResource,
+    imageNoSelect : DrawableResource,
+    onPageClick : (AppPages) -> Unit
+){
+    Button(
+        onClick = {
+            onPageClick(typePage)
+        },
+        modifier = Modifier.size(45.dp),
+        shape = RoundedCornerShape(10.dp),
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (typePage == PageSelect)
+                AppColors.buttonSecondary
+            else
+                AppColors.buttonPrimary
+        )
+    ) {
+        Image(
+            painter = painterResource(
+                if (typePage == PageSelect) imageSelect
+                else imageNoSelect
+            ),
+            contentDescription = text,
+            modifier = Modifier.size(45.dp)
+        )
+    }
+}
