@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.theloffle.ui.components.BottomBar
 import com.example.theloffle.ui.screen.HomeScreen
+import com.example.theloffle.ui.screen.SearchScreen
 import page.AppPages
 import theme.AppColors
 
@@ -36,7 +37,7 @@ fun App() {
             when (pageSeleccionada) {
                 AppPages.HOME -> {HomeScreen(modifier = Modifier.padding(innerPadding))}
                 AppPages.RECIPE -> {}
-                AppPages.SEARCH -> {}
+                AppPages.SEARCH -> {SearchScreen(modifier = Modifier.padding((innerPadding)))}
                 AppPages.PROFILE -> {}
             }
         }
