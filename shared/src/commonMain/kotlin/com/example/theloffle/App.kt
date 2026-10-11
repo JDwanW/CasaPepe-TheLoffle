@@ -10,12 +10,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.theloffle.ui.components.BottomBar
-<<<<<<< Updated upstream
-import com.example.theloffle.ui.screen.HomeScreen
+
 import com.example.theloffle.ui.screen.SearchScreen
-=======
-import com.example.theloffle.ui.screen.Home
->>>>>>> Stashed changes
+import com.example.theloffle.ui.screen.HomeScreen
 import page.AppPages
 import theme.AppColors
 
@@ -40,7 +37,6 @@ fun App() {
             innerPadding ->
             when (pageSeleccionada) {
                 AppPages.HOME -> {HomeScreen(modifier = Modifier.padding(innerPadding))}
-                AppPages.HOME -> {Home(modifier = Modifier.padding(innerPadding))}
                 AppPages.RECIPE -> {}
                 AppPages.SEARCH -> {SearchScreen(modifier = Modifier.padding((innerPadding)))}
                 AppPages.PROFILE -> {}

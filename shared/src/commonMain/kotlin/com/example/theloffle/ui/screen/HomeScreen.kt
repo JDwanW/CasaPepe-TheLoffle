@@ -38,7 +38,7 @@ import page.FoodPages
 
 @Composable
 // Le pasamos como parametro el modifier que le define los margenes
-fun Home(modifier: Modifier = Modifier){ // Valor por defecto vacio
+fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
 
     var comidaSeleccionada by remember { mutableStateOf<FoodPages>(FoodPages.NONE) }
     Box(
