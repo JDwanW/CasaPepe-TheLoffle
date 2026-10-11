@@ -39,12 +39,9 @@ fun BottomBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .navigationBarsPadding() // Para el margen con el simbolo del sistema
             .height(60.dp)
-            .background(
-                AppColors.buttonPrimary,
-                RoundedCornerShape(10.dp)
-            )
-            .navigationBarsPadding(), // Para el margen con el simbolo del sistema
+            .background(AppColors.buttonPrimary, RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -78,10 +75,8 @@ fun CreateOptionButton(
         shape = RoundedCornerShape(10.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (typePage == PageSelect)
-                AppColors.buttonSecondary
-            else
-                AppColors.buttonPrimary
+            containerColor = if (typePage == PageSelect) AppColors.buttonSecondary
+            else AppColors.buttonPrimary
         )
     ) {
         Image(

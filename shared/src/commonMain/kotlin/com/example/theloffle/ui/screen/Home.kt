@@ -38,7 +38,7 @@ import page.FoodPages
 
 @Composable
 // Le pasamos como parametro el modifier que le define los margenes
-fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
+fun Home(modifier: Modifier = Modifier){ // Valor por defecto vacio
 
     var comidaSeleccionada by remember { mutableStateOf<FoodPages>(FoodPages.NONE) }
     Box(
@@ -62,7 +62,8 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
             )
             BloqueCard(Modifier.height(80.dp))
             BloqueCard(Modifier.height(80.dp))
-            PostBlock(Modifier.weight(1f)) // El bloque final de recetas se lleva lo que sobra
+            // Todo : scrollbar with 1f length and then postBlocks
+            PostBlock(modifier = Modifier.height(480.dp)) // El bloque final de recetas se lleva lo que sobra
             // ASi lo ajustamos a cualquier movil
         }
         // OVERLAY
@@ -96,10 +97,7 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
                     .padding(top = 150.dp)
                     .width(400.dp)
                     .height(600.dp)
-                    .background(
-                        Color.White,
-                        RoundedCornerShape(10.dp)
-                    )
+                    .background(Color.White, RoundedCornerShape(10.dp))
             ) {
                 //Todo : We need another val to take control of each meal, if this one has been added
                 //Todo : the button of that meal should be AppColor.foodDone, eoc AppColor.foodMissed
