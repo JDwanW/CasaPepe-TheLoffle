@@ -37,6 +37,7 @@ fun App() {
             }
         ){
             // Margen para la BottomBar
+            // Todo : create onSigInClick and RegisterOne, Logic of Register/LogIn/SignIn
             innerPadding ->
             when (pageSeleccionada) {
                 AppPages.PRINCIPAL -> { PrincipalScreen (modifier = Modifier.padding(innerPadding))}
