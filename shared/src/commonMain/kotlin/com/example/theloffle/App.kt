@@ -13,6 +13,9 @@ import com.example.theloffle.ui.components.BottomBar
 
 import com.example.theloffle.ui.screen.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
+import com.example.theloffle.ui.screen.PrincipalScreen
+import com.example.theloffle.ui.screen.RegisterScreen
+import com.example.theloffle.ui.screen.SignInScreen
 import page.AppPages
 import theme.AppColors
 
@@ -21,7 +24,7 @@ import theme.AppColors
 @Preview
 fun App() {
     //MaterialTheme { We gonna use this after we create our LightSchemeTheme and DarkSchemeTheme
-        var pageSeleccionada by remember { mutableStateOf(AppPages.HOME)}
+        var pageSeleccionada by remember { mutableStateOf(AppPages.PRINCIPAL)}
         Scaffold(
             containerColor = AppColors.background,
             bottomBar = {
@@ -36,6 +39,9 @@ fun App() {
             // Margen para la BottomBar
             innerPadding ->
             when (pageSeleccionada) {
+                AppPages.PRINCIPAL -> { PrincipalScreen (modifier = Modifier.padding(innerPadding))}
+                //AppPages.SIGNIN -> {SignInScreen(modifier = Modifier.padding(innerPadding))}
+                //AppPages.REGISTER -> {RegisterScreen(modifier = Modifier.padding(innerPadding))}
                 AppPages.HOME -> {HomeScreen(modifier = Modifier.padding(innerPadding))}
                 AppPages.RECIPE -> {}
                 AppPages.SEARCH -> {SearchScreen(modifier = Modifier.padding((innerPadding)))}
