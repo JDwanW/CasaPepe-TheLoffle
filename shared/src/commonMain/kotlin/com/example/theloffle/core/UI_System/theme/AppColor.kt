@@ -1,4 +1,4 @@
-package theme
+package com.example.theloffle.core.UI_System.theme
 
 import androidx.compose.ui.graphics.Color
 

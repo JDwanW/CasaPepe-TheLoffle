@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.components
+package com.example.theloffle.core.UI_System.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 // Pasamos un modifier como parametro para que se defina en el homescreen la altura de los paneles
-fun BloqueCard(modifier: Modifier = Modifier){
+fun BloqueCard(modifier: Modifier = Modifier.Companion){
     Box(
         // Maxima anchura, altura que le pasemos y gris redondeado
         modifier = modifier

@@ -8,4 +8,5 @@ Incluye:
 - Network: Cliente que hace las peticiones HTTP.
 - Database: Configuración de la base de datos local.
 
-Regla: las features pueden usar core pero core NUNCA importa nada de una feature.
+Regla basica: Las features pueden usar core pero core NUNCA importa nada de una feature.
+Lo creas aqui y lo usas en la feature que toque.

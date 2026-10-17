@@ -29,7 +29,7 @@ import theloffle.shared.generated.resources.breakfast
 import theloffle.shared.generated.resources.lunch
 import theloffle.shared.generated.resources.dinner
 import theloffle.shared.generated.resources.snack
-import theme.AppColors
+import com.example.theloffle.core.UI_System.theme.AppColors
 
 @Composable
 fun BloqueRegistro(

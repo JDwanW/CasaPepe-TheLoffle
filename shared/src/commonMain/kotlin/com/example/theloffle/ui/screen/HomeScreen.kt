@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 // Blocks
 import com.example.theloffle.ui.components.BloqueRegistro
-import com.example.theloffle.ui.components.BloqueCard
+import com.example.theloffle.core.UI_System.components.BloqueCard
 import com.example.theloffle.ui.components.PostBlock
-import com.example.theloffle.ui.components.Header
+import com.example.theloffle.core.UI_System.components.Header
 // Para animatedVisibility && overlay
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically

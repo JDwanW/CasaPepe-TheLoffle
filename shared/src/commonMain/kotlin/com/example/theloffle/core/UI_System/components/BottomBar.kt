@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.components
+package com.example.theloffle.core.UI_System.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,18 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import page.AppPages
+import com.example.theloffle.AppPages
 import theloffle.shared.generated.resources.Res
-import theloffle.shared.generated.resources.main_unfilled
 import theloffle.shared.generated.resources.main_filled
-import theloffle.shared.generated.resources.recipe_unfilled
-import theloffle.shared.generated.resources.recipe_filled
-import theloffle.shared.generated.resources.search_unfilled
-import theloffle.shared.generated.resources.search_filled
-import theloffle.shared.generated.resources.profile_unfilled
+import theloffle.shared.generated.resources.main_unfilled
 import theloffle.shared.generated.resources.profile_filled
-import theme.AppColors
+import theloffle.shared.generated.resources.profile_unfilled
+import theloffle.shared.generated.resources.recipe_filled
+import theloffle.shared.generated.resources.recipe_unfilled
+import theloffle.shared.generated.resources.search_filled
+import theloffle.shared.generated.resources.search_unfilled
+import com.example.theloffle.core.UI_System.theme.AppColors
 
+// TODO Esto no es generico del todo porque le metemos info de la app
+// hay que rehacer esto para las cosas de la app como que las paginas las pasemos como parametro
+// desde fuera para que asi sea generico del todo.
 @Composable
 fun BottomBar(
     pageSeleccionada: AppPages,
@@ -51,13 +54,42 @@ fun BottomBar(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CreateOptionButton(pageSeleccionada,AppPages.HOME,"Inicio",Res.drawable.main_filled,Res.drawable.main_unfilled, onPageClick)
-            CreateOptionButton(pageSeleccionada,AppPages.RECIPE,"Recetas",Res.drawable.recipe_filled,Res.drawable.recipe_unfilled, onPageClick)
-            CreateOptionButton(pageSeleccionada,AppPages.SEARCH,"Buscar",Res.drawable.search_filled,Res.drawable.search_unfilled, onPageClick)
-            CreateOptionButton(pageSeleccionada,AppPages.PROFILE,"Perfil",Res.drawable.profile_filled,Res.drawable.profile_unfilled, onPageClick)
+            CreateOptionButton(
+                pageSeleccionada,
+                AppPages.HOME,
+                "Inicio",
+                Res.drawable.main_filled,
+                Res.drawable.main_unfilled,
+                onPageClick
+            )
+            CreateOptionButton(
+                pageSeleccionada,
+                AppPages.RECIPE,
+                "Recetas",
+                Res.drawable.recipe_filled,
+                Res.drawable.recipe_unfilled,
+                onPageClick
+            )
+            CreateOptionButton(
+                pageSeleccionada,
+                AppPages.SEARCH,
+                "Buscar",
+                Res.drawable.search_filled,
+                Res.drawable.search_unfilled,
+                onPageClick
+            )
+            CreateOptionButton(
+                pageSeleccionada,
+                AppPages.PROFILE,
+                "Perfil",
+                Res.drawable.profile_filled,
+                Res.drawable.profile_unfilled,
+                onPageClick
+            )
         }
     }
 }
+
 @Composable
 fun CreateOptionButton(
     PageSelect : AppPages,
@@ -72,7 +104,7 @@ fun CreateOptionButton(
             onPageClick(typePage)
         },
         modifier = Modifier.size(45.dp),
-        shape = RoundedCornerShape(10.dp),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(10.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (typePage == PageSelect) AppColors.buttonSecondary

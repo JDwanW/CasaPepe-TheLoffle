@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.theloffle.ui.components.Filters
-import com.example.theloffle.ui.components.Header
+import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.ui.components.SearchBlock
 
 @Composable

@@ -9,12 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.theloffle.ui.components.BottomBar
+import com.example.theloffle.core.UI_System.components.BottomBar
 
 import com.example.theloffle.ui.screen.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
-import page.AppPages
-import theme.AppColors
+import com.example.theloffle.core.UI_System.theme.AppColors
 
 
 @Composable

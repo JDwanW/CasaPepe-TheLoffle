@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,18 +18,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.search_filled
-import theme.AppColors
+import com.example.theloffle.core.UI_System.theme.AppColors
 
+// Pensar si vamos a tener mas barras de busqueda o solo una porque
+// si tenemos mas de una a lo mejor merece la pena refactorizarla para
+// hacerla generica y meterla en el core. Por ahora la dejo en feature
 @Composable
 fun SearchBlock(modifier: Modifier = Modifier){
     var texto by remember { mutableStateOf("") }    // Variable que guarda lo que el
