@@ -1,0 +1,11 @@
+CORE
+
+Herramientas técnicas y visuales genéricas que puede usar cualquier feature.
+No sabe nada del negocio de la app como recetas, ingredientes o cosas por el estilo.
+
+Incluye:
+- UI System: Colores, tipografías y componentes genéricos como botones o el logo. Estilos tambien
+- Network: Cliente que hace las peticiones HTTP.
+- Database: Configuración de la base de datos local.
+
+Regla: las features pueden usar core pero core NUNCA importa nada de una feature.

@@ -1,0 +1,10 @@
+DI -> Dependency Injection
+
+Esta carpeta se encarga de crear los objetos que se usan en la app
+como los repositorios, casos de uso o bases de datos y de conectarlos entre si.
+
+No contiene logica de la app.
+Cada objeto se crea una sola vez y se comparte por toda la app. Se reusa ese objeto.
+Aqui se decide que implementacion se usa para cada interfaz.
+
+Por ahora no la usamos pero cuando empecemos con las interfaces y clases hara falta.
