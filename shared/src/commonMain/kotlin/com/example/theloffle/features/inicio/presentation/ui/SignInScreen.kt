@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.screen
+package com.example.theloffle.features.inicio.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
 
 @Composable
 fun SignInScreen(backClick: () -> Unit) {

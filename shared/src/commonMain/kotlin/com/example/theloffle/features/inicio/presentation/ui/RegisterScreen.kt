@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.screen
+package com.example.theloffle.features.inicio.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,8 +19,8 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun RegisterScreen (backClick: () -> Unit) {
     var name by remember { mutableStateOf("") }
-    var surname by remember {mutableStateOf("")}
-    var email by remember {mutableStateOf("")}
+    var surname by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val nameValid = name.length > 2
     val surnameValid = name.length > 3
@@ -30,7 +30,7 @@ fun RegisterScreen (backClick: () -> Unit) {
 
 
 
-    Column (
+    Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -40,13 +40,13 @@ fun RegisterScreen (backClick: () -> Unit) {
 
         OutlinedTextField(
             value = name,
-            onValueChange = {name = it},
+            onValueChange = { name = it },
             label = { Text("Name") }
         )
 
         OutlinedTextField(
             value = surname,
-            onValueChange = {surname = it},
+            onValueChange = { surname = it },
             label = { Text("Surname") }
         )
 
@@ -61,7 +61,7 @@ fun RegisterScreen (backClick: () -> Unit) {
             onValueChange = { password = it },
             label = { Text("Password") }
         )
-        if (!passwordValid && !password.isEmpty()){
+        if (!passwordValid && !password.isEmpty()) {
             Text("Password is not valid, need to have more than 8 signs!")
         }
 

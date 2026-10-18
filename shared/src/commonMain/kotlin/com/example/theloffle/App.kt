@@ -14,7 +14,7 @@ import com.example.theloffle.core.UI_System.theme.AppColors
 
 import com.example.theloffle.features.buscador.presentation.ui.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
-import com.example.theloffle.ui.screen.PrincipalScreen
+import com.example.theloffle.features.inicio.presentation.ui.PrincipalScreen
 
 @Composable
 @Preview

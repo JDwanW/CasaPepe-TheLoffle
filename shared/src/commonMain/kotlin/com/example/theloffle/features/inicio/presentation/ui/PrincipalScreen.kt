@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.screen
+package com.example.theloffle.features.inicio.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,13 +27,13 @@ fun PrincipalScreen (
 ) {
 
 
-    Column (
+    Column(
         modifier
             .fillMaxSize()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ){
+    ) {
         Text(
             text = "WELCOME TO ",
             fontSize = 28.sp
@@ -43,7 +43,7 @@ fun PrincipalScreen (
 
         Row(
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Header()
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -66,7 +66,7 @@ fun PrincipalScreen (
             modifier = Modifier
                 .width(350.dp)
                 .height(56.dp)
-        ){
+        ) {
             Text("Sign in")
         }
 
@@ -81,7 +81,7 @@ fun PrincipalScreen (
             modifier = Modifier
                 .width(350.dp)
                 .height(56.dp)
-        ){
+        ) {
             Text("Register")
         }
 
