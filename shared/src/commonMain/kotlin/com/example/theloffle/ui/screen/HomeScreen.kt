@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 // Blocks
-import com.example.theloffle.ui.components.BloqueRegistro
+import com.example.theloffle.features.diario.presentation.ui.BloqueRegistro
 import com.example.theloffle.core.UI_System.components.BloqueCard
-import com.example.theloffle.ui.components.PostBlock
+import com.example.theloffle.features.publicaciones.presentation.ui.PostBlock
 import com.example.theloffle.core.UI_System.components.Header
 // Para animatedVisibility && overlay
 import androidx.compose.animation.AnimatedVisibility
@@ -34,7 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.ui.unit.sp
-import page.FoodPages
+import com.example.theloffle.features.diario.domain.FoodPages
 
 @Composable
 // Le pasamos como parametro el modifier que le define los margenes

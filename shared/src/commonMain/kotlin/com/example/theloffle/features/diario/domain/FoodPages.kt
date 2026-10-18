@@ -1,4 +1,4 @@
-package page
+package com.example.theloffle.features.diario.domain
 
 enum class FoodPages{
     NONE,

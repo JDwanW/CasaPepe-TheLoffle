@@ -1,0 +1,7 @@
+FEATURES
+
+Son funcionalidades completas que resuelven alguna funcion en concreto.
+Tienen cada feature:
+- Data: Donde se guardan los datos
+- Domain: Donde esta la logica de clases y la funcionalidad
+-Presentation: Donde esta la parte de ViewModel y la UI.

@@ -1,35 +1,32 @@
-package com.example.theloffle.ui.components
+package com.example.theloffle.features.publicaciones.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
-
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.theloffle.core.UI_System.theme.AppColors
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
-import com.example.theloffle.core.UI_System.theme.AppColors
-import androidx.compose.ui.layout.ContentScale
-// Para implementar TextButton
-import androidx.compose.material3.TextButton
-import androidx.compose.foundation.layout.*
-import androidx.compose.ui.text.font.FontWeight
-//
 import theloffle.shared.generated.resources.test1
-
-
 
 //Todo : create a box with
 //Todo : 3 rows
@@ -37,7 +34,7 @@ import theloffle.shared.generated.resources.test1
 //Todo : 2 row: image of the recipe
 //Todo : 3 row: recipe rating from 0 ... 5 in double
 @Composable
-fun PostBlock(modifier: Modifier = Modifier) {
+fun PostBlock(modifier: Modifier = Modifier.Companion) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -70,10 +67,12 @@ fun PostBlock(modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Text("@CasaPepeHito1"
-                , color = AppColors.background
-                ,fontWeight = FontWeight.Bold
-                , fontSize = 16.sp)
+            Text(
+                "@CasaPepeHito1",
+                color = AppColors.background,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
         }
         Row(
             modifier = Modifier
@@ -81,7 +80,10 @@ fun PostBlock(modifier: Modifier = Modifier) {
                 .fillMaxWidth(0.4f)
                 .padding(bottom = 10.dp, end = 20.dp)
                 .height(40.dp)
-                .background(AppColors.background, RoundedCornerShape(10.dp)),
+                .background(
+                    AppColors.background,
+                    androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
+                ),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.components
+package com.example.theloffle.features.buscador.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,34 +14,38 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.theloffle.core.UI_System.theme.AppColors
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.search_filled
-import com.example.theloffle.core.UI_System.theme.AppColors
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 // Pensar si vamos a tener mas barras de busqueda o solo una porque
 // si tenemos mas de una a lo mejor merece la pena refactorizarla para
 // hacerla generica y meterla en el core. Por ahora la dejo en feature
 @Composable
-fun SearchBlock(modifier: Modifier = Modifier){
+fun SearchBlock(modifier: Modifier = Modifier.Companion){
     var texto by remember { mutableStateOf("") }    // Variable que guarda lo que el
 
-    //Box de Busqueda                                      // usuario busca
+    //Box de Busqueda
     Box(
         modifier = modifier
             .fillMaxWidth(0.98f)  // Ocupe el 98%
             .height(90.dp)
             .background(Color.White, RoundedCornerShape(15.dp))
-            .border(10.dp, AppColors.buttonSecondary, RoundedCornerShape(15.dp))
+            .border(
+                10.dp,
+                AppColors.buttonSecondary,
+                androidx.compose.foundation.shape.RoundedCornerShape(15.dp)
+            )
     )
     {
         TextField(

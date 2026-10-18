@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.theloffle.core.UI_System.components.BottomBar
 
-import com.example.theloffle.ui.screen.SearchScreen
+import com.example.theloffle.features.buscador.presentation.ui.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
 import com.example.theloffle.core.UI_System.theme.AppColors
 

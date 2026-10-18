@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.components
+package com.example.theloffle.features.buscador.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 import com.example.theloffle.core.UI_System.theme.AppColors
 
 @Composable
-fun Filters(modifier: Modifier = Modifier){
+fun Filters(modifier: Modifier = Modifier.Companion){
     // Row de opciones de busqueda
     Row(
         modifier = modifier
             .fillMaxWidth()
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -27,7 +27,7 @@ fun Filters(modifier: Modifier = Modifier){
                 .fillMaxHeight()
                 .padding(horizontal = 10.dp)
                 .padding(vertical = 10.dp)
-        ){
+        ) {
             Text("Filtro 1")
             Text("Filtro 2")
 
@@ -35,7 +35,10 @@ fun Filters(modifier: Modifier = Modifier){
         Column(
             modifier = Modifier
                 .weight(2f)
-                .background(AppColors.buttonPrimary, RoundedCornerShape(10.dp))
+                .background(
+                    AppColors.buttonPrimary,
+                    androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
+                )
                 .fillMaxHeight()
                 .padding(horizontal = 10.dp)
                 .padding(vertical = 10.dp)
