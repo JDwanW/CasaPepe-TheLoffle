@@ -10,17 +10,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.theloffle.core.UI_System.components.BottomBar
+import com.example.theloffle.core.UI_System.theme.AppColors
 
 import com.example.theloffle.features.buscador.presentation.ui.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
-import com.example.theloffle.core.UI_System.theme.AppColors
-
+import com.example.theloffle.ui.screen.PrincipalScreen
 
 @Composable
 @Preview
 fun App() {
     //MaterialTheme { We gonna use this after we create our LightSchemeTheme and DarkSchemeTheme
-        var pageSeleccionada by remember { mutableStateOf(AppPages.HOME)}
+        var pageSeleccionada by remember { mutableStateOf(AppPages.PRINCIPAL)}
         Scaffold(
             containerColor = AppColors.background,
             bottomBar = {
@@ -33,8 +33,17 @@ fun App() {
             }
         ){
             // Margen para la BottomBar
+            // Todo : create onSigInClick and RegisterOne, Logic of Register/LogIn/SignIn
             innerPadding ->
             when (pageSeleccionada) {
+                // TODO: conectar con SignIn y Register cuando esté hecha la lógica (tarea de login/register)
+                AppPages.PRINCIPAL -> { PrincipalScreen(
+                    modifier = Modifier.padding(innerPadding),
+                    onSignInClick = {},
+                    onRegisterClick = {}
+                ) }
+                //AppPages.SIGNIN -> {SignInScreen(modifier = Modifier.padding(innerPadding))}
+                //AppPages.REGISTER -> {RegisterScreen(modifier = Modifier.padding(innerPadding))}
                 AppPages.HOME -> {HomeScreen(modifier = Modifier.padding(innerPadding))}
                 AppPages.RECIPE -> {}
                 AppPages.SEARCH -> {SearchScreen(modifier = Modifier.padding((innerPadding)))}
