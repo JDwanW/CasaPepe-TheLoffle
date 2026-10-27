@@ -2,20 +2,18 @@ package com.example.theloffle.features.publicaciones.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,70 +22,77 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.theloffle.core.UI_System.theme.AppColors
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.test1
+import kotlin.String
 
 //Todo : create a box with
 //Todo : 3 rows
 //Todo : 1 row: profile picture + profile username + unfollow profile
 //Todo : 2 row: image of the recipe
 //Todo : 3 row: recipe rating from 0 ... 5 in double
+
 @Composable
-fun PostBlock(modifier: Modifier = Modifier.Companion) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(480.dp)
-            .background(
-                AppColors.buttonPrimary,
-                RoundedCornerShape(10.dp)
-            )
+fun PostBlock(
+    modifier: Modifier = Modifier,
+    userName: String,
+    userImage : DrawableResource,
+    postImage :  DrawableResource,
+    postRating : String             // maybe int
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
     ) {
-        // Imagen de fondo
-        Image(
-            painter = painterResource(Res.drawable.test1),
-            contentDescription = "Post",
-            modifier = Modifier
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+        // Post User
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Button(
+                onClick = {
 
-        TextButton(
-            onClick = { /* Acción al pulsar */ },
-            modifier = Modifier.padding(start = 10.dp, top = 10.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
-        ) {
-            Image(
-                painter = painterResource(Res.drawable.test1),
-                contentDescription = "Perfil",
-                modifier = Modifier.size(40.dp),
-                contentScale = ContentScale.Crop
-            )
+                },
+                modifier = Modifier.size(50.dp),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(50.dp),
+                contentPadding = PaddingValues(0.dp),
+            ) {
+                Image(
+                    painter = painterResource(userImage),
+                    contentDescription = "Perfil",
+                    modifier = Modifier.size(45.dp),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             Text(
-                "@CasaPepeHito1",
-                color = AppColors.background,
+                text = "@$userName",
+                color = AppColors.textPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
         }
-        Row(
+        // Post Image
+        Image(
+            painter = painterResource(postImage),
+            contentDescription = "Receta",
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .fillMaxWidth(0.4f)
-                .padding(bottom = 10.dp, end = 20.dp)
-                .height(40.dp)
-                .background(
-                    AppColors.background,
-                    androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
-                ),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Valoracion")
-        }
+                .padding(vertical = 10.dp)
+                .fillMaxWidth()
+                .height(400.dp),
+            contentScale = ContentScale.Crop
+        )
+        // Post Rating
+        Text(
+            text = "Valoración: $postRating / 5",
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .background(color = AppColors.buttonPrimary),
+            color = AppColors.textPrimary,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
+        )
     }
 }

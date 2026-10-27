@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,14 +38,15 @@ import com.example.theloffle.core.UI_System.theme.AppColors
 @Composable
 fun BottomBar(
     pageSeleccionada: AppPages,
-    onPageClick: (AppPages) -> Unit
+    onPageClick: (AppPages) -> Unit,
+    modifier: Modifier
 ){
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth(0.8f)
             .navigationBarsPadding() // Para el margen con el simbolo del sistema
             .height(60.dp)
-            .background(AppColors.buttonPrimary, RoundedCornerShape(10.dp)),
+            .background(AppColors.buttonPrimary, RoundedCornerShape(50.dp)),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -103,8 +105,10 @@ fun CreateOptionButton(
         onClick = {
             onPageClick(typePage)
         },
-        modifier = Modifier.size(45.dp),
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(10.dp),
+        modifier = Modifier
+            .width(70.dp)
+            .height(45.dp),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(50.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (typePage == PageSelect) AppColors.buttonSecondary

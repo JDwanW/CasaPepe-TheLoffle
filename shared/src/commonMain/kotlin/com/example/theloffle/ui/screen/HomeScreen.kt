@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 // Blocks
-import com.example.theloffle.features.diario.presentation.ui.BloqueRegistro
+import com.example.theloffle.features.diario.presentation.ui.RegisterSection
+import com.example.theloffle.features.diario.presentation.ui.RegisterBlock
 import com.example.theloffle.core.UI_System.components.BloqueCard
-import com.example.theloffle.features.publicaciones.presentation.ui.PostBlock
 import com.example.theloffle.core.UI_System.components.Header
 // Para animatedVisibility && overlay
 import androidx.compose.animation.AnimatedVisibility
@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 // Para implementar remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +36,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.ui.unit.sp
 import com.example.theloffle.features.diario.domain.FoodPages
+import com.example.theloffle.features.diario.presentation.ui.StadisticSection
+import com.example.theloffle.features.publicaciones.presentation.ui.ScrollBlock
 
 @Composable
 // Le pasamos como parametro el modifier que le define los margenes
@@ -53,18 +56,14 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
             verticalArrangement = Arrangement.spacedBy(30.dp)
         ) {
             Header()
-            // Los cuatro bloques, les pasamos el modifier con la altura
-            BloqueRegistro(
+            RegisterSection(
                 modifier = Modifier.height(80.dp),
                 onMealSelected = { comida ->
                     comidaSeleccionada = comida
                 }
             )
-            BloqueCard(Modifier.height(80.dp))
-            BloqueCard(Modifier.height(80.dp))
-            // Todo : scrollbar with 1f length and then postBlocks
-            PostBlock(modifier = Modifier.height(480.dp)) // El bloque final de recetas se lleva lo que sobra
-            // ASi lo ajustamos a cualquier movil
+            StadisticSection(modifier = Modifier.height(80.dp),)
+            ScrollBlock(modifier = Modifier.fillMaxHeight(1f))
         }
         // OVERLAY
         AnimatedVisibility(
@@ -75,50 +74,38 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Color.Black.copy(alpha = 0.5f)
-                    )
+                    .background(Color.Black.copy(alpha = 0.5f))
                     .clickable {
                         comidaSeleccionada = FoodPages.NONE
                     }
             )
         }
+
         // PANEL EXPANDIDO
-        // Todo : Make the container dynamicly and a Class FillMeal.kt to create the UI
         AnimatedVisibility(
             visible = comidaSeleccionada != FoodPages.NONE,
-            enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
-            exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Top),
+            enter = fadeIn() +
+                    expandVertically(expandFrom = Alignment.Top),
+            exit = fadeOut() +
+                    shrinkVertically(shrinkTowards = Alignment.Top),
             modifier = Modifier.align(Alignment.TopCenter)
         ) {
             Box(
-                // Habria que ver de alguna manera hacerlo dinamico en vez de hardcode(los dp)
                 modifier = Modifier
                     .padding(top = 150.dp)
                     .width(400.dp)
                     .height(600.dp)
-                    .background(Color.White, RoundedCornerShape(10.dp))
+                    .background(
+                        Color.White,
+                        RoundedCornerShape(10.dp)
+                    )
             ) {
-                //Todo : We need another val to take control of each meal, if this one has been added
-                //Todo : the button of that meal should be AppColor.foodDone, eoc AppColor.foodMissed
-                when (comidaSeleccionada) {
-                    FoodPages.NONE -> {}
-                    FoodPages.BREAKFAST -> {
-                        Text("Desayuno", fontSize = 24.sp)
+                RegisterBlock(
+                    comidaSeleccionada = comidaSeleccionada,
+                    onClose = {
+                        comidaSeleccionada = FoodPages.NONE
                     }
-                    FoodPages.SNACK1 -> {
-                        Text("Merienda", fontSize = 24.sp)
-                    }
-                    FoodPages.LUNCH -> {
-                        Text("Comida", fontSize = 24.sp)
-                    }
-                    FoodPages.SNACK2 -> {
-                        Text("Merienda2", fontSize = 24.sp)
-                    }
-                    FoodPages.DINNER -> {
-                        Text("Cena", fontSize = 24.sp)
-                    }
-                }
+                )
             }
         }
     }

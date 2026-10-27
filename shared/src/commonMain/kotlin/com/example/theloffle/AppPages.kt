@@ -11,3 +11,4 @@ enum class AppPages{
     //SIGNIN
 
 }
+// Maybe we should add here MEAL_REGISTER and STADISTIC
