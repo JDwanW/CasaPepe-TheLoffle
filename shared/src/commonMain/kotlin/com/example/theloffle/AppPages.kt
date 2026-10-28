@@ -5,9 +5,9 @@ enum class AppPages{
     HOME,
     RECIPE,
     SEARCH,
-    PROFILE
+    PROFILE,
 
-    //REGISTER,
-    //SIGNIN
+    REGISTER,
+    SIGNIN
 
 }

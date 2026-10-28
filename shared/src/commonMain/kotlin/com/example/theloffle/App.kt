@@ -15,6 +15,10 @@ import com.example.theloffle.core.UI_System.theme.AppColors
 import com.example.theloffle.features.buscador.presentation.ui.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
 import com.example.theloffle.features.inicio.presentation.ui.PrincipalScreen
+import com.example.theloffle.features.inicio.presentation.ui.RegisterScreen
+import com.example.theloffle.features.inicio.presentation.ui.SignInScreen
+import kotlinx.coroutines.delay
+
 
 @Composable
 @Preview
@@ -39,15 +43,39 @@ fun App() {
                 // TODO: conectar con SignIn y Register cuando esté hecha la lógica (tarea de login/register)
                 AppPages.PRINCIPAL -> { PrincipalScreen(
                     modifier = Modifier.padding(innerPadding),
-                    onSignInClick = {},
-                    onRegisterClick = {}
+                    onSignInClick = {
+                        pageSeleccionada = AppPages.SIGNIN
+                    },
+                    onRegisterClick = {
+                        pageSeleccionada = AppPages.REGISTER
+                    }
                 ) }
-                //AppPages.SIGNIN -> {SignInScreen(modifier = Modifier.padding(innerPadding))}
-                //AppPages.REGISTER -> {RegisterScreen(modifier = Modifier.padding(innerPadding))}
+                AppPages.SIGNIN -> {
+                    SignInScreen(
+                        backClick = {
+                            pageSeleccionada = AppPages.PRINCIPAL
+                        },
+                        signInUser = { email, password ->
+                            pageSeleccionada = AppPages.HOME
+                        }
+                    )
+                }
+
+                AppPages.REGISTER -> {
+                    RegisterScreen(
+                        backClick = {
+                            pageSeleccionada = AppPages.PRINCIPAL
+                    },
+                        registerUser = { email, password, name, surname ->
+                            pageSeleccionada = AppPages.HOME
+                        }
+                    )
+                }
                 AppPages.HOME -> {HomeScreen(modifier = Modifier.padding(innerPadding))}
                 AppPages.RECIPE -> {}
                 AppPages.SEARCH -> {SearchScreen(modifier = Modifier.padding((innerPadding)))}
                 AppPages.PROFILE -> {}
+
             }
         }
     //}
