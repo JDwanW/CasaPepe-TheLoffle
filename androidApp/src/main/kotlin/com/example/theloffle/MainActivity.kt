@@ -1,5 +1,6 @@
 package com.example.theloffle
 
+import android.app.Notification
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             App()
         }
+    }
+
+    override fun onStop(){
+        super.onStop()
+
     }
 }
 
