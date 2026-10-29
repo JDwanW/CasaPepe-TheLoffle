@@ -62,7 +62,7 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
                     comidaSeleccionada = comida
                 }
             )
-            StadisticSection(modifier = Modifier.height(80.dp),)
+            //StadisticSection(modifier = Modifier.height(80.dp),)
             ScrollBlock(modifier = Modifier.fillMaxHeight(1f))
         }
         // OVERLAY
