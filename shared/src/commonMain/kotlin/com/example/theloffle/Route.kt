@@ -1,3 +1,5 @@
+package com.example.theloffle
+
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,9 +14,5 @@ sealed interface Route {
     data object RecipeScreen: Route
     @Serializable
     data object ProfileScreen: Route
-    @Serializable
-    data class MealRegisterScreen(val meadId: Int): Route
-    @Serializable
-    data object StadisticScreen: Route
 }
 

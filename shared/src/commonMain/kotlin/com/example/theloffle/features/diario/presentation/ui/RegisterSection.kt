@@ -50,25 +50,10 @@ fun RegisterSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             //Todo : need a boolean to represent if meal is registered
-            CreateRegisterButton(
-                FoodPages.BREAKFAST,
-                "Desayuno",
-                Res.drawable.breakfast,
-                onMealSelected
-            );
-            CreateRegisterButton(
-                FoodPages.SNACK1,
-                "Merienda 1",
-                Res.drawable.snack,
-                onMealSelected
-            );
+            CreateRegisterButton(FoodPages.BREAKFAST, "Desayuno", Res.drawable.breakfast, onMealSelected);
+            CreateRegisterButton(FoodPages.SNACK1, "Merienda 1", Res.drawable.snack, onMealSelected);
             CreateRegisterButton(FoodPages.LUNCH, "Comida", Res.drawable.lunch, onMealSelected);
-            CreateRegisterButton(
-                FoodPages.SNACK2,
-                "Merienda 2",
-                Res.drawable.snack,
-                onMealSelected
-            );
+            CreateRegisterButton(FoodPages.SNACK2, "Merienda 2", Res.drawable.snack, onMealSelected);
             CreateRegisterButton(FoodPages.DINNER, "Cena", Res.drawable.dinner, onMealSelected);
         }
     }

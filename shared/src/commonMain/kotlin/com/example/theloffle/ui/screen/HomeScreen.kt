@@ -33,10 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
-import androidx.compose.ui.unit.sp
 import com.example.theloffle.features.diario.domain.FoodPages
-import com.example.theloffle.features.diario.presentation.ui.StadisticSection
 import com.example.theloffle.features.publicaciones.presentation.ui.ScrollBlock
 
 @Composable

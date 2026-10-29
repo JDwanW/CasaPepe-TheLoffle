@@ -1,6 +1,6 @@
 package com.example.theloffle.core.UI_System.components
 
-import Route
+import com.example.theloffle.Route
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
