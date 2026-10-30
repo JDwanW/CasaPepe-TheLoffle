@@ -1,5 +1,6 @@
 package com.example.theloffle
 
+import DefaultAppContainer
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,7 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.theloffle.core.UI_System.components.BottomBar
@@ -22,7 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.example.theloffle.core.UI_System.components.BottomBarItem
-import com.example.theloffle.features.recetas.presentation.ui.RecipeScreen
+import com.example.theloffle.features.recetas.ui.RecipeScreen
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.main_filled
 import theloffle.shared.generated.resources.main_unfilled
@@ -32,6 +35,7 @@ import theloffle.shared.generated.resources.recipe_filled
 import theloffle.shared.generated.resources.recipe_unfilled
 import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
+import kotlin.js.JsExport
 
 @Composable
 @Preview
@@ -39,6 +43,7 @@ fun App() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
+    val containerRepo = remember { DefaultAppContainer() }
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
@@ -60,7 +65,7 @@ fun App() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 composable<Route.HomeScreen> { HomeScreen(modifier = Modifier.padding(innerPadding)) }
-                composable<Route.RecipeScreen> { RecipeScreen(modifier = Modifier.padding(innerPadding)) }
+                composable<Route.RecipeScreen> { RecipeScreen(modifier = Modifier.padding(innerPadding),containerRepo.updatedFilter) }
                 composable<Route.SearchScreen> { SearchScreen() }
                 composable<Route.ProfileScreen> {  }
             }
@@ -77,7 +82,7 @@ fun App() {
                         restoreState = true
                     }
                 },
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
             )
         }
     }
