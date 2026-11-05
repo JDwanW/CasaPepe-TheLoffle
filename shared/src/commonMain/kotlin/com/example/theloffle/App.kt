@@ -57,8 +57,23 @@ fun App() {
     )
     Scaffold(
         containerColor = AppColors.background,
-    ) {
-        innerPadding ->
+        bottomBar = {
+            BottomBar(
+                buttons = bottomItems,
+                isSelected = { route -> currentDestination?.hasRoute(route::class) == true },
+                onItemClick = { route ->
+                    navController.navigate(route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+    ) { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -82,21 +97,6 @@ fun App() {
                 composable<Route.SearchScreen> { SearchScreen() }
                 composable<Route.ProfileScreen> {  }
             }
-
-            BottomBar(
-                buttons = bottomItems,
-                isSelected = { route -> currentDestination?.hasRoute(route::class) == true },
-                onItemClick = { route ->
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
-            )
         }
     }
 }

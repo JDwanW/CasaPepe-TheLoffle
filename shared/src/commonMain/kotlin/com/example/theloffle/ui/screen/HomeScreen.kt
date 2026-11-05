@@ -46,11 +46,10 @@ fun HomeScreen(modifier: Modifier = Modifier){ // Valor por defecto vacio
     ) {
         Column(
             // Definimos el tamaño maximo, margenes y separaciones entre bloques
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 26.dp)
-                .padding(bottom = 26.dp),
-            verticalArrangement = Arrangement.spacedBy(30.dp)
+                .padding(horizontal = 26.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Header()
             RegisterSection(

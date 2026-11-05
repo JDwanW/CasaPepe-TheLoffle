@@ -29,16 +29,16 @@ fun BottomBar(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth(0.85f)
+            .fillMaxWidth()
             .navigationBarsPadding()
             .height(60.dp)
-            .background(AppColors.buttonPrimary, RoundedCornerShape(50.dp)),
+            .background(AppColors.buttonPrimary),
         contentAlignment = Alignment.Center
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .fillMaxHeight(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

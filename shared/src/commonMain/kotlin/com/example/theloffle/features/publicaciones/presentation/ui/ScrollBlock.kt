@@ -16,7 +16,7 @@ import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.test1
 
 @Composable
-fun ScrollBlock(modifier: Modifier = Modifier.Companion) {
+fun ScrollBlock(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -24,14 +24,17 @@ fun ScrollBlock(modifier: Modifier = Modifier.Companion) {
             .fillMaxWidth()
             .verticalScroll(scrollState)
             .background(AppColors.background)
+            .padding(bottom = 16.dp)
     ) {
         repeat(30) { index ->
             PostBlock(
-                modifier = Modifier.size(500.dp),
-                "CasaPepeHito1",
-                Res.drawable.test1,
-                Res.drawable.test1,
-                "4,5"
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                userName = "CasaPepeHito1",
+                userImage = Res.drawable.test1,
+                postImage = Res.drawable.test1,
+                postRating = "4,5"
             )
         }
     }
