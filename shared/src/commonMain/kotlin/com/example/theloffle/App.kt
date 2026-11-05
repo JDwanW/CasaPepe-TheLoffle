@@ -25,7 +25,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.example.theloffle.core.UI_System.components.BottomBarItem
-import com.example.theloffle.features.recetas.ui.RecipeScreen
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.main_filled
 import theloffle.shared.generated.resources.main_unfilled
@@ -36,6 +35,11 @@ import theloffle.shared.generated.resources.recipe_unfilled
 import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
 import kotlin.js.JsExport
+
+//RECIPE SCREEN
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
+import com.example.theloffle.features.recetas.ui.RecipeViewModel
 
 @Composable
 @Preview
@@ -65,7 +69,16 @@ fun App() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 composable<Route.HomeScreen> { HomeScreen(modifier = Modifier.padding(innerPadding)) }
-                composable<Route.RecipeScreen> { RecipeScreen(modifier = Modifier.padding(innerPadding),containerRepo.updatedFilter) }
+                composable<Route.RecipeScreen> {
+                    // Se instancia el ViewModel pasando las dependencias de tu contenedor
+                    val viewModel: RecipeViewModel = viewModel {
+                        RecipeViewModel(repository = containerRepo.updatedFilter)
+                    }
+                    RecipeScreenRoot(
+                        viewModel = viewModel,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
                 composable<Route.SearchScreen> { SearchScreen() }
                 composable<Route.ProfileScreen> {  }
             }
