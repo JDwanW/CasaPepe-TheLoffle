@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.theloffle.features.recetas.domain.repository.UpdatedFilter
 import com.example.theloffle.features.recetas.domain.model.File
+import com.example.theloffle.features.recetas.domain.model.Receta
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,10 +13,10 @@ import kotlinx.coroutines.launch
 
 // Contrato de datos que representará toda la pantalla
 data class RecipeUiState(
+    val recipes: List<Receta> = emptyList(),
     val filters: List<String> = emptyList(),
     val selectedFilters: Set<String> = emptySet(),
     val openedFile: File? = null,
-    val recipes: List<String> = emptyList(),
     val isLoading: Boolean = false
 )
 

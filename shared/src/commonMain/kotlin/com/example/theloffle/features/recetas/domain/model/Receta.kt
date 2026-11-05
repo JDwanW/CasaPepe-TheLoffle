@@ -9,5 +9,6 @@ data class Receta(
     val utensilios: List<Utensilio>,
     val etiqueta: List<Etiqueta>,
     val pasos: String,
-    val publicada: Boolean
+    val publicada: Boolean,
+    val imagenUrl: String? = null
 )

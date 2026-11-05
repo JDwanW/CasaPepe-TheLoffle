@@ -36,7 +36,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.features.recetas.domain.model.File
-
+// NEW ADDED FOR IMAGE OF RECIPE
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 @Composable
 fun RecipeScreenRoot(
     viewModel: RecipeViewModel,
@@ -71,10 +75,9 @@ private fun RecipeScreen(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Header()
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Pestañas superiores (Mis Recetas, Publicadas, Guardadas)
+        /*
+        Creating File Row "Button" so user can choose which recipes he wanna search from
+        */
         SecondaryTabRow(
             selectedTabIndex = selectedCollectionIndex,
             modifier = Modifier.fillMaxWidth()
@@ -85,18 +88,17 @@ private fun RecipeScreen(
                     onClick = {
                         if (selectedCollectionIndex != index) {
                             selectedCollectionIndex = index
-                            onCloseFile() // Resetea el archivo abierto, recetas y los filtros activos
+                            onCloseFile()
                         }
                     },
                     text = { Text(text = title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold) }
                 )
             }
         }
-
+        /*
+        Creating Filter Row "Button" so user can choose which filter he wanna search from
+        */
         Spacer(modifier = Modifier.height(12.dp))
-
-        // 💡 Barra de filtros siempre visible en pantalla
-        // Lista horizontal de Filtros
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(vertical = 4.dp)
@@ -116,11 +118,14 @@ private fun RecipeScreen(
                 )
             }
         }
-
+        /*
+        Showing to user the recipes from the file and filter he chose
+        */
         Spacer(modifier = Modifier.height(16.dp))
-
-        // 💡 Las recetas se muestran justo debajo
         when {
+            /*
+            Case: Loading
+            */
             uiState.isLoading -> {
                 Box(
                     modifier = Modifier
@@ -131,6 +136,9 @@ private fun RecipeScreen(
                     CircularProgressIndicator()
                 }
             }
+            /*
+            Case: Empty -> it shows a message if theres no category chose or theres no recipe on that category
+            */
             uiState.recipes.isEmpty() -> {
                 Box(
                     modifier = Modifier
@@ -139,15 +147,16 @@ private fun RecipeScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = if (uiState.selectedFilters.isNotEmpty())
-                            "No hay recetas con este filtro"
-                        else
-                            "Selecciona un filtro para ver recetas",
+                        text = if (uiState.selectedFilters.isNotEmpty()) "No hay recetas guardadas en esta categoria"
+                                else "Selecciona una categoria para ver sus recetas",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
+            /*
+            Case: Category -> its shows all the recipes on that category
+            */
             else -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -155,23 +164,81 @@ private fun RecipeScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.weight(1f)
                 ) {
-                    items(uiState.recipes) { recipeName ->
+                    items(
+                        items = uiState.recipes,
+                        key = { recipe -> recipe.id }
+                    ) { recipe ->
                         Card(
-                            modifier = Modifier.height(130.dp),
+                            modifier = Modifier.height(140.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(12.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                /*
+                                If theres image in the recipe it shows it
+                                ioc it shows a black box
+                                */
+                                /* TODO
+                                    instead of a image it should be a button which if you click on it
+                                    it has to show u the details of it.
+                                    Class Receta variables
+                                */
+                                if (!recipe.imagenUrl.isNullOrEmpty()) {
+                                    // 💡 Si en el futuro agregas Coil 3, reemplazas este Box por AsyncImage:
+                                    // AsyncImage(
+                                    //     model = receta.imagenUrl,
+                                    //     contentDescription = receta.nombre,
+                                    //     contentScale = ContentScale.Crop,
+                                    //     modifier = Modifier.fillMaxSize()
+                                    // )
+
+                                    // Placeholder visual mientras no tengas Coil configurado:
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(MaterialTheme.colorScheme.tertiaryContainer),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "🌐 ${recipe.nombre}",
+                                            fontSize = 12.sp,
+                                            color = MaterialTheme.colorScheme.onTertiaryContainer,
+                                            modifier = Modifier.padding(bottom = 30.dp)
+                                        )
+                                    }
+                                } else {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(MaterialTheme.colorScheme.primaryContainer)
+                                    )
+                                }
+                                /*
+                                "Overlay" to show the text
+                                */
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(
+                                            Brush.verticalGradient(
+                                                colors = listOf(
+                                                    Color.Transparent,
+                                                    Color.Black.copy(alpha = 0.75f)
+                                                )
+                                            )
+                                        )
+                                )
                                 Text(
-                                    text = recipeName,
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    text = recipe.nombre,
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier
+                                        .align(Alignment.BottomStart)
+                                        .padding(10.dp)
                                 )
                             }
                         }
