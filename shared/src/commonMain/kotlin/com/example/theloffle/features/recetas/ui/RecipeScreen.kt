@@ -104,15 +104,15 @@ private fun RecipeScreen(
             contentPadding = PaddingValues(vertical = 4.dp)
         ) {
             items(uiState.filters) { filterName ->
-                val file = remember(filterName) { File(name = filterName, filter = setOf(filterName)) }
+                val thisFile = remember(filterName) { File(name = filterName, filter = setOf(filterName)) }
                 val isSelected = filterName in uiState.selectedFilters
 
                 FilterChip(
                     selected = isSelected,
-                    enabled = !isSelected, // 👈 Se deshabilita cuando ya está seleccionado
+                    enabled = !isSelected,
                     onClick = {
                         onToggleFilter(filterName)
-                        onSelectFile(file)
+                        onSelectFile(thisFile)
                     },
                     label = { Text(filterName) }
                 )

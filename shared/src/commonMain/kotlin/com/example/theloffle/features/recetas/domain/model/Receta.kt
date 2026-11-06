@@ -6,7 +6,6 @@ data class Receta(
     val nombre: String,
     val autor: String,
     val ingredientes: List<Ingrediente>,
-    val utensilios: List<Utensilio>,
     val etiqueta: List<Etiqueta>,
     val pasos: String,
     val publicada: Boolean,

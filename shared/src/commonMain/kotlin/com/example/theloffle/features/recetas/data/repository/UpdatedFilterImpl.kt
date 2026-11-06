@@ -4,8 +4,6 @@ import com.example.theloffle.features.recetas.domain.model.Etiqueta
 import com.example.theloffle.features.recetas.domain.model.Ingrediente
 import com.example.theloffle.features.recetas.domain.repository.UpdatedFilter
 import com.example.theloffle.features.recetas.domain.model.Receta
-import com.example.theloffle.features.recetas.domain.model.Utensilio
-
 
 // Right now the list is hardcode but we can make it dynamilic from bbdd
 private val filters = listOf(
@@ -59,9 +57,6 @@ class UpdatedFilterImpl : UpdatedFilter {
                     autor = "Chef ${index + 1}",
                     ingredientes = listOf(
                         Ingrediente.CERDO, Ingrediente.CORDERO
-                    ),
-                    utensilios = listOf(
-                        Utensilio.TENEDOR
                     ),
                     etiqueta = listOf(
                         Etiqueta.COREANA, Etiqueta.VEGETARIANO
