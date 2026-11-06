@@ -38,12 +38,16 @@ import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.features.recetas.domain.model.File
 // NEW ADDED FOR IMAGE OF RECIPE
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import com.example.theloffle.features.recetas.domain.model.Recipe
+
 @Composable
 fun RecipeScreenRoot(
     viewModel: RecipeViewModel,
+    onRecipeClick: (Recipe) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -52,6 +56,7 @@ fun RecipeScreenRoot(
         uiState = uiState,
         onToggleFilter = viewModel::onToggleFilter,
         onSelectFile = viewModel::onSelectFile,
+        onRecipeClick = onRecipeClick,
         onCloseFile = viewModel::onCloseFile,
         modifier = modifier
     )
@@ -63,6 +68,7 @@ private fun RecipeScreen(
     uiState: RecipeUiState,
     onToggleFilter: (String) -> Unit,
     onSelectFile: (File) -> Unit,
+    onRecipeClick: (Recipe) -> Unit,
     onCloseFile: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -169,7 +175,9 @@ private fun RecipeScreen(
                         key = { recipe -> recipe.id }
                     ) { recipe ->
                         Card(
-                            modifier = Modifier.height(140.dp),
+                            modifier = Modifier
+                                .height(140.dp)
+                                .clickable { onRecipeClick(recipe) },
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )
@@ -183,8 +191,9 @@ private fun RecipeScreen(
                                     instead of a image it should be a button which if you click on it
                                     it has to show u the details of it.
                                     Class Receta variables
+                                    swap screen with PublicationScreen, need to do
                                 */
-                                if (!recipe.imagenUrl.isNullOrEmpty()) {
+                                if (!recipe.imageUrl.isNullOrEmpty()) {
                                     // 💡 Si en el futuro agregas Coil 3, reemplazas este Box por AsyncImage:
                                     // AsyncImage(
                                     //     model = receta.imagenUrl,
@@ -201,7 +210,7 @@ private fun RecipeScreen(
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = "🌐 ${recipe.nombre}",
+                                            text = "🌐 ${recipe.name}",
                                             fontSize = 12.sp,
                                             color = MaterialTheme.colorScheme.onTertiaryContainer,
                                             modifier = Modifier.padding(bottom = 30.dp)
@@ -230,7 +239,7 @@ private fun RecipeScreen(
                                         )
                                 )
                                 Text(
-                                    text = recipe.nombre,
+                                    text = recipe.name,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,

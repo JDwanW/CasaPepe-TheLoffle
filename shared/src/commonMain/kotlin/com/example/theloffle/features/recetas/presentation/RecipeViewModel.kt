@@ -2,9 +2,9 @@ package com.example.theloffle.features.recetas.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.theloffle.features.recetas.domain.repository.UpdatedFilter
+import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import com.example.theloffle.features.recetas.domain.model.File
-import com.example.theloffle.features.recetas.domain.model.Recipes
+import com.example.theloffle.features.recetas.domain.model.Recipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 // Contrato de datos que representará toda la pantalla
 data class RecipeUiState(
-    val recipes: List<Recipes> = emptyList(),
+    val recipes: List<Recipe> = emptyList(),
     val filters: List<String> = emptyList(),
     val selectedFilters: Set<String> = emptySet(),
     val openedFile: File? = null,
@@ -21,7 +21,7 @@ data class RecipeUiState(
 )
 
 class RecipeViewModel(
-    private val repository: UpdatedFilter
+    private val repository: RecipeRepo
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecipeUiState())

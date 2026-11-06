@@ -15,8 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.theloffle.core.UI_System.components.BottomBar
 import com.example.theloffle.core.UI_System.theme.AppColors
-
-import com.example.theloffle.features.buscador.presentation.ui.SearchScreen
 import com.example.theloffle.ui.screen.HomeScreen
 
 import androidx.navigation.compose.rememberNavController
@@ -38,8 +36,14 @@ import kotlin.js.JsExport
 
 //RECIPE SCREEN
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.toRoute
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
+//SEARCH SCREEN
+import com.example.theloffle.features.buscador.ui.SearchScreenRoot
+import com.example.theloffle.features.buscador.ui.SearchViewModel
+//PUBLICATION SCREEN
+import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 
 @Composable
 @Preview
@@ -85,18 +89,51 @@ fun App() {
             ) {
                 composable<Route.HomeScreen> { HomeScreen(modifier = Modifier.padding(innerPadding)) }
                 composable<Route.RecipeScreen> {
-                    // Se instancia el ViewModel pasando las dependencias de tu contenedor
                     val viewModel: RecipeViewModel = viewModel {
-                        RecipeViewModel(repository = containerRepo.updatedFilter)
+                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
                     }
                     RecipeScreenRoot(
                         viewModel = viewModel,
+                        onRecipeClick = { recipe ->
+                            navController.navigate(Route.PublicationScreen(recipe = recipe))
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
-                composable<Route.SearchScreen> { SearchScreen() }
+                composable<Route.SearchScreen> { // Se instancia el ViewModel pasando las dependencias de tu contenedor
+                    val viewModel: SearchViewModel = viewModel {
+                        SearchViewModel(repository = containerRepo.searchRepoInstance)
+                    }
+                    SearchScreenRoot(
+                        viewModel = viewModel,
+                        onRecipeClick = { selectedRecipe ->
+                            // TODO recipe screen
+                            //navController.navigate(Route.PublicationScreenRoot(
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+                composable<Route.PublicationScreen>{backStackEntry ->
+                    val routeData = backStackEntry.toRoute<Route.PublicationScreen>()
+                    val selectedRecipe = routeData.recipe
+
+                    val viewModel: RecipeViewModel = viewModel {
+                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
+                    }
+
+                    PublicationScreenRoot(
+                        viewModel = viewModel,
+                        selectedRecipe = selectedRecipe,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
                 composable<Route.ProfileScreen> {  }
             }
         }
     }
+}
+
+@Composable
+fun PublicationScreenRoot(viewModel: RecipeViewModel, modifier: Modifier, selectedRecipe: Recipe) {
+    TODO("Not yet implemented")
 }
