@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -48,6 +49,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
+            implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -66,6 +68,9 @@ kotlin {
         }
         jsMain.dependencies {
             implementation(libs.wrappers.browser)
+        }
+        jvmMain.dependencies {
+            implementation(libs.sqldelight.sqlite.driver)
         }
     }
 }

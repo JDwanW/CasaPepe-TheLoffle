@@ -2,7 +2,7 @@ package com.example.theloffle.features.recetas.data.repository
 
 import com.example.theloffle.features.recetas.domain.model.Ingrediente
 import com.example.theloffle.features.recetas.domain.repository.UpdatedFilter
-import com.example.theloffle.features.recetas.domain.model.Recipes
+import com.example.theloffle.features.recetas.domain.model.Recipe
 import com.example.theloffle.features.recetas.domain.model.Utensilio
 
 
@@ -49,10 +49,10 @@ class UpdatedFilterImpl : UpdatedFilter {
     // Todo: it should be reach from
     //  his local BBDD if user doesnt have connection to WIFI
     //  cloud BBDD if user does have conenction to WIFI
-    override suspend fun getRecipesInFile(filterName: String): List<Recipes> {
+    override suspend fun getRecipesInFile(filterName: String): List<Recipe> {
         return if (filterName != "Italiana") {
             List(10) { index ->
-                Recipes(
+                Recipe(
                     id = index + 1,
                     nombre = "Receta ${index + 1} de $filterName",
                     autor = "Chef ${index + 1}",

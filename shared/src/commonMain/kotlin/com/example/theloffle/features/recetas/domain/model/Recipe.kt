@@ -1,7 +1,11 @@
 package com.example.theloffle.features.recetas.domain.model
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
 // Creamos la clase recetas
-data class Recipes(
+@Serializable
+data class Recipe(
     val id: Int,
     val name: String,
     val author: String,
@@ -11,3 +15,8 @@ data class Recipes(
     val published: Boolean,
     val imageUrl: String? = null
 )
+/* Json example
+val jsonRecipe = Json.encodeToString(Recipe(2, "Name",
+                                        "Author", listOf(), listOf(),
+    null, false,null))
+*/
