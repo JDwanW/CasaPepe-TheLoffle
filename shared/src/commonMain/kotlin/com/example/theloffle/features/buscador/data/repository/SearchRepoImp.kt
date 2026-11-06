@@ -2,6 +2,7 @@ package com.example.theloffle.features.buscador.data.repository
 
 import com.example.theloffle.features.buscador.domain.repository.SearchRepo
 import com.example.theloffle.features.recetas.domain.model.Recipe
+import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 
 // Right now the list is hardcode but we can make it dynamilic from bbdd
 private val filters = listOf(
@@ -27,7 +28,9 @@ private val filters = listOf(
     "Sartén"
 )
 
-class SearchRepoImp : SearchRepo {
+class SearchRepoImp(
+    private val recipeRepo: RecipeRepo
+) : SearchRepo {
     private val selected = mutableSetOf<String>()
 
     // Should be from a JSON
@@ -44,9 +47,14 @@ class SearchRepoImp : SearchRepo {
     override suspend fun searchUser(query: String): List<String> {
         return emptyList()
     }
-    //        TODO("Apply filter and give list of recipes according to that")
-    override suspend fun searchRecipes(query: String, selectedFilters: Set<String>): List<Recipe> {
-        return emptyList()
+    override suspend fun searchRecipes(selectedFilters: Set<String>): List<Recipe> {
+        if (selectedFilters.isEmpty()) return emptyList()
+        // Lahmda to have all the recipes from all the filters
+        val allRecipes = filters.flatMap { filterName ->
+            recipeRepo.getRecipesInFile(filterName)
+        }.distinctBy { recipe -> recipe.id }
+        return allRecipes.filter { recipe ->
+            recipe.tags.containsAll(selectedFilters)
+        }
     }
-
 }

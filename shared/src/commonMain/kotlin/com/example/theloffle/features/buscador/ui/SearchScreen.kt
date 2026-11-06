@@ -171,7 +171,7 @@ private fun SearchScreen(
                         Card(
                             modifier = Modifier
                                 .height(140.dp)
-                                .clickable { onRecipeClick(recipe) }, // 👈 Clickable preparado para abrir el detalle
+                                .clickable { onRecipeClick(recipe) },
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )

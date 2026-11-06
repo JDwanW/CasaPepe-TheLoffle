@@ -58,9 +58,7 @@ class RecipeRepoImp : RecipeRepo {
     override suspend fun applyFilterOnFile(fileName: String) {
         filtersByFile[fileName] = selected.toSet()
     }
-    // Todo: it should be reach from
-    //  his local BBDD if user doesnt have connection to WIFI
-    //  cloud BBDD if user does have conenction to WIFI
+    // Todo:
     override suspend fun getRecipesInFile(filterName: String): List<Recipe> {
         return if (filterName != "Italiana") {
             List(10) { index ->
@@ -71,7 +69,7 @@ class RecipeRepoImp : RecipeRepo {
                     ingredients = listOf(
                        "CERDO","PAN"
                     ),
-                    tags =  emptyList(),
+                    tags =  listOf("China","Pizza"),
                     description = "Paso 1: Preparar los ingredientes.\nPaso 2: Cocinar a fuego lento durante 15 minutos.\nPaso 3: Servir bien caliente.",
                     published = true,
                     imageUrl = "https://picsum.photos/seed/${filterName}${index}/400/300"

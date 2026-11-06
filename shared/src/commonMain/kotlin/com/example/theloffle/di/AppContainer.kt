@@ -15,6 +15,6 @@ class DefaultAppContainer : AppContainer {
     }
 
     override val searchRepoInstance: SearchRepo by lazy {
-        SearchRepoImp()
+        SearchRepoImp(recipeRepoInstance)
     }
 }

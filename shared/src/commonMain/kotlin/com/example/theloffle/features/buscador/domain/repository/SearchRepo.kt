@@ -7,6 +7,6 @@ interface SearchRepo{
     suspend fun toggleFilter(filter: String): Boolean
     // TODO create User Class
     suspend fun searchUser(query: String): List<String>
-    suspend fun searchRecipes(query: String, selectedFilters: Set<String>): List<Recipe>
+    suspend fun searchRecipes(selectedFilters: Set<String>): List<Recipe>
 
 }
