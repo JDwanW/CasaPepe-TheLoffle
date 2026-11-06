@@ -8,7 +8,7 @@ data class Recipe(
     val id: Int,
     val name: String,
     val author: String,
-    val ingredients: List<Ingrediente>,
+    val ingredients: List<String>,
     val tags: List<String>,
     val description: String? = null,
     val published: Boolean,

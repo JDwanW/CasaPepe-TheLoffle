@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,6 +21,7 @@ import com.example.theloffle.ui.screen.HomeScreen
 
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.toRoute
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -36,7 +39,6 @@ import kotlin.js.JsExport
 
 //RECIPE SCREEN
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.toRoute
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
@@ -64,7 +66,9 @@ fun App() {
         bottomBar = {
             BottomBar(
                 buttons = bottomItems,
-                isSelected = { route -> currentDestination?.hasRoute(route::class) == true },
+                isSelected = { route ->
+                    currentDestination?.hasRoute(route::class) == true
+                },
                 onItemClick = { route ->
                     navController.navigate(route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -94,8 +98,8 @@ fun App() {
                     }
                     RecipeScreenRoot(
                         viewModel = viewModel,
-                        onRecipeClick = { recipe ->
-                            navController.navigate(Route.PublicationScreen(recipe = recipe))
+                        onRecipeClick = { recipeId ->
+                            navController.navigate(Route.PublicationScreen(recipeId = recipeId))
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -115,25 +119,29 @@ fun App() {
                 }
                 composable<Route.PublicationScreen>{backStackEntry ->
                     val routeData = backStackEntry.toRoute<Route.PublicationScreen>()
-                    val selectedRecipe = routeData.recipe
+                    val recipeId = routeData.recipeId
 
                     val viewModel: RecipeViewModel = viewModel {
                         RecipeViewModel(repository = containerRepo.recipeRepoInstance)
                     }
 
-                    PublicationScreenRoot(
-                        viewModel = viewModel,
-                        selectedRecipe = selectedRecipe,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    // Pedimos la receta al repositorio cuando entra a la pantalla
+                    LaunchedEffect(recipeId) {
+                        viewModel.loadRecipeById(recipeId)
+                    }
+
+                    val selectedRecipe by viewModel.selectedRecipe.collectAsState()
+
+                    selectedRecipe?.let { recipe ->
+                        PublicationScreenRoot(
+                            viewModel = viewModel,
+                            selectedRecipe = recipe,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
                 }
                 composable<Route.ProfileScreen> {  }
             }
         }
     }
-}
-
-@Composable
-fun PublicationScreenRoot(viewModel: RecipeViewModel, modifier: Modifier, selectedRecipe: Recipe) {
-    TODO("Not yet implemented")
 }

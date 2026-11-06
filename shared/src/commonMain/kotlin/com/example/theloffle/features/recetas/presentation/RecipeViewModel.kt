@@ -26,6 +26,8 @@ class RecipeViewModel(
 
     private val _uiState = MutableStateFlow(RecipeUiState())
     val uiState: StateFlow<RecipeUiState> = _uiState.asStateFlow()
+    private val _selectedRecipe = MutableStateFlow<Recipe?>(null)
+    val selectedRecipe: StateFlow<Recipe?> = _selectedRecipe.asStateFlow()
 
     init {
         loadInitialFilters()
@@ -68,16 +70,18 @@ class RecipeViewModel(
 
     fun onCloseFile() {
         viewModelScope.launch {
-            // Opcional: si tu repositorio guarda el estado de los filtros
-            // repository.clearFilters()
-
             _uiState.update { currentState ->
                 currentState.copy(
                     openedFile = null,
                     recipes = emptyList(),
-                    selectedFilters = emptySet() // 👈 Esto resetea todos los chips de filtro
+                    selectedFilters = emptySet()
                 )
             }
+        }
+    }
+    fun loadRecipeById(id: Int) {
+        viewModelScope.launch {
+            _selectedRecipe.value = repository.getRecipeById(id)
         }
     }
 }

@@ -47,7 +47,7 @@ import com.example.theloffle.features.recetas.domain.model.Recipe
 @Composable
 fun RecipeScreenRoot(
     viewModel: RecipeViewModel,
-    onRecipeClick: (Recipe) -> Unit = {},
+    onRecipeClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -68,7 +68,7 @@ private fun RecipeScreen(
     uiState: RecipeUiState,
     onToggleFilter: (String) -> Unit,
     onSelectFile: (File) -> Unit,
-    onRecipeClick: (Recipe) -> Unit,
+    onRecipeClick: (Int) -> Unit,
     onCloseFile: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -177,7 +177,7 @@ private fun RecipeScreen(
                         Card(
                             modifier = Modifier
                                 .height(140.dp)
-                                .clickable { onRecipeClick(recipe) },
+                                .clickable { onRecipeClick(recipe.id) },
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )

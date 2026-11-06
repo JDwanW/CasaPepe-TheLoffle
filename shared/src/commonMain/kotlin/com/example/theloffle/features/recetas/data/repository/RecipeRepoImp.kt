@@ -1,6 +1,5 @@
 package com.example.theloffle.features.recetas.data.repository
 
-import com.example.theloffle.features.recetas.domain.model.Ingrediente
 import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import com.example.theloffle.features.recetas.domain.model.Recipe
 
@@ -32,6 +31,20 @@ class RecipeRepoImp : RecipeRepo {
     private val selected = mutableSetOf<String>()
     private val filtersByFile = mutableMapOf<String, Set<String>>()
 
+    //Should de DDBB LOCAL
+    private val mockRecipes = List(20) { index ->
+        Recipe(
+            id = index + 1,
+            name = "Receta ${index + 1}",
+            author = "Chef ${index + 1}",
+            ingredients = listOf("CERDO", "PAN"),
+            tags = emptyList(),
+            description = "Paso 1: Preparar los ingredientes.\nPaso 2: Cocinar a fuego lento durante 15 minutos.\nPaso 3: Servir bien caliente.",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/${index + 1}/400/300"
+        )
+    }
+
     // Should be from a JSON
     override suspend fun getFilterList(): List<String> = filters
     override suspend fun toggleFilter(filter: String): Boolean {
@@ -56,7 +69,7 @@ class RecipeRepoImp : RecipeRepo {
                     name = "Receta ${index + 1} de $filterName",
                     author = "Chef ${index + 1}",
                     ingredients = listOf(
-                        Ingrediente.CERDO, Ingrediente.CORDERO
+                       "CERDO","PAN"
                     ),
                     tags =  emptyList(),
                     description = "Paso 1: Preparar los ingredientes.\nPaso 2: Cocinar a fuego lento durante 15 minutos.\nPaso 3: Servir bien caliente.",
@@ -67,5 +80,8 @@ class RecipeRepoImp : RecipeRepo {
         } else {
             emptyList()
         }
+    }
+    override suspend fun getRecipeById(id: Int): Recipe? {
+        return mockRecipes.find { it.id == id }
     }
 }

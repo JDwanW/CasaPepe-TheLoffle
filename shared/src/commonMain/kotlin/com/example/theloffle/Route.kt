@@ -12,7 +12,8 @@ sealed interface Route {
     data object SearchScreen: Route
     @Serializable
     data object RecipeScreen: Route
-    data object PublicationScreen(val recipe: Recipe): Route
+    @Serializable
+    data class PublicationScreen(val recipeId: Int): Route
     @Serializable
     data object ProfileScreen: Route
 }

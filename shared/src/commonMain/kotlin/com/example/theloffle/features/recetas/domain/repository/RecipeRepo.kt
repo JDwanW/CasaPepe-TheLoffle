@@ -7,4 +7,5 @@ interface RecipeRepo{
     suspend fun toggleFilter(filter: String): Boolean
     suspend fun applyFilterOnFile(fileName: String)
     suspend fun getRecipesInFile(fileName: String): List<Recipe>
+    suspend fun getRecipeById(id: Int): Recipe?
 }
