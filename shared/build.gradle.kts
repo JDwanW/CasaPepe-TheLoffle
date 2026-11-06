@@ -78,3 +78,11 @@ kotlin {
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
+
+sqldelight {
+    databases {
+        create("TheLoffleDatabase") {
+            packageName.set("com.example.theloffle.db")
+        }
+    }
+}
