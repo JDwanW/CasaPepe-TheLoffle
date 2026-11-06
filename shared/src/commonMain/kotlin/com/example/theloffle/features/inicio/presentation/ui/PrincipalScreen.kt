@@ -39,7 +39,7 @@ fun PrincipalScreen (
             fontSize = 28.sp
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -55,7 +55,8 @@ fun PrincipalScreen (
         }
 
 
-        Spacer(modifier = Modifier.height(300.dp))
+        Spacer(modifier = Modifier
+            .height(100.dp))
 
         Button(
             onClick = onSignInClick,
@@ -64,9 +65,10 @@ fun PrincipalScreen (
             ),
 
             modifier = Modifier
+                .align(Alignment.CenterHorizontally)
                 .width(350.dp)
-                .height(56.dp)
-        ) {
+                .height(56.dp))
+        {
             Text("Sign in")
         }
 
@@ -79,6 +81,7 @@ fun PrincipalScreen (
             ),
 
             modifier = Modifier
+                .align(Alignment.CenterHorizontally)
                 .width(350.dp)
                 .height(56.dp)
         ) {
