@@ -43,6 +43,17 @@ object MockRecipeDataSource {
             description = "Asar la carne...",
             published = true,
             imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 5,
+            name = "Hamburguesa Completa2",
+            author = "Chef Alex",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = null
         )
+
     )
 }

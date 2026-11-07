@@ -49,12 +49,6 @@ class SearchRepoImp(
     }
     override suspend fun searchRecipes(selectedFilters: Set<String>): List<Recipe> {
         if (selectedFilters.isEmpty()) return emptyList()
-        // Lahmda to have all the recipes from all the filters
-        val allRecipes = filters.flatMap { filterName ->
-            recipeRepo.getRecipesInFile(filterName)
-        }.distinctBy { recipe -> recipe.id }
-        return allRecipes.filter { recipe ->
-            recipe.tags.containsAll(selectedFilters)
-        }
+        return recipeRepo.getRecipesByFilters(selectedFilters.toList())
     }
 }

@@ -110,9 +110,8 @@ fun App() {
                     }
                     SearchScreenRoot(
                         viewModel = viewModel,
-                        onRecipeClick = { selectedRecipe ->
-                            // TODO recipe screen
-                            //navController.navigate(Route.PublicationScreenRoot(
+                        onRecipeClick = { recipeId ->
+                            navController.navigate(Route.PublicationScreen(recipeId = recipeId))
                         },
                         modifier = Modifier.padding(innerPadding)
                     )

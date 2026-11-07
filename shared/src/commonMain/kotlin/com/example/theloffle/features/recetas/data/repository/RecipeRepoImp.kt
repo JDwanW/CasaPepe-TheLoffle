@@ -30,20 +30,8 @@ private val filters = listOf(
 class RecipeRepoImp : RecipeRepo {
     private val selected = mutableSetOf<String>()
     private val filtersByFile = mutableMapOf<String, Set<String>>()
-
-    //Should de DDBB LOCAL
-    private val mockRecipes = List(20) { index ->
-        Recipe(
-            id = index + 1,
-            name = "Receta ${index + 1}",
-            author = "Chef ${index + 1}",
-            ingredients = listOf("CERDO", "PAN"),
-            tags = emptyList(),
-            description = "Paso 1: Preparar los ingredientes.\nPaso 2: Cocinar a fuego lento durante 15 minutos.\nPaso 3: Servir bien caliente.",
-            published = true,
-            imageUrl = "https://picsum.photos/seed/${index + 1}/400/300"
-        )
-    }
+    // TODO: Create another Repo as proxy just for tests
+    private val allRecipes = MockRecipeDataSource.recipes
 
     // Should be from a JSON
     override suspend fun getFilterList(): List<String> = filters
@@ -58,28 +46,14 @@ class RecipeRepoImp : RecipeRepo {
     override suspend fun applyFilterOnFile(fileName: String) {
         filtersByFile[fileName] = selected.toSet()
     }
-    // Todo:
-    override suspend fun getRecipesInFile(filterName: String): List<Recipe> {
-        return if (filterName != "Italiana") {
-            List(10) { index ->
-                Recipe(
-                    id = index + 1,
-                    name = "Receta ${index + 1} de $filterName",
-                    author = "Chef ${index + 1}",
-                    ingredients = listOf(
-                       "CERDO","PAN"
-                    ),
-                    tags =  listOf("China","Pizza"),
-                    description = "Paso 1: Preparar los ingredientes.\nPaso 2: Cocinar a fuego lento durante 15 minutos.\nPaso 3: Servir bien caliente.",
-                    published = true,
-                    imageUrl = "https://picsum.photos/seed/${filterName}${index}/400/300"
-                )
-            }
-        } else {
-            emptyList()
-        }
+    override suspend fun getRecipesInFile(fileName: String): List<Recipe> {
+        return allRecipes.filter { recipe -> recipe.tags.contains(fileName) }
     }
     override suspend fun getRecipeById(id: Int): Recipe? {
-        return mockRecipes.find { it.id == id }
+        return allRecipes.find { it.id == id }
+    }
+    override suspend fun getRecipesByFilters(filters: List<String>): List<Recipe> {
+        if (filters.isEmpty()) return emptyList()
+        return allRecipes.filter { recipe -> recipe.tags.containsAll(filters) }
     }
 }

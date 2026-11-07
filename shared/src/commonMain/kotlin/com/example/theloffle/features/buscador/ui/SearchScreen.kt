@@ -35,10 +35,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.features.recetas.domain.model.File
 import com.example.theloffle.features.recetas.domain.model.Recipe
@@ -46,7 +48,7 @@ import com.example.theloffle.features.recetas.domain.model.Recipe
 @Composable
 fun SearchScreenRoot(
     viewModel: SearchViewModel,
-    onRecipeClick: (Recipe) -> Unit = {},
+    onRecipeClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -65,7 +67,7 @@ private fun SearchScreen(
     uiState: SearchUiState,
     onSearchQueryChange: (String) -> Unit,
     onToggleFilter: (String) -> Unit,
-    onRecipeClick: (Recipe) -> Unit,
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -171,19 +173,25 @@ private fun SearchScreen(
                         Card(
                             modifier = Modifier
                                 .height(140.dp)
-                                .clickable { onRecipeClick(recipe) },
+                                .clickable { onRecipeClick(recipe.id) },
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         ) {
                             Box(modifier = Modifier.fillMaxSize()) {
                                 if (!recipe.imageUrl.isNullOrEmpty()) {
+                                    AsyncImage(
+                                        model = recipe.imageUrl,
+                                        contentDescription = recipe.name,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                } else {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .background(MaterialTheme.colorScheme.tertiaryContainer),
-                                        contentAlignment = Alignment.Center
-                                    ) {
+                                            .background(MaterialTheme.colorScheme.primaryContainer)
+                                    ){
                                         Text(
                                             text = "🌐 ${recipe.name}",
                                             fontSize = 12.sp,
@@ -191,12 +199,6 @@ private fun SearchScreen(
                                             modifier = Modifier.padding(bottom = 30.dp)
                                         )
                                     }
-                                } else {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(MaterialTheme.colorScheme.primaryContainer)
-                                    )
                                 }
 
                                 // Overlay degradado para mejorar lectura del texto

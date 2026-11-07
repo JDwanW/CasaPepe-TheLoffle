@@ -41,8 +41,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.theloffle.features.recetas.domain.model.Recipe
+import coil3.compose.AsyncImage
 
 @Composable
 fun RecipeScreenRoot(
@@ -194,21 +195,18 @@ private fun RecipeScreen(
                                     swap screen with PublicationScreen, need to do
                                 */
                                 if (!recipe.imageUrl.isNullOrEmpty()) {
-                                    // 💡 Si en el futuro agregas Coil 3, reemplazas este Box por AsyncImage:
-                                    // AsyncImage(
-                                    //     model = receta.imagenUrl,
-                                    //     contentDescription = receta.nombre,
-                                    //     contentScale = ContentScale.Crop,
-                                    //     modifier = Modifier.fillMaxSize()
-                                    // )
-
-                                    // Placeholder visual mientras no tengas Coil configurado:
+                                    AsyncImage(
+                                         model = recipe.imageUrl,
+                                         contentDescription = recipe.name,
+                                         contentScale = ContentScale.Crop,
+                                         modifier = Modifier.fillMaxSize()
+                                    )
+                                } else {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .background(MaterialTheme.colorScheme.tertiaryContainer),
-                                        contentAlignment = Alignment.Center
-                                    ) {
+                                            .background(MaterialTheme.colorScheme.primaryContainer)
+                                    ){
                                         Text(
                                             text = "🌐 ${recipe.name}",
                                             fontSize = 12.sp,
@@ -216,12 +214,6 @@ private fun RecipeScreen(
                                             modifier = Modifier.padding(bottom = 30.dp)
                                         )
                                     }
-                                } else {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(MaterialTheme.colorScheme.primaryContainer)
-                                    )
                                 }
                                 /*
                                 "Overlay" to show the text
