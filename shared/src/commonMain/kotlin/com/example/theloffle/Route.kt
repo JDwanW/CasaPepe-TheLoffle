@@ -9,6 +9,8 @@ sealed interface Route {
     @Serializable
     data object HomeScreen: Route
     @Serializable
+    data class MealRegisterScreen(val mealId: Int): Route
+    @Serializable
     data object SearchScreen: Route
     @Serializable
     data object RecipeScreen: Route

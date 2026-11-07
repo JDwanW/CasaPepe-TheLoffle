@@ -1,4 +1,4 @@
-package com.example.theloffle.ui.screen
+package com.example.theloffle.features.diario.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,9 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 // Blocks
-import com.example.theloffle.features.diario.presentation.ui.RegisterSection
-import com.example.theloffle.features.diario.presentation.ui.RegisterBlock
-import com.example.theloffle.core.UI_System.components.BloqueCard
 import com.example.theloffle.core.UI_System.components.Header
 // Para animatedVisibility && overlay
 import androidx.compose.animation.AnimatedVisibility
@@ -33,7 +30,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
-import com.example.theloffle.features.diario.domain.FoodPages
+import com.example.theloffle.features.diario.domain.model.FoodPages
+import com.example.theloffle.features.diario.presentation.RegisterBlock
+import com.example.theloffle.features.diario.presentation.RegisterSection
 import com.example.theloffle.features.publicaciones.presentation.ui.ScrollBlock
 
 @Composable

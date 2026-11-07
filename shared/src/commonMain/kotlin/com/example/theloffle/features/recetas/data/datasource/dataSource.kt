@@ -1,4 +1,4 @@
-package com.example.theloffle.features.recetas.data.repository
+package com.example.theloffle.features.recetas.data.datasource
 
 import com.example.theloffle.features.recetas.domain.model.Recipe
 

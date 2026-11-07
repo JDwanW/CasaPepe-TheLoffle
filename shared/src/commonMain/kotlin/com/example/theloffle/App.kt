@@ -17,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.theloffle.core.UI_System.components.BottomBar
 import com.example.theloffle.core.UI_System.theme.AppColors
-import com.example.theloffle.ui.screen.HomeScreen
 
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
@@ -35,8 +34,10 @@ import theloffle.shared.generated.resources.recipe_filled
 import theloffle.shared.generated.resources.recipe_unfilled
 import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
-import kotlin.js.JsExport
-
+//HOME SCREEN
+import com.example.theloffle.features.diario.ui.HomeScreen
+//MEAL REGISTER SCREEN
+import com.example.theloffle.features.diario.ui.MealRegisterScreen
 //RECIPE SCREEN
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
@@ -92,6 +93,9 @@ fun App() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 composable<Route.HomeScreen> { HomeScreen(modifier = Modifier.padding(innerPadding)) }
+                composable<Route.MealRegisterScreen> {
+
+                }
                 composable<Route.RecipeScreen> {
                     val viewModel: RecipeViewModel = viewModel {
                         RecipeViewModel(repository = containerRepo.recipeRepoInstance)

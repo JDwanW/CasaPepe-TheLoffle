@@ -1,4 +1,4 @@
-package com.example.theloffle.features.diario.presentation.ui
+package com.example.theloffle.features.diario.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.theloffle.core.UI_System.theme.AppColors
-import com.example.theloffle.features.diario.domain.FoodPages
+import com.example.theloffle.features.diario.domain.model.FoodPages
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
