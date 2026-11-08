@@ -1,4 +1,4 @@
-package com.example.theloffle.features.diario.presentation
+package com.example.theloffle.features.diario.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,15 +29,16 @@ import theloffle.shared.generated.resources.lunch
 import theloffle.shared.generated.resources.snack
 
 @Composable
-fun RegisterSection(
-    modifier: Modifier = Modifier.Companion,
-    onMealSelected: (FoodPages) -> Unit
+fun RegisterBlock(
+    registeredMeals: Set<FoodPages>, // 💡 Conjunto de comidas ya registradas
+    onMealClick: (FoodPages) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                Color(0x00FFFFFF),                  //Random Color, Transparent
+                Color.Transparent,
                 RoundedCornerShape(10.dp)
             )
             .navigationBarsPadding()
@@ -49,31 +50,44 @@ fun RegisterSection(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            //Todo : need a boolean to represent if meal is registered
-            CreateRegisterButton(FoodPages.BREAKFAST, "Desayuno", Res.drawable.breakfast, onMealSelected);
-            CreateRegisterButton(FoodPages.SNACK1, "Merienda 1", Res.drawable.snack, onMealSelected);
-            CreateRegisterButton(FoodPages.LUNCH, "Comida", Res.drawable.lunch, onMealSelected);
-            CreateRegisterButton(FoodPages.SNACK2, "Merienda 2", Res.drawable.snack, onMealSelected);
-            CreateRegisterButton(FoodPages.DINNER, "Cena", Res.drawable.dinner, onMealSelected);
+            val meals = listOf(
+                Triple(FoodPages.BREAKFAST, "Desayuno", Res.drawable.breakfast),
+                Triple(FoodPages.SNACK1, "Merienda 1", Res.drawable.snack),
+                Triple(FoodPages.LUNCH, "Comida", Res.drawable.lunch),
+                Triple(FoodPages.SNACK2, "Merienda 2", Res.drawable.snack),
+                Triple(FoodPages.DINNER, "Cena", Res.drawable.dinner)
+            )
+
+            meals.forEach { (typeMeal, text, image) ->
+                val isDone = registeredMeals.contains(typeMeal)
+
+                CreateRegisterButton(
+                    typeMeal = typeMeal,
+                    text = text,
+                    image = image,
+                    isDone = isDone,
+                    onMealSelected = onMealClick
+                )
+            }
         }
     }
 }
 
 @Composable
-fun CreateRegisterButton(
-    typeMeal : FoodPages,
-    text : String,
-    image : DrawableResource,
-    onMealSelected : (FoodPages) -> Unit
-){
+private fun CreateRegisterButton(
+    typeMeal: FoodPages,
+    text: String,
+    image: DrawableResource,
+    isDone: Boolean,
+    onMealSelected: (FoodPages) -> Unit
+) {
     Button(
         onClick = { onMealSelected(typeMeal) },
         modifier = Modifier.size(70.dp),
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(10.dp),
         contentPadding = PaddingValues(0.dp),
-        //Todo : color depend on var bool
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppColors.foodDone
+            containerColor = if (isDone) AppColors.foodDone else AppColors.buttonPrimary
         )
     ) {
         Image(

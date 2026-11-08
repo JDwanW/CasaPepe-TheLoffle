@@ -7,10 +7,10 @@ import kotlinx.serialization.Serializable
 data class Recipe(
     val id: Int,
     val name: String,
-    val author: String,
     val ingredients: List<String>,
     val tags: List<String>,
     val description: String? = null,
     val published: Boolean,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val rating: Double? = if (published) 0.0 else null
 )

@@ -35,9 +35,9 @@ import theloffle.shared.generated.resources.recipe_unfilled
 import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
 //HOME SCREEN
-import com.example.theloffle.features.diario.ui.HomeScreen
+import com.example.theloffle.features.diario.ui.HomeScreenRoot
 //MEAL REGISTER SCREEN
-import com.example.theloffle.features.diario.ui.MealRegisterScreen
+import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
 //RECIPE SCREEN
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
@@ -45,6 +45,8 @@ import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
+import com.example.theloffle.features.diario.ui.HomeScreenRoot
+import com.example.theloffle.features.diario.ui.HomeViewModel
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 
@@ -92,7 +94,25 @@ fun App() {
                 startDestination = Route.HomeScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
-                composable<Route.HomeScreen> { HomeScreen(modifier = Modifier.padding(innerPadding)) }
+                composable<Route.HomeScreen> {
+                    val viewModel: HomeViewModel = viewModel {
+                        HomeViewModel(repository = containerRepo.recipeRepoInstance)
+                    }
+                    HomeScreenRoot(
+                        viewModel = viewModel,
+                        onMealClick = { foodPage ->
+                            navController.navigate(Route.MealRegisterScreen(foodPage))
+                        },
+                        onPublicationClick = { recipeId ->
+                            navController.navigate(Route.PublicationScreen(recipeId = recipeId))
+                        },
+                        onUserClick = { username ->
+                            // Navega al perfil del usuario
+                            // navController.navigate(Route.ProfileScreen(username = username))
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
                 composable<Route.MealRegisterScreen> {
 
                 }

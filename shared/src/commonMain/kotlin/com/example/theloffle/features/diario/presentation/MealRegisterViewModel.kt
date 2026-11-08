@@ -1,41 +1,95 @@
 package com.example.theloffle.features.diario.presentation
 
-import LocalStorageManager
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
+import androidx.lifecycle.viewModelScope
+import com.example.theloffle.features.diario.domain.model.FoodPages
+import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
+import com.example.theloffle.features.recetas.domain.model.Recipe
+import kotlinx.coroutines.launch
+
+data class MealRegisterUiState(
+    val selectedMealType: FoodPages = FoodPages.NONE,
+    val name: String = "",
+    val author: String = "",
+    val ingredients: List<String> = emptyList(),
+    val selectedTags: List<String> = emptyList(),
+    val description: String = "",
+    val published: Boolean? = false,
+    val rating: Double = 0.0,
+    val imageUri: String? = null,
+    val isLoading: Boolean = false,
+    val isSuccess: Boolean = false,
+    val errorMessage: String? = null
+)
 
 class MealRegisterViewModel(
-    private val recipeRepo: RecipeRepo,
-    private val localStorageManager: LocalStorageManager
+    private val mealRegisterRepo: MealRegisterRepo
 ) : ViewModel() {
 
     var uiState by mutableStateOf(MealRegisterUiState())
         private set
 
-    fun onPublishRecipe(imageBytes: ByteArray?) {
+    init {
+        loadFormInitialData()
+    }
+
+    private fun loadFormInitialData() {
         viewModelScope.launch {
-            uiState = uiState.copy(isLoading = true)
+            val filters = mealRegisterRepo.getFilterList()
+            uiState = uiState.copy(selectedTags = filters)
+        }
+    }
 
-            // 1. Guardar la imagen localmente si existe
-            val localImagePath = imageBytes?.let {
-                localStorageManager.saveImageToInternalStorage(it)
-            }
 
-            // 2. Crear el objeto de dominio
+    fun onTitleChanged(newName: String) {
+        uiState = uiState.copy(name = newName)
+    }
+
+    fun onAddIngredient(ingredient: String) {
+        if (ingredient.isNotBlank() && !uiState.ingredients.contains(ingredient)) {
+            uiState = uiState.copy(ingredients = uiState.ingredients + ingredient)
+        }
+    }
+
+    fun onRemoveIngredient(ingredient: String) {
+        uiState = uiState.copy(ingredients = uiState.ingredients - ingredient)
+    }
+
+    fun onPublishRecipe(imageBytes: ByteArray?, isPublished: Boolean = true){
+
+    }
+    /*fun onPublishRecipe(imageBytes: ByteArray?, isPublished: Boolean = true) {
+        viewModelScope.launch {
+            uiState = uiState.copy(isLoading = true, errorMessage = null)
+
             val newRecipe = Recipe(
-                id = generateUniqueId(),
-                name = uiState.title,
+                id = 0, // El repositorio se encarga de asignar el ID adecuado
+                name = uiState.name,
+                author = uiState.author,
                 ingredients = uiState.ingredients,
                 tags = uiState.selectedTags,
-                imageUrl = localImagePath,
-                published = true
+                description = "Hola",
+                published = isPublished,
+                imageUrl = null, // MealRegisterRepoImp procesa los imageBytes y asigna la URI file://
+                rating = 4.5
             )
 
-            // 3. Enviar a la capa de datos
-            recipeRepo.addRecipe(newRecipe)
-
-            uiState = uiState.copy(isLoading = false, isSuccess = true)
+            try {
+                mealRegisterRepo.saveMealRecipe(newRecipe, imageBytes)
+                uiState = uiState.copy(isLoading = false, isSuccess = true)
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = e.message ?: "Error al guardar la receta"
+                )
+            }
         }
+    }*/
+
+    fun resetSuccessState() {
+        uiState = uiState.copy(isSuccess = false)
     }
 }

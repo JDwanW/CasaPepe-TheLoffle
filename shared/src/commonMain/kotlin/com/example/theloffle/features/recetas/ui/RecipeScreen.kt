@@ -206,14 +206,7 @@ private fun RecipeScreen(
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .background(MaterialTheme.colorScheme.primaryContainer)
-                                    ){
-                                        Text(
-                                            text = "🌐 ${recipe.name}",
-                                            fontSize = 12.sp,
-                                            color = MaterialTheme.colorScheme.onTertiaryContainer,
-                                            modifier = Modifier.padding(bottom = 30.dp)
-                                        )
-                                    }
+                                    )
                                 }
                                 /*
                                 "Overlay" to show the text

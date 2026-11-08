@@ -7,7 +7,6 @@ object MockRecipeDataSource {
         Recipe(
             id = 1,
             name = "Paella Valenciana",
-            author = "Chef Juan",
             ingredients = listOf("ARROZ", "POLLO", "CONEJO"),
             tags = listOf("Española", "Sartén", "Carnes"),
             description = "Cocinar a fuego lento...",
@@ -17,7 +16,6 @@ object MockRecipeDataSource {
         Recipe(
             id = 2,
             name = "Pizza Margherita",
-            author = "Chef Mario",
             ingredients = listOf("HARINA", "TOMATE", "MOZZARELLA"),
             tags = listOf("Italiana", "Horno", "Vegetariano"),
             description = "Hornear a 250°C...",
@@ -27,7 +25,6 @@ object MockRecipeDataSource {
         Recipe(
             id = 3,
             name = "Hamburguesa Completa",
-            author = "Chef Alex",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = "Asar la carne...",
@@ -37,7 +34,6 @@ object MockRecipeDataSource {
         Recipe(
             id = 4,
             name = "Hamburguesa Completa1",
-            author = "Chef Alex",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = "Asar la carne...",
@@ -47,13 +43,42 @@ object MockRecipeDataSource {
         Recipe(
             id = 5,
             name = "Hamburguesa Completa2",
-            author = "Chef Alex",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = "Asar la carne...",
             published = true,
             imageUrl = null
-        )
+        ),
+        Recipe(
+            id = 6,
+            name = "Hamburguesa Completa2",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Pizza"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = null,
+            rating = 4.1
+        ),
+        Recipe(
+            id = 7,
+            name = "Hamburguesa Completa2",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Pizza"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = null,
+            rating = 2.0
+        ),
+        Recipe(
+            id = 8,
+            name = "Hamburguesa Completa2",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Pizza"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = null,
+            rating = 4.4
+        ),
 
     )
 }
