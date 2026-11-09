@@ -28,6 +28,7 @@ class RecipeLocalDataSource(
     // Insert a Recipe into the bbdd
     fun insert(recipe: Recipe){
         database.recipeQueries.insertRecipe(
+            author = recipe.author,
             name = recipe.name,
             // 1 True, 0 False. L for Long
             published = if(recipe.published) 1L else 0L,

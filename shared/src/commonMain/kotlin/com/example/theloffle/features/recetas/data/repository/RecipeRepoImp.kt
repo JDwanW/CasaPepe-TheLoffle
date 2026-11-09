@@ -3,6 +3,7 @@ package com.example.theloffle.features.recetas.data.repository
 import com.example.theloffle.features.recetas.data.datasource.MockRecipeDataSource
 import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import com.example.theloffle.features.recetas.domain.model.Recipe
+import com.example.theloffle.features.recetas.data.datasource.RecipeLocalDataSource
 
 // Right now the list is hardcode but we can make it dynamilic from bbdd
 private val filters = listOf(
@@ -28,7 +29,7 @@ private val filters = listOf(
     "Sartén"
 )
 
-class RecipeRepoImp : RecipeRepo {
+class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) : RecipeRepo {
     private val selected = mutableSetOf<String>()
     private val filtersByFile = mutableMapOf<String, Set<String>>()
     // TODO: Create another Repo as proxy just for tests
