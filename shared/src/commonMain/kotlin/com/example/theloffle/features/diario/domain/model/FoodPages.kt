@@ -1,4 +1,4 @@
-package com.example.theloffle.features.diario.domain
+package com.example.theloffle.features.diario.domain.model
 
 enum class FoodPages{
     NONE,

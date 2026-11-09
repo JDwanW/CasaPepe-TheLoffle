@@ -2,7 +2,7 @@ package com.example.theloffle.features.recetas.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.theloffle.features.recetas.domain.repository.UpdatedFilter
+import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import com.example.theloffle.features.recetas.domain.model.File
 import com.example.theloffle.features.recetas.domain.model.Recipe
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,11 +21,13 @@ data class RecipeUiState(
 )
 
 class RecipeViewModel(
-    private val repository: UpdatedFilter
+    private val repository: RecipeRepo
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecipeUiState())
     val uiState: StateFlow<RecipeUiState> = _uiState.asStateFlow()
+    private val _selectedRecipe = MutableStateFlow<Recipe?>(null)
+    val selectedRecipe: StateFlow<Recipe?> = _selectedRecipe.asStateFlow()
 
     init {
         loadInitialFilters()
@@ -68,16 +70,18 @@ class RecipeViewModel(
 
     fun onCloseFile() {
         viewModelScope.launch {
-            // Opcional: si tu repositorio guarda el estado de los filtros
-            // repository.clearFilters()
-
             _uiState.update { currentState ->
                 currentState.copy(
                     openedFile = null,
                     recipes = emptyList(),
-                    selectedFilters = emptySet() // 👈 Esto resetea todos los chips de filtro
+                    selectedFilters = emptySet()
                 )
             }
+        }
+    }
+    fun loadRecipeById(id: Int) {
+        viewModelScope.launch {
+            _selectedRecipe.value = repository.getRecipeById(id)
         }
     }
 }
