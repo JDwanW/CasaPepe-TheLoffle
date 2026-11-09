@@ -46,7 +46,7 @@ object MockRecipeDataSource {
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = "Asar la carne...",
-            published = true,
+            published = false,
             imageUrl = null
         ),
         Recipe(
@@ -56,7 +56,7 @@ object MockRecipeDataSource {
             tags = listOf("Pizza"),
             description = "Asar la carne...",
             published = true,
-            imageUrl = null,
+            imageUrl = "https://picsum.photos/seed/pizza/400/300",
             rating = 4.1
         ),
         Recipe(
@@ -66,7 +66,7 @@ object MockRecipeDataSource {
             tags = listOf("Pizza"),
             description = "Asar la carne...",
             published = true,
-            imageUrl = null,
+            imageUrl = "https://picsum.photos/seed/pizza/400/300",
             rating = 2.0
         ),
         Recipe(
@@ -76,8 +76,71 @@ object MockRecipeDataSource {
             tags = listOf("Pizza"),
             description = "Asar la carne...",
             published = true,
-            imageUrl = null,
+            imageUrl = "https://picsum.photos/seed/burger/400/300",
             rating = 4.4
+        ),
+        Recipe(
+            id = 9,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 10,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 11,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 12,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 13,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 14,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
+        ),
+        Recipe(
+            id = 15,
+            name = "Hamburguesa Completa1",
+            ingredients = listOf("CARNE", "PAN", "QUESO"),
+            tags = listOf("Hamburguesa", "Sartén", "Carnes"),
+            description = "Asar la carne...",
+            published = true,
+            imageUrl = "https://picsum.photos/seed/burger/400/300"
         ),
 
     )

@@ -14,9 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.theloffle.core.UI_System.components.BottomBar
+//APP DATA
 import com.example.theloffle.core.UI_System.theme.AppColors
+
+//ROUTE
+import com.example.theloffle.core.UI_System.components.BottomBar
+import com.example.theloffle.core.UI_System.components.BottomBarItem
 
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
@@ -24,7 +27,9 @@ import androidx.navigation.toRoute
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
-import com.example.theloffle.core.UI_System.components.BottomBarItem
+import androidx.navigation.NavGraph.Companion.findStartDestination
+
+//RESOURCE IMAGE
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.main_filled
 import theloffle.shared.generated.resources.main_unfilled
@@ -34,19 +39,19 @@ import theloffle.shared.generated.resources.recipe_filled
 import theloffle.shared.generated.resources.recipe_unfilled
 import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
+//VIEW MODEL
+import androidx.lifecycle.viewmodel.compose.viewModel
 //HOME SCREEN
 import com.example.theloffle.features.diario.ui.HomeScreenRoot
+import com.example.theloffle.features.diario.ui.HomeViewModel
 //MEAL REGISTER SCREEN
 import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
 //RECIPE SCREEN
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
-import com.example.theloffle.features.diario.ui.HomeScreenRoot
-import com.example.theloffle.features.diario.ui.HomeViewModel
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 
@@ -91,6 +96,8 @@ fun App() {
         ) {
             NavHost(
                 navController = navController,
+                // TODO: need to check if user is logged in or not, if logged in
+                // TODO: start = Home if not start = LogIn
                 startDestination = Route.HomeScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -110,7 +117,7 @@ fun App() {
                             // Navega al perfil del usuario
                             // navController.navigate(Route.ProfileScreen(username = username))
                         },
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding.calculateTopPadding())
                     )
                 }
                 composable<Route.MealRegisterScreen> {
