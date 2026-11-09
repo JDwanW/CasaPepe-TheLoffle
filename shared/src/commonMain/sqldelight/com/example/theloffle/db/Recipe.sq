@@ -1,0 +1,7 @@
+CREATE TABLE Recipes (
+    id INTEGER NOT NULL PRIMARY KEY, -- Unique id for the recipes
+    name TEXT NOT NULL, -- Recipe's name
+    author TEXT NOT NULL, -- Recipe's author
+    published INTEGER NOT NULL, -- 1 if True, 0 if false
+    json TEXT NOT NULL -- Json with all the info about the recipe
+);

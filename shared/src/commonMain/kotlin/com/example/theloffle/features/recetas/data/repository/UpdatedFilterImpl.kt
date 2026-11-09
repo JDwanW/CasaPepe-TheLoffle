@@ -1,6 +1,5 @@
 package com.example.theloffle.features.recetas.data.repository
 
-import com.example.theloffle.features.recetas.domain.model.Ingrediente
 import com.example.theloffle.features.recetas.domain.repository.UpdatedFilter
 import com.example.theloffle.features.recetas.domain.model.Recipe
 import com.example.theloffle.features.recetas.domain.model.Utensilio
