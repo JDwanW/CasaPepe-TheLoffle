@@ -153,20 +153,79 @@ private fun PublicationScreen(
                             fontSize = 13.sp
                         )
                     }
-                    Box(
+                    // 💡 Bloque dividido 50/50 entre Descripción e Ingredientes
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(AppColors.buttonPrimary)
-                            .padding(16.dp)
+                            .weight(1f),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text(
-                            text = recipe.description?.takeIf { it.isNotBlank() } ?: "Sin descripción disponible.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = AppColors.textPrimary,
-                            lineHeight = 20.sp,
-                            modifier = Modifier.verticalScroll(rememberScrollState())
-                        )
+                        // 1. Mitad para la Descripción
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AppColors.buttonPrimary)
+                                .padding(12.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.verticalScroll(rememberScrollState())
+                            ) {
+                                Text(
+                                    text = "Descripción",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AppColors.textPrimary,
+                                    modifier = Modifier.padding(bottom = 6.dp)
+                                )
+                                Text(
+                                    text = recipe.description?.takeIf { it.isNotBlank() }
+                                        ?: "Sin descripción disponible.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = AppColors.textPrimary,
+                                    lineHeight = 18.sp
+                                )
+                            }
+                        }
+
+                        // 2. Mitad para los Ingredientes
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AppColors.buttonPrimary)
+                                .padding(12.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.verticalScroll(rememberScrollState())
+                            ) {
+                                Text(
+                                    text = "Ingredientes: ",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AppColors.textPrimary,
+                                    modifier = Modifier.padding(bottom = 6.dp)
+                                )
+                                if (recipe.ingredients.isEmpty()) {
+                                    Text(
+                                        text = "Sin ingredientes especificados.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = AppColors.textPrimary
+                                    )
+                                } else {
+                                    recipe.ingredients.forEach { ingredient ->
+                                        Text(
+                                            text = "• $ingredient",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = AppColors.textPrimary,
+                                            modifier = Modifier.padding(vertical = 2.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

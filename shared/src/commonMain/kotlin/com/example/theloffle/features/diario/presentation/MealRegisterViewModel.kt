@@ -15,18 +15,20 @@ data class MealRegisterUiState(
     val name: String = "",
     val author: String = "",
     val ingredients: List<String> = emptyList(),
+    val availableIngredients: List<String> = emptyList(),
     val selectedTags: List<String> = emptyList(),
     val description: String = "",
     val published: Boolean? = false,
     val rating: Double = 0.0,
     val imageUri: String? = null,
+    val selectedImageBytes: ByteArray? = null,
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val errorMessage: String? = null
 )
 
 class MealRegisterViewModel(
-    private val mealRegisterRepo: MealRegisterRepo
+    private val repository: MealRegisterRepo
 ) : ViewModel() {
 
     var uiState by mutableStateOf(MealRegisterUiState())
@@ -36,16 +38,28 @@ class MealRegisterViewModel(
         loadFormInitialData()
     }
 
+    // Se llama desde MealRegisterScreenRoot con la comida que trajo la navegación
+    fun initMealType(mealType: FoodPages) {
+        uiState = uiState.copy(selectedMealType = mealType)
+    }
+
     private fun loadFormInitialData() {
         viewModelScope.launch {
-            val filters = mealRegisterRepo.getFilterList()
-            uiState = uiState.copy(selectedTags = filters)
+            val filters = repository.getFilterList()
+            val ingredients = repository.getIngredientsList()
+            uiState = uiState.copy(
+                selectedTags = filters,
+                availableIngredients = ingredients
+            )
         }
     }
 
-
     fun onTitleChanged(newName: String) {
         uiState = uiState.copy(name = newName)
+    }
+
+    fun onDescriptionChanged(newDescription: String) {
+        uiState = uiState.copy(description = newDescription)
     }
 
     fun onAddIngredient(ingredient: String) {
@@ -58,36 +72,44 @@ class MealRegisterViewModel(
         uiState = uiState.copy(ingredients = uiState.ingredients - ingredient)
     }
 
-    fun onPublishRecipe(imageBytes: ByteArray?, isPublished: Boolean = true){
+    // Guarda o publica asociando la comida (selectedMealType)
+    fun onSaveRecipe(imageBytes: ByteArray?, isPublished: Boolean) {
+        if (uiState.name.isBlank() || uiState.ingredients.isEmpty()) {
+            uiState = uiState.copy(errorMessage = "El nombre y al menos un ingrediente son obligatorios.")
+            return
+        }
 
-    }
-    /*fun onPublishRecipe(imageBytes: ByteArray?, isPublished: Boolean = true) {
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true, errorMessage = null)
 
             val newRecipe = Recipe(
-                id = 0, // El repositorio se encarga de asignar el ID adecuado
+                id = 0,
                 name = uiState.name,
-                author = uiState.author,
+                author = uiState.author.ifBlank { "Usuario" },
                 ingredients = uiState.ingredients,
                 tags = uiState.selectedTags,
-                description = "Hola",
+                description = uiState.description,
                 published = isPublished,
-                imageUrl = null, // MealRegisterRepoImp procesa los imageBytes y asigna la URI file://
-                rating = 4.5
+                imageUrl = uiState.imageUri,
+                rating = 0.0
             )
 
-            try {
-                mealRegisterRepo.saveMealRecipe(newRecipe, imageBytes)
+            val result = repository.saveMealRecipe(
+                recipe = newRecipe,
+                imageBytes = imageBytes,
+                targetMeal = uiState.selectedMealType
+            )
+
+            result.onSuccess {
                 uiState = uiState.copy(isLoading = false, isSuccess = true)
-            } catch (e: Exception) {
+            }.onFailure { throwable ->
                 uiState = uiState.copy(
                     isLoading = false,
-                    errorMessage = e.message ?: "Error al guardar la receta"
+                    errorMessage = throwable.message ?: "Error al guardar la receta"
                 )
             }
         }
-    }*/
+    }
 
     fun resetSuccessState() {
         uiState = uiState.copy(isSuccess = false)

@@ -45,6 +45,7 @@ fun ScrollBlock(
             username = "Pepias1",
             password = "123asas12",
             numberOfMeal = listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
+            mealDone =  listOf(false,false),
             profilePhoto = "",
             recipeList = emptyList()
 

@@ -1,13 +1,12 @@
 package com.example.theloffle.features.diario.data.repository
 
-import com.example.theloffle.features.diario.data.datasource.LocalStorageManager
+import com.example.theloffle.features.diario.domain.model.FoodPages
 import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
-import com.example.theloffle.features.recetas.data.datasource.MockRecipeDataSource
-import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import com.example.theloffle.features.recetas.domain.model.Recipe
 import kotlin.random.Random
+import kotlin.time.Clock
 
-// Right now the list is hardcode but we can make it dynamilic from bbdd
+// Right now the list is hardcode but we can make it dynamic from bbdd
 private val filters = listOf(
     "Española",
     "Italiana",
@@ -30,6 +29,7 @@ private val filters = listOf(
     "Parrilla",
     "Sartén"
 )
+
 private val ingredients = listOf(
     "Arroz",
     "Pollo",
@@ -49,10 +49,7 @@ private val ingredients = listOf(
     "Pimienta Negra"
 )
 
-class MealRegisterRepoImp(
-    //private val dataSource: MockRecipeDataSource,
-    //private val localStorageManager: LocalStorageManager
-) : MealRegisterRepo {
+class MealRegisterRepoImp : MealRegisterRepo {
 
     override suspend fun getIngredientsList(): List<String> {
         return ingredients
@@ -62,23 +59,12 @@ class MealRegisterRepoImp(
         return filters
     }
 
-    /*override suspend fun saveMealRecipe(
+    override suspend fun saveMealRecipe(
         recipe: Recipe,
-        imageBytes: ByteArray?
+        imageBytes: ByteArray?,
+        targetMeal: FoodPages
     ): Result<Unit> {
-        return runCatching {
-            val finalImagePath = imageBytes?.let { bytes ->
-                localStorageManager.saveImageToInternalStorage(bytes)
-            } ?: recipe.imageUrl
-            val finalId = if (recipe.id <= 0) Random.nextInt(1000, 999999) else recipe.id
-
-            val recipeToSave = recipe.copy(
-                id = finalId,
-                imageUrl = finalImagePath
-            )
-
-            // 4. Persistir en a fuente de datos (BBDD o Mock)
-            dataSource.addRecipe(recipeToSave)
-        }
-    }*/
+        // Método vacío para implementar la lógica de guardado más adelante
+        return Result.success(Unit)
+    }
 }

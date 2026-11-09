@@ -11,6 +11,7 @@ data class User(
     val username: String,
     val password: String,
     val numberOfMeal: List<FoodPages>,
+    val mealDone: List<Boolean>,
     val profilePhoto: String? = null,
     val recipeList: List<Recipe>
 )
