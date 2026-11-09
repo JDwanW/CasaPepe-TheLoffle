@@ -36,7 +36,10 @@ fun ScrollBlock(
         modifier = modifier
             .fillMaxSize()
             .background(AppColors.background),
-        contentPadding = PaddingValues(bottom = 24.dp),
+        contentPadding = PaddingValues(
+            horizontal = 24.dp,
+            vertical = 16.dp
+            ),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         //right now hardcore just to try
@@ -77,7 +80,7 @@ fun ScrollBlock(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 24.dp)
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
         }
