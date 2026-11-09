@@ -40,6 +40,7 @@ import com.example.theloffle.features.diario.ui.HomeScreenRoot
 import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
 //RECIPE SCREEN
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
@@ -52,11 +53,13 @@ import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 
 @Composable
 @Preview
-fun App() {
+// Pasamos el database como parametro
+fun App(database: TheLoffleDatabase? = null) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
-    val containerRepo = remember { DefaultAppContainer() }
+    // Pasamos la database al container
+    val containerRepo = remember { DefaultAppContainer(database) }
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
