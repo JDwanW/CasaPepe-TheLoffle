@@ -60,7 +60,9 @@ import com.example.theloffle.features.recetas.presentation.PublicationViewModel
 
 @Composable
 @Preview
-fun App() {
+fun App(
+    toScreen: Route? = null
+) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
@@ -73,6 +75,15 @@ fun App() {
         BottomBarItem(Route.SearchScreen, "Buscar", Res.drawable.search_filled, Res.drawable.search_unfilled),
         BottomBarItem(Route.ProfileScreen, "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
     )
+
+    LaunchedEffect(toScreen) {
+        toScreen?.let {
+            navController.navigate(it) {
+                launchSingleTop = true
+            }
+        }
+    }
+
     Scaffold(
         containerColor = AppColors.background,
         bottomBar = {
@@ -127,7 +138,8 @@ fun App() {
                             // Navega al perfil del usuario
                             // navController.navigate(Route.ProfileScreen(username = username))
                         },
-                        modifier = Modifier.padding(innerPadding.calculateTopPadding())
+                        // TODO: si cierras app y entras dando al icono por alguna razon hace un bottom padding
+                        modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
                     )
                 }
                 composable<Route.MealRegisterScreen> {
