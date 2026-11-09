@@ -35,5 +35,12 @@ class RecipeLocalDataSource(
             json = Json.encodeToString(recipe)
         )
     }
+
+    // Create the seed
+    fun insertIfEmpty(recipes: List<Recipe>) {
+        if (getAll().isEmpty()) {
+            recipes.forEach { insert(it) }
+        }
+    }
 }
 
