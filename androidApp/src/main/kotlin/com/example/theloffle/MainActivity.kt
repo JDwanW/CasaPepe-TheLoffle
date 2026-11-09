@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         // Create the DataBase
         val database = createDataBase(this)
         setContent {
-            App()
+            App(database)
         }
     }
 
