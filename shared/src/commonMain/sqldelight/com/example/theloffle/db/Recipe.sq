@@ -1,7 +1,18 @@
 CREATE TABLE Recipes (
-    id INTEGER NOT NULL PRIMARY KEY, -- Unique id for the recipes
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , -- Unique id for the recipes
     name TEXT NOT NULL, -- Recipe's name
-    author TEXT NOT NULL, -- Recipe's author
     published INTEGER NOT NULL, -- 1 if True, 0 if false
     json TEXT NOT NULL -- Json with all the info about the recipe
 );
+
+--Sentencias
+
+selectAll:
+SELECT * FROM Recipes;
+
+selectForId:
+SELECT * FROM Recipes WHERE id = :id;
+
+insertRecipe:
+INSERT INTO Recipes(name, published, json) -- Id is automatically asigned
+VALUES (:name, :published, :json);
