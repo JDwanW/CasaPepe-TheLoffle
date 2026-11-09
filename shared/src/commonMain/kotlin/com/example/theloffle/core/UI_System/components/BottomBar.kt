@@ -3,6 +3,7 @@ package com.example.theloffle.core.UI_System.components
 import com.example.theloffle.Route
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -10,6 +11,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.example.theloffle.core.UI_System.theme.AppColors
 import org.jetbrains.compose.resources.DrawableResource
@@ -30,6 +32,9 @@ fun BottomBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .pointerInput(Unit) {
+                detectTapGestures { /* Consume el toque sin hacer nada */ }
+            }
             .navigationBarsPadding()
             .height(60.dp)
             .background(AppColors.buttonPrimary),

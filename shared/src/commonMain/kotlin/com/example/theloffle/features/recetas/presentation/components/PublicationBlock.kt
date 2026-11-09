@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -97,9 +98,12 @@ fun PublicationBlock(
             )
 
             Text(
-                text = "★ ${recipe.rating ?: "4.5"}",
+                text = if (recipe.published) "★ ${recipe.rating}" else "No publicado",
                 modifier = Modifier
-                    .background(color = AppColors.buttonPrimary)
+                    .background(
+                        color = AppColors.buttonPrimary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 color = AppColors.textPrimary,
                 fontWeight = FontWeight.Bold,

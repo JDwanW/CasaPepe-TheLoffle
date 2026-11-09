@@ -1,6 +1,8 @@
 package com.example.theloffle
 
 import DefaultAppContainer
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,6 +56,7 @@ import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
+import com.example.theloffle.features.recetas.presentation.PublicationViewModel
 
 @Composable
 @Preview
@@ -62,6 +65,7 @@ fun App() {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     val containerRepo = remember { DefaultAppContainer() }
+    val showBottomBar = currentDestination?.hasRoute<Route.PublicationScreen>() == false
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
@@ -72,22 +76,28 @@ fun App() {
     Scaffold(
         containerColor = AppColors.background,
         bottomBar = {
-            BottomBar(
-                buttons = bottomItems,
-                isSelected = { route ->
-                    currentDestination?.hasRoute(route::class) == true
-                },
-                onItemClick = { route ->
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+            if(showBottomBar){
+                BottomBar(
+                    buttons = bottomItems,
+                    isSelected = { route ->
+                        currentDestination?.hasRoute(route::class) == true
+                    },
+                    onItemClick = { route ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+                    },
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {}
+                    )
+                )
+            }
         }
     ) { innerPadding ->
         Box(
@@ -121,7 +131,11 @@ fun App() {
                     )
                 }
                 composable<Route.MealRegisterScreen> {
-
+                    /*onNavigateToHome = {
+                        navController.navigate(Route.HomeScreen){
+                            popUpTo<Route.HomeScreen> {inclusive = true}
+                        }
+                    },*/
                 }
                 composable<Route.RecipeScreen> {
                     val viewModel: RecipeViewModel = viewModel {
@@ -131,6 +145,12 @@ fun App() {
                         viewModel = viewModel,
                         onRecipeClick = { recipeId ->
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
+                        },
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen){
+                                //Limpia la pila para evitar acumular pantallas
+                                popUpTo<Route.HomeScreen> {inclusive = true}
+                            }
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -144,6 +164,11 @@ fun App() {
                         onRecipeClick = { recipeId ->
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
                         },
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen){
+                                popUpTo<Route.HomeScreen> {inclusive = true}
+                            }
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -151,24 +176,20 @@ fun App() {
                     val routeData = backStackEntry.toRoute<Route.PublicationScreen>()
                     val recipeId = routeData.recipeId
 
-                    val viewModel: RecipeViewModel = viewModel {
-                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
+                    val viewModel: PublicationViewModel = viewModel {
+                        PublicationViewModel(recipeRepository = containerRepo.recipeRepoInstance)
                     }
 
-                    // Pedimos la receta al repositorio cuando entra a la pantalla
-                    LaunchedEffect(recipeId) {
-                        viewModel.loadRecipeById(recipeId)
-                    }
-
-                    val selectedRecipe by viewModel.selectedRecipe.collectAsState()
-
-                    selectedRecipe?.let { recipe ->
-                        PublicationScreenRoot(
-                            viewModel = viewModel,
-                            selectedRecipe = recipe,
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                    }
+                    PublicationScreenRoot(
+                        recipeId = recipeId,
+                        viewModel = viewModel,
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen){
+                                popUpTo<Route.HomeScreen> {inclusive = true}
+                            }
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
                 composable<Route.ProfileScreen> {  }
             }

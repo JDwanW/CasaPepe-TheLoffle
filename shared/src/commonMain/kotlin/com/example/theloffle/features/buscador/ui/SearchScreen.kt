@@ -51,6 +51,7 @@ import com.example.theloffle.features.recetas.domain.model.Recipe
 fun SearchScreenRoot(
     viewModel: SearchViewModel,
     onRecipeClick: (Int) -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -60,6 +61,7 @@ fun SearchScreenRoot(
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onToggleFilter = viewModel::onToggleFilter,
         onRecipeClick = onRecipeClick,
+        onNavigateToHome = onNavigateToHome,
         modifier = modifier
     )
 }
@@ -70,6 +72,7 @@ private fun SearchScreen(
     onSearchQueryChange: (String) -> Unit,
     onToggleFilter: (String) -> Unit,
     onRecipeClick: (Int) -> Unit,
+    onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -77,7 +80,9 @@ private fun SearchScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Header()
+        Header(
+            onHomeClick = onNavigateToHome
+        )
         /*
         Creating Search Row "Button" so user can search users
         */

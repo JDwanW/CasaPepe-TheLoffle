@@ -1,6 +1,7 @@
 package com.example.theloffle.core.UI_System.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,10 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,24 +27,44 @@ import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.logo100
 
 @Composable
-fun Header(){
+fun Header(
+    onHomeClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
     val fontRegular = FontFamily(Font(Res.font.OleoScriptSwashCaps_Regular))
     val fontBold = FontFamily(Font(Res.font.OleoScriptSwashCaps_Bold))
+
     Row(
-        // La Cabecera el una fila que esta centrada
-        modifier = Modifier.fillMaxWidth().height(100.dp).padding(top = 50.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .padding(top = 50.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
-    )
-    {
+    ) {
         Image(
-            // La imagen
-            modifier = Modifier.size(60.dp),
+            modifier = Modifier
+                .size(60.dp)
+                .then(
+                    if (onHomeClick != null) {
+                        Modifier
+                            .clip(CircleShape)
+                            .clickable { onHomeClick() }
+                    } else Modifier
+                ),
             painter = painterResource(Res.drawable.logo100),
             contentDescription = "Logo The Loffel"
         )
-        // Espacio entre logo y nombre y el nombre
+
         Spacer(Modifier.width(12.dp))
-        Text("The Löffel", fontSize = 30.sp, fontFamily = fontBold)
+
+        Text(
+            text = "The Löffel",
+            fontSize = 30.sp,
+            fontFamily = fontBold,
+            modifier = if (onHomeClick != null) {
+                Modifier.clickable { onHomeClick() }
+            } else Modifier
+        )
     }
 }

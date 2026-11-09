@@ -51,6 +51,7 @@ import coil3.compose.AsyncImage
 fun RecipeScreenRoot(
     viewModel: RecipeViewModel,
     onRecipeClick: (Int) -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -61,6 +62,7 @@ fun RecipeScreenRoot(
         onSelectFile = viewModel::onSelectFile,
         onRecipeClick = onRecipeClick,
         onCloseFile = viewModel::onCloseFile,
+        onNavigateToHome = onNavigateToHome,
         modifier = modifier
     )
 }
@@ -73,6 +75,7 @@ private fun RecipeScreen(
     onSelectFile: (File) -> Unit,
     onRecipeClick: (Int) -> Unit,
     onCloseFile: () -> Unit,
+    onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val collections = remember { listOf("Mis Recetas", "Publicadas", "Guardadas") }
@@ -83,7 +86,9 @@ private fun RecipeScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Header()
+        Header(
+            onHomeClick = onNavigateToHome
+        )
         /*
         Creating File Row "Button" so user can choose which recipes he wanna search from
         */
