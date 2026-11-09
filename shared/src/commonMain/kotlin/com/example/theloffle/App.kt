@@ -1,6 +1,8 @@
 package com.example.theloffle
 
 import DefaultAppContainer
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,9 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.theloffle.core.UI_System.components.BottomBar
+//APP DATA
 import com.example.theloffle.core.UI_System.theme.AppColors
+
+//ROUTE
+import com.example.theloffle.core.UI_System.components.BottomBar
+import com.example.theloffle.core.UI_System.components.BottomBarItem
 
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
@@ -24,7 +29,9 @@ import androidx.navigation.toRoute
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
-import com.example.theloffle.core.UI_System.components.BottomBarItem
+import androidx.navigation.NavGraph.Companion.findStartDestination
+
+//RESOURCE IMAGE
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.main_filled
 import theloffle.shared.generated.resources.main_unfilled
@@ -34,32 +41,36 @@ import theloffle.shared.generated.resources.recipe_filled
 import theloffle.shared.generated.resources.recipe_unfilled
 import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
+//VIEW MODEL
+import androidx.lifecycle.viewmodel.compose.viewModel
 //HOME SCREEN
 import com.example.theloffle.features.diario.ui.HomeScreenRoot
+import com.example.theloffle.features.diario.ui.HomeViewModel
 //MEAL REGISTER SCREEN
-import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
 //RECIPE SCREEN
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
-import com.example.theloffle.features.diario.ui.HomeScreenRoot
-import com.example.theloffle.features.diario.ui.HomeViewModel
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
+import com.example.theloffle.features.recetas.presentation.PublicationViewModel
 
 @Composable
 @Preview
 // Pasamos el database como parametro
-fun App(database: TheLoffleDatabase? = null) {
+fun App(
+    database: TheLoffleDatabase? = null,
+    toScreen: Route? = null
+) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     // Pasamos la database al container
     val containerRepo = remember { DefaultAppContainer(database) }
+    val showBottomBar = currentDestination?.hasRoute<Route.PublicationScreen>() == false
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
@@ -67,25 +78,40 @@ fun App(database: TheLoffleDatabase? = null) {
         BottomBarItem(Route.SearchScreen, "Buscar", Res.drawable.search_filled, Res.drawable.search_unfilled),
         BottomBarItem(Route.ProfileScreen, "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
     )
+
+    LaunchedEffect(toScreen) {
+        toScreen?.let {
+            navController.navigate(it) {
+                launchSingleTop = true
+            }
+        }
+    }
+
     Scaffold(
         containerColor = AppColors.background,
         bottomBar = {
-            BottomBar(
-                buttons = bottomItems,
-                isSelected = { route ->
-                    currentDestination?.hasRoute(route::class) == true
-                },
-                onItemClick = { route ->
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+            if(showBottomBar){
+                BottomBar(
+                    buttons = bottomItems,
+                    isSelected = { route ->
+                        currentDestination?.hasRoute(route::class) == true
+                    },
+                    onItemClick = { route ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+                    },
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {}
+                    )
+                )
+            }
         }
     ) { innerPadding ->
         Box(
@@ -94,6 +120,8 @@ fun App(database: TheLoffleDatabase? = null) {
         ) {
             NavHost(
                 navController = navController,
+                // TODO: need to check if user is logged in or not, if logged in
+                // TODO: start = Home if not start = LogIn
                 startDestination = Route.HomeScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -113,11 +141,16 @@ fun App(database: TheLoffleDatabase? = null) {
                             // Navega al perfil del usuario
                             // navController.navigate(Route.ProfileScreen(username = username))
                         },
-                        modifier = Modifier.padding(innerPadding)
+                        // TODO: si cierras app y entras dando al icono por alguna razon hace un bottom padding
+                        modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
                     )
                 }
                 composable<Route.MealRegisterScreen> {
-
+                    /*onNavigateToHome = {
+                        navController.navigate(Route.HomeScreen){
+                            popUpTo<Route.HomeScreen> {inclusive = true}
+                        }
+                    },*/
                 }
                 composable<Route.RecipeScreen> {
                     val viewModel: RecipeViewModel = viewModel {
@@ -127,6 +160,12 @@ fun App(database: TheLoffleDatabase? = null) {
                         viewModel = viewModel,
                         onRecipeClick = { recipeId ->
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
+                        },
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen){
+                                //Limpia la pila para evitar acumular pantallas
+                                popUpTo<Route.HomeScreen> {inclusive = true}
+                            }
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -140,6 +179,11 @@ fun App(database: TheLoffleDatabase? = null) {
                         onRecipeClick = { recipeId ->
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
                         },
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen){
+                                popUpTo<Route.HomeScreen> {inclusive = true}
+                            }
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -147,24 +191,20 @@ fun App(database: TheLoffleDatabase? = null) {
                     val routeData = backStackEntry.toRoute<Route.PublicationScreen>()
                     val recipeId = routeData.recipeId
 
-                    val viewModel: RecipeViewModel = viewModel {
-                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
+                    val viewModel: PublicationViewModel = viewModel {
+                        PublicationViewModel(recipeRepository = containerRepo.recipeRepoInstance)
                     }
 
-                    // Pedimos la receta al repositorio cuando entra a la pantalla
-                    LaunchedEffect(recipeId) {
-                        viewModel.loadRecipeById(recipeId)
-                    }
-
-                    val selectedRecipe by viewModel.selectedRecipe.collectAsState()
-
-                    selectedRecipe?.let { recipe ->
-                        PublicationScreenRoot(
-                            viewModel = viewModel,
-                            selectedRecipe = recipe,
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                    }
+                    PublicationScreenRoot(
+                        recipeId = recipeId,
+                        viewModel = viewModel,
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen){
+                                popUpTo<Route.HomeScreen> {inclusive = true}
+                            }
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
                 composable<Route.ProfileScreen> {  }
             }

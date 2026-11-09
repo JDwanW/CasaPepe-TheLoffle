@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,6 +26,9 @@ import coil3.compose.AsyncImage
 import com.example.theloffle.core.UI_System.theme.AppColors
 import com.example.theloffle.features.perfil.domain.model.User
 import com.example.theloffle.features.recetas.domain.model.Recipe
+import org.jetbrains.compose.resources.painterResource
+import theloffle.shared.generated.resources.Res
+import theloffle.shared.generated.resources.profile_unfilled
 
 @Composable
 fun PublicationBlock(
@@ -44,11 +49,15 @@ fun PublicationBlock(
             modifier = Modifier.padding(bottom = 8.dp)
         ) {
             AsyncImage(
-                model = user.profilePhoto ?: "file:///...default_avatar.png",
+                model = user.profilePhoto,
+                placeholder = painterResource(Res.drawable.profile_unfilled),
+                error = painterResource(Res.drawable.profile_unfilled),
+                fallback = painterResource(Res.drawable.profile_unfilled),
                 contentDescription = "Perfil",
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
+                    .background(Color.LightGray)
                     .clickable { onUserClick(user.username) },
                 contentScale = ContentScale.Crop
             )
@@ -89,9 +98,12 @@ fun PublicationBlock(
             )
 
             Text(
-                text = "★ ${recipe.rating ?: "4.5"}",
+                text = if (recipe.published) "★ ${recipe.rating}" else "No publicado",
                 modifier = Modifier
-                    .background(color = AppColors.buttonPrimary)
+                    .background(
+                        color = AppColors.buttonPrimary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 color = AppColors.textPrimary,
                 fontWeight = FontWeight.Bold,

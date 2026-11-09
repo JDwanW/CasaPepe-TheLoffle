@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,6 +51,7 @@ import com.example.theloffle.features.recetas.domain.model.Recipe
 fun SearchScreenRoot(
     viewModel: SearchViewModel,
     onRecipeClick: (Int) -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -58,6 +61,7 @@ fun SearchScreenRoot(
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onToggleFilter = viewModel::onToggleFilter,
         onRecipeClick = onRecipeClick,
+        onNavigateToHome = onNavigateToHome,
         modifier = modifier
     )
 }
@@ -68,6 +72,7 @@ private fun SearchScreen(
     onSearchQueryChange: (String) -> Unit,
     onToggleFilter: (String) -> Unit,
     onRecipeClick: (Int) -> Unit,
+    onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -75,7 +80,9 @@ private fun SearchScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Header()
+        Header(
+            onHomeClick = onNavigateToHome
+        )
         /*
         Creating Search Row "Button" so user can search users
         */
@@ -193,10 +200,12 @@ private fun SearchScreen(
                                             .background(MaterialTheme.colorScheme.primaryContainer)
                                     ){
                                         Text(
-                                            text = "🌐 ${recipe.name}",
-                                            fontSize = 12.sp,
-                                            color = MaterialTheme.colorScheme.onTertiaryContainer,
-                                            modifier = Modifier.padding(bottom = 30.dp)
+                                            text = "Sin imagen",
+                                            textAlign = TextAlign.Center,
+                                            autoSize = TextAutoSize.StepBased(
+                                                minFontSize = 10.sp,
+                                                maxFontSize = 24.sp
+                                            )
                                         )
                                     }
                                 }

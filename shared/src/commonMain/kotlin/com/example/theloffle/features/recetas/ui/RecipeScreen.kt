@@ -39,9 +39,11 @@ import com.example.theloffle.features.recetas.domain.model.File
 // NEW ADDED FOR IMAGE OF RECIPE
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
 
@@ -49,6 +51,7 @@ import coil3.compose.AsyncImage
 fun RecipeScreenRoot(
     viewModel: RecipeViewModel,
     onRecipeClick: (Int) -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -59,6 +62,7 @@ fun RecipeScreenRoot(
         onSelectFile = viewModel::onSelectFile,
         onRecipeClick = onRecipeClick,
         onCloseFile = viewModel::onCloseFile,
+        onNavigateToHome = onNavigateToHome,
         modifier = modifier
     )
 }
@@ -71,6 +75,7 @@ private fun RecipeScreen(
     onSelectFile: (File) -> Unit,
     onRecipeClick: (Int) -> Unit,
     onCloseFile: () -> Unit,
+    onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val collections = remember { listOf("Mis Recetas", "Publicadas", "Guardadas") }
@@ -81,7 +86,9 @@ private fun RecipeScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Header()
+        Header(
+            onHomeClick = onNavigateToHome
+        )
         /*
         Creating File Row "Button" so user can choose which recipes he wanna search from
         */
@@ -188,12 +195,6 @@ private fun RecipeScreen(
                                 If theres image in the recipe it shows it
                                 ioc it shows a black box
                                 */
-                                /* TODO
-                                    instead of a image it should be a button which if you click on it
-                                    it has to show u the details of it.
-                                    Class Receta variables
-                                    swap screen with PublicationScreen, need to do
-                                */
                                 if (!recipe.imageUrl.isNullOrEmpty()) {
                                     AsyncImage(
                                          model = recipe.imageUrl,
@@ -206,7 +207,16 @@ private fun RecipeScreen(
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .background(MaterialTheme.colorScheme.primaryContainer)
-                                    )
+                                    ){
+                                        Text(
+                                            text = "Sin imagen",
+                                            textAlign = TextAlign.Center,
+                                            autoSize = TextAutoSize.StepBased(
+                                                minFontSize = 10.sp,
+                                                maxFontSize = 24.sp
+                                            )
+                                        )
+                                    }
                                 }
                                 /*
                                 "Overlay" to show the text

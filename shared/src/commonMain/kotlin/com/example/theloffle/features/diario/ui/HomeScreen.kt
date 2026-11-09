@@ -3,8 +3,10 @@ package com.example.theloffle.features.diario.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,30 +51,26 @@ private fun HomeScreen(
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        Box(
+        Column(
             modifier = modifier.fillMaxSize()
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 26.dp),
+                modifier = Modifier.padding(horizontal = 26.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 Header()
-
                 RegisterBlock(
                     registeredMeals = uiState.registeredMeals,
                     onMealClick = onMealClick,
                     modifier = Modifier.height(80.dp)
                 )
-
-                ScrollBlock(
-                    recipes = uiState.feedRecipes,
-                    onPublicationClick = onPublicationClick,
-                    onUserClick = onUserClick,
-                    modifier = Modifier.fillMaxHeight(1f)
-                )
             }
+            ScrollBlock(
+                recipes = uiState.feedRecipes,
+                onPublicationClick = onPublicationClick,
+                onUserClick = onUserClick,
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            )
         }
     }
 }
