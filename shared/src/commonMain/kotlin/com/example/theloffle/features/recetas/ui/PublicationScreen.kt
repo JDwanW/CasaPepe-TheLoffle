@@ -88,9 +88,11 @@ private fun PublicationScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    //App Logo - Click to go HomeScreen
                     Header(
                         onHomeClick = onNavigateToHome
                     )
+                    //Recipe Name
                     Text(
                         text = recipe.name,
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -100,7 +102,7 @@ private fun PublicationScreen(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-
+                    // Recipe Image
                     if (!recipe.imageUrl.isNullOrEmpty()) {
                         AsyncImage(
                             model = recipe.imageUrl,
@@ -114,8 +116,9 @@ private fun PublicationScreen(
                     } else {
                         Box(
                             modifier = Modifier
-                                .width(150.dp)
-                                .height(100.dp)
+                                .width(450.dp)
+                                .height(250.dp)
+                                .clip(RoundedCornerShape(8.dp))
                                 .background(MaterialTheme.colorScheme.primaryContainer)
                         ){
                             Text(
@@ -128,6 +131,7 @@ private fun PublicationScreen(
                             )
                         }
                     }
+                    // Recipe Author and Rating
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
@@ -153,20 +157,76 @@ private fun PublicationScreen(
                             fontSize = 13.sp
                         )
                     }
-                    Box(
+                    // Recipe Description and Ingredients List
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(AppColors.buttonPrimary)
-                            .padding(16.dp)
+                            .weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text(
-                            text = recipe.description?.takeIf { it.isNotBlank() } ?: "Sin descripción disponible.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = AppColors.textPrimary,
-                            lineHeight = 20.sp,
-                            modifier = Modifier.verticalScroll(rememberScrollState())
-                        )
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AppColors.buttonPrimary)
+                                .padding(12.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.verticalScroll(rememberScrollState())
+                            ) {
+                                Text(
+                                    text = "Descripción",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AppColors.textPrimary,
+                                    modifier = Modifier.padding(bottom = 6.dp)
+                                )
+                                Text(
+                                    text = recipe.description?.takeIf { it.isNotBlank() }
+                                        ?: "Sin descripción disponible.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = AppColors.textPrimary,
+                                    lineHeight = 18.sp
+                                )
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AppColors.buttonPrimary)
+                                .padding(12.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.verticalScroll(rememberScrollState())
+                            ) {
+                                Text(
+                                    text = "Ingredientes:",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AppColors.textPrimary,
+                                    modifier = Modifier.padding(bottom = 6.dp)
+                                )
+                                if (recipe.ingredients.isEmpty()) {
+                                    Text(
+                                        text = "Sin ingredientes especificados.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = AppColors.textPrimary
+                                    )
+                                } else {
+                                    recipe.ingredients.forEach { ingredient ->
+                                        Text(
+                                            text = "• $ingredient",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = AppColors.textPrimary,
+                                            modifier = Modifier.padding(vertical = 2.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

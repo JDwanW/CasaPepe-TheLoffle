@@ -78,7 +78,8 @@ fun PublicationBlock(
             contentDescription = recipe.name,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(350.dp),
+                .height(350.dp)
+                .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop
         )
 

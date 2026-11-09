@@ -54,6 +54,7 @@ import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
+import com.example.theloffle.features.diario.presentation.MealRegisterViewModel
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 import com.example.theloffle.features.recetas.presentation.PublicationViewModel
@@ -145,12 +146,22 @@ fun App(
                         modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
                     )
                 }
-                composable<Route.MealRegisterScreen> {
-                    /*onNavigateToHome = {
-                        navController.navigate(Route.HomeScreen){
-                            popUpTo<Route.HomeScreen> {inclusive = true}
-                        }
-                    },*/
+                composable<Route.MealRegisterScreen> {backStackEntry ->
+                    val routeData = backStackEntry.toRoute<Route.MealRegisterScreen>()
+                    val foodPage = routeData.mealId // El tipo de comida del botón pulsado
+
+                    val viewModel: MealRegisterViewModel = viewModel {
+                        MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
+                    }
+
+                    MealRegisterScreenRoot(
+                        foodPage = foodPage,
+                        viewModel = viewModel,
+                        onNavigateBack = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
                 composable<Route.RecipeScreen> {
                     val viewModel: RecipeViewModel = viewModel {
