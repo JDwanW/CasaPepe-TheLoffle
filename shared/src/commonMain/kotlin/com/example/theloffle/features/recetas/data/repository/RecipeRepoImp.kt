@@ -35,8 +35,13 @@ class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) 
     // TODO: Create another Repo as proxy just for tests
     private val allRecipes = MockRecipeDataSource.recipes
 
+    init{
+        localDataSource?.insertIfEmpty(MockRecipeDataSource.recipes)
+    }
+
     // Should be from a JSON
     override suspend fun getFilterList(): List<String> = filters
+
     override suspend fun toggleFilter(filter: String): Boolean {
         val exists = selected.contains(filter)
         selected.clear()
@@ -45,17 +50,30 @@ class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) 
         }
         return !exists
     }
+
     override suspend fun applyFilterOnFile(fileName: String) {
         filtersByFile[fileName] = selected.toSet()
     }
+
     override suspend fun getRecipesInFile(fileName: String): List<Recipe> {
-        return allRecipes.filter { recipe -> recipe.tags.contains(fileName) }
+        val recipes = localDataSource?.getAll() ?: allRecipes
+        return recipes.filter { it.tags.contains(fileName) }
     }
+
+    // Si la bbdd existe busca por id
     override suspend fun getRecipeById(id: Int): Recipe? {
-        return allRecipes.find { it.id == id }
+        return if(localDataSource != null){
+            localDataSource.getById(id)
+        }
+        else{
+            allRecipes.find {it.id == id}
+        }
     }
+
+    // Se obtienen las recetas que tienen los filtros
     override suspend fun getRecipesByFilters(filters: List<String>): List<Recipe> {
         if (filters.isEmpty()) return emptyList()
-        return allRecipes.filter { recipe -> recipe.tags.containsAll(filters) }
+        val recipes = localDataSource?.getAll() ?: allRecipes
+        return recipes.filter { it.tags.containsAll(filters) }
     }
 }
