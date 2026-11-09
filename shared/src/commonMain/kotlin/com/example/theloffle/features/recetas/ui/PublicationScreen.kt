@@ -88,9 +88,11 @@ private fun PublicationScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    //App Logo - Click to go HomeScreen
                     Header(
                         onHomeClick = onNavigateToHome
                     )
+                    //Recipe Name
                     Text(
                         text = recipe.name,
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -100,7 +102,7 @@ private fun PublicationScreen(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-
+                    // Recipe Image
                     if (!recipe.imageUrl.isNullOrEmpty()) {
                         AsyncImage(
                             model = recipe.imageUrl,
@@ -114,8 +116,9 @@ private fun PublicationScreen(
                     } else {
                         Box(
                             modifier = Modifier
-                                .width(150.dp)
-                                .height(100.dp)
+                                .width(450.dp)
+                                .height(250.dp)
+                                .clip(RoundedCornerShape(8.dp))
                                 .background(MaterialTheme.colorScheme.primaryContainer)
                         ){
                             Text(
@@ -128,6 +131,7 @@ private fun PublicationScreen(
                             )
                         }
                     }
+                    // Recipe Author and Rating
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
@@ -153,18 +157,17 @@ private fun PublicationScreen(
                             fontSize = 13.sp
                         )
                     }
-                    // 💡 Bloque dividido 50/50 entre Descripción e Ingredientes
-                    Row(
+                    // Recipe Description and Ingredients List
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        // 1. Mitad para la Descripción
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .fillMaxSize()
+                                .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(AppColors.buttonPrimary)
                                 .padding(12.dp)
@@ -188,12 +191,10 @@ private fun PublicationScreen(
                                 )
                             }
                         }
-
-                        // 2. Mitad para los Ingredientes
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .fillMaxSize()
+                                .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(AppColors.buttonPrimary)
                                 .padding(12.dp)
@@ -202,7 +203,7 @@ private fun PublicationScreen(
                                 modifier = Modifier.verticalScroll(rememberScrollState())
                             ) {
                                 Text(
-                                    text = "Ingredientes: ",
+                                    text = "Ingredientes:",
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     color = AppColors.textPrimary,

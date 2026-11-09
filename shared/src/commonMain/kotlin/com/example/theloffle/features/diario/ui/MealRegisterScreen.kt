@@ -2,7 +2,6 @@ package com.example.theloffle.features.diario.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -71,7 +71,7 @@ fun MealRegisterScreenRoot(
 }
 
 // 2. Vista Pura (Stateless)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MealRegisterScreen(
     uiState: MealRegisterUiState,
@@ -85,13 +85,21 @@ private fun MealRegisterScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    // Validar requerimientos mínimos: Nombre y al menos 1 ingrediente
-    val isFormValid = uiState.name.isNotBlank() && uiState.ingredients.isNotEmpty()
+    // Manejo local de los filtros elegidos por el usuario (partiendo de uiState.selectedTags)
+    val chosenFilters = remember { mutableStateListOf<String>() }
 
-    // Estado local para controlar el desplegable de ingredientes
-    var expanded by remember { mutableStateOf(false) }
+    // Validar requerimientos mínimos: Nombre, al menos 1 ingrediente y al menos 1 filtro
+    val isFormValid = uiState.name.isNotBlank() && uiState.ingredients.isNotEmpty() && chosenFilters.isNotEmpty()
 
-    // Filtramos la lista de disponibles quitando los que ya fueron añadidos
+    // Estado local para los desplegables
+    var filtersExpanded by remember { mutableStateOf(false) }
+    var ingredientsExpanded by remember { mutableStateOf(false) }
+
+    // Filtramos las listas de disponibles quitando los que ya fueron añadidos
+    val remainingFilters = remember(uiState.selectedTags, chosenFilters.toList()) {
+        uiState.selectedTags.filter { it !in chosenFilters }
+    }
+
     val remainingIngredients = remember(uiState.availableIngredients, uiState.ingredients) {
         uiState.availableIngredients.filter { it !in uiState.ingredients }
     }
@@ -154,44 +162,44 @@ private fun MealRegisterScreen(
                 Text(if (uiState.selectedImageBytes != null) "Cambiar Foto" else "Seleccionar Foto (Opcional)")
             }
 
-            // 4. Ingredientes (Obligatorio - Selector desplegable)
+            // 4. Filtros / Etiquetas (Obligatorio - Selector desplegable)
             Text(
-                text = "Ingredientes *",
+                text = "Filtros / Categorías *",
                 style = MaterialTheme.typography.titleMedium
             )
 
             ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = !expanded },
+                expanded = filtersExpanded,
+                onExpandedChange = { filtersExpanded = !filtersExpanded },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Seleccionar ingrediente de la lista") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    label = { Text("Seleccionar filtro de la lista") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = filtersExpanded) },
                     modifier = Modifier
                         .menuAnchor()
                         .fillMaxWidth()
                 )
 
                 ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    expanded = filtersExpanded,
+                    onDismissRequest = { filtersExpanded = false }
                 ) {
-                    if (remainingIngredients.isEmpty()) {
+                    if (remainingFilters.isEmpty()) {
                         DropdownMenuItem(
-                            text = { Text("No hay más ingredientes disponibles") },
-                            onClick = { expanded = false }
+                            text = { Text("No hay más filtros disponibles") },
+                            onClick = { filtersExpanded = false }
                         )
                     } else {
-                        remainingIngredients.forEach { ingredient ->
+                        remainingFilters.forEach { filter ->
                             DropdownMenuItem(
-                                text = { Text(ingredient) },
+                                text = { Text(filter) },
                                 onClick = {
-                                    onAddIngredient(ingredient)
-                                    expanded = false
+                                    chosenFilters.add(filter)
+                                    filtersExpanded = false
                                 }
                             )
                         }
@@ -199,7 +207,75 @@ private fun MealRegisterScreen(
                 }
             }
 
-            // Chips con los ingredientes seleccionados (usando texto "✕" para eliminar)
+            // Chips de Filtros hacia abajo (Column)
+            if (chosenFilters.isEmpty()) {
+                Text(
+                    text = "Añade al menos una categoria de la lista.",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            } else {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    chosenFilters.forEach { filter ->
+                        InputChip(
+                            selected = false,
+                            onClick = { chosenFilters.remove(filter) },
+                            label = { Text("$filter  ✕") }
+                        )
+                    }
+                }
+            }
+
+            // 5. Ingredientes (Obligatorio - Selector desplegable)
+            Text(
+                text = "Ingredientes *",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            ExposedDropdownMenuBox(
+                expanded = ingredientsExpanded,
+                onExpandedChange = { ingredientsExpanded = !ingredientsExpanded },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Seleccionar ingrediente de la lista") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = ingredientsExpanded) },
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = ingredientsExpanded,
+                    onDismissRequest = { ingredientsExpanded = false }
+                ) {
+                    if (remainingIngredients.isEmpty()) {
+                        DropdownMenuItem(
+                            text = { Text("No hay más ingredientes disponibles") },
+                            onClick = { ingredientsExpanded = false }
+                        )
+                    } else {
+                        remainingIngredients.forEach { ingredient ->
+                            DropdownMenuItem(
+                                text = { Text(ingredient) },
+                                onClick = {
+                                    onAddIngredient(ingredient)
+                                    ingredientsExpanded = false
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Selected Ingredients
             if (uiState.ingredients.isEmpty()) {
                 Text(
                     text = "Añade al menos un ingrediente de la lista.",
@@ -225,7 +301,7 @@ private fun MealRegisterScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Barra inferior fija con los 3 botones principales
+        // "BottomBar" for all the buttons
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -236,7 +312,7 @@ private fun MealRegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Subir receta (isPublished = false)
+                // Button to save ur own recipe
                 OutlinedButton(
                     onClick = { onSaveRecipe(uiState.selectedImageBytes, false) },
                     enabled = !uiState.isLoading && isFormValid,
@@ -245,7 +321,7 @@ private fun MealRegisterScreen(
                     Text(if (uiState.isLoading) "Guardando..." else "Subir Receta")
                 }
 
-                // Publicar receta (isPublished = true)
+                // Button to publish the recipe online
                 Button(
                     onClick = { onSaveRecipe(uiState.selectedImageBytes, true) },
                     enabled = !uiState.isLoading && isFormValid,
@@ -255,7 +331,7 @@ private fun MealRegisterScreen(
                 }
             }
 
-            // Cancelar Receta
+            //Button to cancel the register
             OutlinedButton(
                 onClick = onCancel,
                 colors = ButtonDefaults.outlinedButtonColors(
