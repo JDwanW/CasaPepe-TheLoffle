@@ -45,16 +45,16 @@ import theloffle.shared.generated.resources.search_unfilled
 import androidx.lifecycle.viewmodel.compose.viewModel
 //HOME SCREEN
 import com.example.theloffle.features.diario.ui.HomeScreenRoot
-import com.example.theloffle.features.diario.ui.HomeViewModel
+import com.example.theloffle.features.diario.presentation.HomeViewModel
 //MEAL REGISTER SCREEN
 import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
+import com.example.theloffle.features.diario.presentation.MealRegisterViewModel
 //RECIPE SCREEN
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
-import com.example.theloffle.features.diario.presentation.MealRegisterViewModel
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 import com.example.theloffle.features.recetas.presentation.PublicationViewModel
@@ -68,7 +68,8 @@ fun App(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     val containerRepo = remember { DefaultAppContainer() }
-    val showBottomBar = currentDestination?.hasRoute<Route.PublicationScreen>() == false
+    val showBottomBar = !(currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
+            currentDestination?.hasRoute<Route.MealRegisterScreen>() == true)
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
@@ -143,17 +144,22 @@ fun App(
                         modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
                     )
                 }
-                composable<Route.MealRegisterScreen> {backStackEntry ->
+                composable<Route.MealRegisterScreen> { backStackEntry ->
                     val routeData = backStackEntry.toRoute<Route.MealRegisterScreen>()
-                    val foodPage = routeData.mealId // El tipo de comida del botón pulsado
+                    val foodPage = routeData.mealId
 
-                    val viewModel: MealRegisterViewModel = viewModel {
+                    val mealRegisterViewModel: MealRegisterViewModel = viewModel {
                         MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
+                    }
+
+                    val recipeViewModel: RecipeViewModel = viewModel {
+                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
                     }
 
                     MealRegisterScreenRoot(
                         foodPage = foodPage,
-                        viewModel = viewModel,
+                        viewModel = mealRegisterViewModel,
+                        recipeViewModel = recipeViewModel,
                         onNavigateBack = {
                             navController.popBackStack()
                         },

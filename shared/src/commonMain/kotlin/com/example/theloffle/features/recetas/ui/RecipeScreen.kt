@@ -46,6 +46,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import com.example.theloffle.core.UI_System.theme.AppColors
 
 @Composable
 fun RecipeScreenRoot(
@@ -105,6 +106,8 @@ private fun RecipeScreen(
                             onCloseFile()
                         }
                     },
+                    selectedContentColor = AppColors.textPrimary,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     text = { Text(text = title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold) }
                 )
             }
