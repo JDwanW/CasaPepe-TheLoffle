@@ -87,6 +87,7 @@ private fun RecipeScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+        // Se le pasa onHomeClick permitiendole el onClick para usar el logo como route a HomeScreen
         Header(
             onHomeClick = onNavigateToHome
         )

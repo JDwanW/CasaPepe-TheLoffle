@@ -88,7 +88,7 @@ private fun PublicationScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    //App Logo - Click to go HomeScreen
+                    // Se le pasa onHomeClick permitiendole el onClick para usar el logo como route a HomeScreen
                     Header(
                         onHomeClick = onNavigateToHome
                     )

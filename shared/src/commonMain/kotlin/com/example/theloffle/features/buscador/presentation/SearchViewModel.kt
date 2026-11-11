@@ -28,7 +28,7 @@ class SearchViewModel(
     init {
         loadFilters()
     }
-
+    // Funcion que carga la lista de filtros de la repo
     private fun loadFilters() {
         viewModelScope.launch {
             val filterList = repository.getFilterList()
@@ -36,12 +36,12 @@ class SearchViewModel(
             performSearch()
         }
     }
-
+    // Funcion que hace la busqueda tras notar cambio en el textfield
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
         performSearch()
     }
-
+    // Funcion que actualiza la lista de recetas tras notar cambio en los filtros, en este caso puede haber mas de un filtro
     fun onToggleFilter(filter: String) {
         _uiState.update { state ->
             val updated = if (filter in state.selectedFilters) {
@@ -53,7 +53,7 @@ class SearchViewModel(
         }
         performSearch()
     }
-
+    // Funcion que realiza la busqueda
     private fun performSearch() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
