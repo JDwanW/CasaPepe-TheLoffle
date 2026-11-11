@@ -12,12 +12,15 @@ fun RegisterScreenRoot(
 
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
+    val isSuccess by viewModel.isSuccess.collectAsState()
 
     RegisterScreen(
         backClick = backClick,
         isLoading = isLoading,
+        isSuccess = isSuccess,
         registerUser = {email,password,name,surname ->
             viewModel.register(email,password,name,surname)
+
         }
     )
 }

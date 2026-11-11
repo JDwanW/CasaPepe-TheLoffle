@@ -3,8 +3,11 @@ package com.example.theloffle.features.inicio.presentation.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun RegisterScreen (
@@ -25,7 +29,9 @@ fun RegisterScreen (
         String,
         String
     ) -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    isSuccess: Boolean?
+
 ) {
 
     var name by remember { mutableStateOf("") }
@@ -40,65 +46,83 @@ fun RegisterScreen (
 
 
 
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text("You can register here:")
+        if (isLoading) {
+            CircularProgressIndicator()
+        } else if (isSuccess == true) {
 
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Name") }
-        )
-
-        OutlinedTextField(
-            value = surname,
-            onValueChange = { surname = it },
-            label = { Text("Surname") }
-        )
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("E-Mail") }
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") }
-        )
-        if (!passwordValid && !password.isEmpty()) {
-            Text("Password is not valid, need to have more than 8 signs!")
-        }
-
-
-        Button(
-            onClick = {
-                registerUser(email, password, name, surname)
-            },
-            enabled = inputsValid && !isLoading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF7FC97F)
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
+                contentDescription = "Registration successful",
+                tint = Color.Green,
+                modifier = Modifier.size(80.dp)
             )
 
+            Text("Registration successful!")
+        } else if (isSuccess == false) {
 
-        ) {
+        } else {
 
-            Text("Create an Account")
-        }
 
-        Button(
-            onClick = backClick,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF7FC97F)
+            Text("You can register here:")
+
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Name") }
             )
 
-        ) {
-            Text("Back")
+            OutlinedTextField(
+                value = surname,
+                onValueChange = { surname = it },
+                label = { Text("Surname") }
+            )
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("E-Mail") }
+            )
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") }
+            )
+            if (!passwordValid && !password.isEmpty()) {
+                Text("Password is not valid, need to have more than 8 signs!")
+            }
+
+
+            Button(
+                onClick = {
+                    registerUser(email, password, name, surname)
+                },
+                enabled = inputsValid && !isLoading,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7FC97F)
+                )
+
+            ) {
+
+                Text("Create an Account")
+            }
+
+            Button(
+                onClick = backClick,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7FC97F)
+                )
+
+            ) {
+                Text("Back")
+            }
         }
     }
 }

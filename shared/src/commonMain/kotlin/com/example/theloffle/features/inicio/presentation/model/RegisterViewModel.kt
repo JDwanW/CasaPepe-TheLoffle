@@ -11,8 +11,9 @@ class RegisterViewModel(
     private val repository: AuthRepo
 ): ViewModel() {
     private val _isLoading = MutableStateFlow(false)
-
     val isLoading = _isLoading.asStateFlow()
+    private val _isSuccess = MutableStateFlow<Boolean?>(null)
+    val isSuccess = _isSuccess.asStateFlow()
 
     fun register(email: String, password: String, name: String, surname: String) {
 
@@ -27,6 +28,7 @@ class RegisterViewModel(
                 surname = surname
             )
 
+            _isSuccess.value = success
             _isLoading.value = false
         }
     }
