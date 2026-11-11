@@ -30,7 +30,7 @@ import theloffle.shared.generated.resources.snack
 
 @Composable
 fun RegisterBlock(
-    registeredMeals: Set<FoodPages>, // 💡 Conjunto de comidas ya registradas
+    registeredMeals: Set<FoodPages>,
     onMealClick: (FoodPages) -> Unit,
     modifier: Modifier = Modifier
 ) {

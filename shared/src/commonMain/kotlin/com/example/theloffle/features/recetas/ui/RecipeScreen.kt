@@ -46,6 +46,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import com.example.theloffle.core.UI_System.theme.AppColors
 
 @Composable
 fun RecipeScreenRoot(
@@ -78,6 +79,7 @@ private fun RecipeScreen(
     onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // TODO: JSON
     val collections = remember { listOf("Mis Recetas", "Publicadas", "Guardadas") }
     var selectedCollectionIndex by remember { mutableStateOf(0) }
 
@@ -86,12 +88,11 @@ private fun RecipeScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+        // Se le pasa onHomeClick permitiendole el onClick para usar el logo como route a HomeScreen
         Header(
             onHomeClick = onNavigateToHome
         )
-        /*
-        Creating File Row "Button" so user can choose which recipes he wanna search from
-        */
+        // Se crea la fila para la eleccion de lista
         SecondaryTabRow(
             selectedTabIndex = selectedCollectionIndex,
             modifier = Modifier.fillMaxWidth()
@@ -105,13 +106,13 @@ private fun RecipeScreen(
                             onCloseFile()
                         }
                     },
+                    selectedContentColor = AppColors.textPrimary,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     text = { Text(text = title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold) }
                 )
             }
         }
-        /*
-        Creating Filter Row "Button" so user can choose which filter he wanna search from
-        */
+        // Se crea la fila horizontal scroll para la eleccion de filtro, 1 filtro a la vez
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -120,7 +121,6 @@ private fun RecipeScreen(
             items(uiState.filters) { filterName ->
                 val thisFile = remember(filterName) { File(name = filterName, filter = setOf(filterName)) }
                 val isSelected = filterName in uiState.selectedFilters
-
                 FilterChip(
                     selected = isSelected,
                     enabled = !isSelected,
@@ -132,14 +132,10 @@ private fun RecipeScreen(
                 )
             }
         }
-        /*
-        Showing to user the recipes from the file and filter he chose
-        */
+        // Aqui se muestra el resultado tras elegir un filtro
         Spacer(modifier = Modifier.height(16.dp))
         when {
-            /*
-            Case: Loading
-            */
+            // En caso de que siga cargando
             uiState.isLoading -> {
                 Box(
                     modifier = Modifier
@@ -150,9 +146,7 @@ private fun RecipeScreen(
                     CircularProgressIndicator()
                 }
             }
-            /*
-            Case: Empty -> it shows a message if theres no category chose or theres no recipe on that category
-            */
+            // En caso de que esta vacio la lista de recetas tras o no filtro, se muestra mensaje
             uiState.recipes.isEmpty() -> {
                 Box(
                     modifier = Modifier
@@ -168,9 +162,7 @@ private fun RecipeScreen(
                     )
                 }
             }
-            /*
-            Case: Category -> its shows all the recipes on that category
-            */
+            // Se muestra la lisa de recetas que cumplan el filtro y lista
             else -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -191,10 +183,8 @@ private fun RecipeScreen(
                             )
                         ) {
                             Box(modifier = Modifier.fillMaxSize()) {
-                                /*
-                                If theres image in the recipe it shows it
-                                ioc it shows a black box
-                                */
+                                // En caso de que tenga imange se mostrara
+                                // En otro caso se muestra un mensaje de Sin imagen
                                 if (!recipe.imageUrl.isNullOrEmpty()) {
                                     AsyncImage(
                                          model = recipe.imageUrl,
@@ -218,9 +208,7 @@ private fun RecipeScreen(
                                         )
                                     }
                                 }
-                                /*
-                                "Overlay" to show the text
-                                */
+                                // Se crea un box con un poco de "filtro" para mostrar el nombre de la receta
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
