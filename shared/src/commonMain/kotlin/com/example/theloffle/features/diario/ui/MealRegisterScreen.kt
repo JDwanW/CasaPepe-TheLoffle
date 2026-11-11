@@ -130,14 +130,15 @@ private fun MealRegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // No se le pasa onHomeClick para no permitirle usar el logo como route a HomeScreen
         Header()
-
-        // Selector de Pestañas
+        // TODO: JSON
         val tabs = listOf("De mis listas", "Crear receta")
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            // Se crea un boton para cada tab
             tabs.forEachIndexed { index, title ->
                 val isSelected = selectedTab == index
                 if (isSelected) {
@@ -165,7 +166,6 @@ private fun MealRegisterScreen(
             }
         }
 
-        // Renderizado condicional conectando los parámetros a las sub-secciones
         if (selectedTab == 0) {
             SelectFromListSection(
                 uiState = uiState,
@@ -174,7 +174,7 @@ private fun MealRegisterScreen(
                 onSelectFile = onSelectFile,
                 onCloseFile = onCloseFile,
                 onSaveSelectedRecipe = { recipe ->
-                    // Proceso de guardado al elegir una receta de las listas guardadas
+                    // TODO: cambiar el codigo para que se guarde como un JSON
                     onSaveRecipe(null, false)
                 },
                 onCancel = onCancel,
@@ -194,10 +194,7 @@ private fun MealRegisterScreen(
         }
     }
 }
-
-// -----------------------------------------------------------------------------
-// Pestaña 0: Seleccionar de la lista de recetas preexistentes
-// -----------------------------------------------------------------------------
+// Se crea el apartado de register una comida desde una receta guardada o ya subida
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SelectFromListSection(
@@ -210,6 +207,7 @@ private fun SelectFromListSection(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // TODO: JSON
     val collections = remember { listOf("Mis Recetas", "Publicadas", "Guardadas") }
     var selectedCollectionIndex by remember { mutableStateOf(0) }
     var selectedRecipe by remember { mutableStateOf<Recipe?>(null) }
@@ -218,7 +216,7 @@ private fun SelectFromListSection(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // 1. Selector de Pestañas (Mis Recetas, Publicadas, Guardadas)
+        // Se crea el selector de lista de recetas
         SecondaryTabRow(
             selectedTabIndex = selectedCollectionIndex,
             modifier = Modifier.fillMaxWidth()
@@ -240,7 +238,7 @@ private fun SelectFromListSection(
             }
         }
 
-        // 2. Fila de Filtros
+        // Se crea la fila de horizontalScroll para la lsita de filtros
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(vertical = 4.dp)
@@ -261,7 +259,7 @@ private fun SelectFromListSection(
             }
         }
 
-        // 3. Lista o Cuadrícula de Recetas seleccionables
+        // Se muestras las recetas que esten dentro de la lista y filtro
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -329,7 +327,6 @@ private fun SelectFromListSection(
                                             )
                                         }
                                     }
-
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()
@@ -342,7 +339,6 @@ private fun SelectFromListSection(
                                                 )
                                             )
                                     )
-
                                     Text(
                                         text = recipe.name,
                                         fontSize = 14.sp,
@@ -362,7 +358,7 @@ private fun SelectFromListSection(
             }
         }
 
-        // 4. Botones de Acción Inferiores
+        // Se crea los dos botones
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -392,9 +388,8 @@ private fun SelectFromListSection(
     }
 }
 
-// -----------------------------------------------------------------------------
-// Pestaña 1: Crear y registrar una nueva receta
-// -----------------------------------------------------------------------------
+//Se crea el apartado de nueva receta
+// TODO: revistar toda la logica aqui
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 private fun CreateRecipeSection(
@@ -440,6 +435,7 @@ private fun CreateRecipeSection(
             }
 
             OutlinedTextField(
+                // Aqui se guarda el nombre de la receta
                 value = uiState.name,
                 onValueChange = onTitleChanged,
                 label = { Text("Nombre de la receta *") },
@@ -447,7 +443,7 @@ private fun CreateRecipeSection(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
+            // Aqui se guarda la foto, en caso de que la eche
             Text(
                 text = "Foto de la receta",
                 style = MaterialTheme.typography.titleMedium,
@@ -459,13 +455,12 @@ private fun CreateRecipeSection(
             ) {
                 Text(if (uiState.selectedImageBytes != null) "Cambiar Foto" else "Seleccionar Foto (Opcional)")
             }
-
+            // Aqui se muestra la lista de filtros seleccionados
             Text(
                 text = "Filtros / Categorías *",
                 style = MaterialTheme.typography.titleMedium,
                 color = AppColors.textPrimary
             )
-
             ExposedDropdownMenuBox(
                 expanded = filtersExpanded,
                 onExpandedChange = { filtersExpanded = !filtersExpanded },
@@ -481,7 +476,6 @@ private fun CreateRecipeSection(
                         .menuAnchor()
                         .fillMaxWidth()
                 )
-
                 ExposedDropdownMenu(
                     expanded = filtersExpanded,
                     onDismissRequest = { filtersExpanded = false }
@@ -504,7 +498,8 @@ private fun CreateRecipeSection(
                     }
                 }
             }
-
+            // Aqui se muestra el mensaje de que se seleccione un filtro como minimo
+            // En otro caso muestra los seleccionados y permite quitarlos
             if (chosenFilters.isEmpty()) {
                 Text(
                     text = "Añade al menos una categoría de la lista.",
@@ -526,13 +521,12 @@ private fun CreateRecipeSection(
                     }
                 }
             }
-
+            // Aqui se muestra la lista de ingredientes
             Text(
                 text = "Ingredientes",
                 style = MaterialTheme.typography.titleMedium,
                 color = AppColors.textPrimary
             )
-
             ExposedDropdownMenuBox(
                 expanded = ingredientsExpanded,
                 onExpandedChange = { ingredientsExpanded = !ingredientsExpanded },
@@ -548,7 +542,6 @@ private fun CreateRecipeSection(
                         .menuAnchor()
                         .fillMaxWidth()
                 )
-
                 ExposedDropdownMenu(
                     expanded = ingredientsExpanded,
                     onDismissRequest = { ingredientsExpanded = false }
@@ -571,7 +564,7 @@ private fun CreateRecipeSection(
                     }
                 }
             }
-
+            // Aqui se muestra la lista de ingredientes seleccionados
             if (uiState.ingredients.isNotEmpty()) {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -587,7 +580,7 @@ private fun CreateRecipeSection(
                     }
                 }
             }
-
+            // Aqui se crea el bloque para introducir tu descripcion
             OutlinedTextField(
                 value = uiState.description,
                 onValueChange = onDescriptionChanged,
@@ -596,10 +589,9 @@ private fun CreateRecipeSection(
                 maxLines = 5,
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(8.dp))
         }
-
+        // Se crea los 3 botones
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -610,6 +602,8 @@ private fun CreateRecipeSection(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                // Boton para subir la receta, isPublised = false
+                // TODO: revisar el codigo de onSaveRecipe
                 OutlinedButton(
                     onClick = { onSaveRecipe(uiState.selectedImageBytes, false) },
                     enabled = !uiState.isLoading && isFormValid,
@@ -617,7 +611,7 @@ private fun CreateRecipeSection(
                 ) {
                     Text(if (uiState.isLoading) "Guardando..." else "Subir Receta")
                 }
-
+                // Boton para publicar la receta, isPublished = true
                 Button(
                     onClick = { onSaveRecipe(uiState.selectedImageBytes, true) },
                     enabled = !uiState.isLoading && isFormValid,
@@ -626,7 +620,7 @@ private fun CreateRecipeSection(
                     Text(if (uiState.isLoading) "Guardando..." else "Publicar Receta")
                 }
             }
-
+            // Boton para cancelar la receta a crear
             OutlinedButton(
                 onClick = onCancel,
                 colors = ButtonDefaults.outlinedButtonColors(
