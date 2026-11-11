@@ -92,7 +92,7 @@ private fun PublicationScreen(
                     Header(
                         onHomeClick = onNavigateToHome
                     )
-                    //Recipe Name
+                    // Se muestra el nombre de la receta
                     Text(
                         text = recipe.name,
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -102,7 +102,8 @@ private fun PublicationScreen(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    // Recipe Image
+                    // En caso de que tenga imagen la receta se muestra
+                    // En otro caso se muestra un mensaje de Sin imagen
                     if (!recipe.imageUrl.isNullOrEmpty()) {
                         AsyncImage(
                             model = recipe.imageUrl,
@@ -131,7 +132,7 @@ private fun PublicationScreen(
                             )
                         }
                     }
-                    // Recipe Author and Rating
+                    // Se muestra el autor y la valoracion de la receta
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
@@ -157,7 +158,7 @@ private fun PublicationScreen(
                             fontSize = 13.sp
                         )
                     }
-                    // Recipe Description and Ingredients List
+                    // Se muestra la descripcion y la lista de ingredientes de la receta
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
