@@ -43,10 +43,14 @@ import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
 //VIEW MODEL
 import androidx.lifecycle.viewmodel.compose.viewModel
+//REGISTER SCREEN
+import com.example.theloffle.features.inicio.presentation.model.RegisterViewModel
+import com.example.theloffle.features.inicio.presentation.ui.RegisterScreenRoot
 //HOME SCREEN
 import com.example.theloffle.features.diario.ui.HomeScreenRoot
 import com.example.theloffle.features.diario.ui.HomeViewModel
 //MEAL REGISTER SCREEN
+import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
 //RECIPE SCREEN
 import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
@@ -126,6 +130,20 @@ fun App(
                 startDestination = Route.HomeScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
+                composable<Route.RegisterScreen> {
+                    val viewModel: RegisterViewModel = viewModel {
+                        RegisterViewModel(
+                            repository = containerRepo.authRepoInstance
+                        )
+                    }
+
+                    RegisterScreenRoot(
+                        viewModel = viewModel,
+                        backClick = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
                 composable<Route.HomeScreen> {
                     val viewModel: HomeViewModel = viewModel {
                         HomeViewModel(repository = containerRepo.recipeRepoInstance)

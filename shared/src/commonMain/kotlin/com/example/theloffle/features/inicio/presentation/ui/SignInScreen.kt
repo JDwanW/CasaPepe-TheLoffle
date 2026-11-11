@@ -17,7 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun SignInScreen(backClick: () -> Unit) {
+fun SignInScreen(
+    backClick: () -> Unit,
+    registerUser: (
+            String,
+            String,
+            String,
+            String
+            ) -> Unit,
+            isLoading: Boolean
+    ) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

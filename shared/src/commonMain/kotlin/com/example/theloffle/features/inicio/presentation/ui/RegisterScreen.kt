@@ -17,13 +17,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun RegisterScreen (backClick: () -> Unit) {
+fun RegisterScreen (
+    backClick: () -> Unit,
+    registerUser: (
+        String,
+        String,
+        String,
+        String
+    ) -> Unit,
+    isLoading: Boolean
+) {
+
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val nameValid = name.length > 2
-    val surnameValid = name.length > 3
+    val surnameValid = surname.length > 3
     val emailValid = email.length > 5
     val passwordValid = password.length >= 8
     val inputsValid = nameValid && surnameValid && emailValid && passwordValid
@@ -65,9 +75,12 @@ fun RegisterScreen (backClick: () -> Unit) {
             Text("Password is not valid, need to have more than 8 signs!")
         }
 
+
         Button(
-            onClick = {},
-            enabled = inputsValid,
+            onClick = {
+                registerUser(email, password, name, surname)
+            },
+            enabled = inputsValid && !isLoading,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF7FC97F)
             )
