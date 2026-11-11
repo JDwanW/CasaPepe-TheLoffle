@@ -1,9 +1,11 @@
 package com.example.theloffle.features.recetas.data.repository
 
+import com.example.theloffle.core.database.workDispatcher
 import com.example.theloffle.features.recetas.data.datasource.MockRecipeDataSource
 import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import com.example.theloffle.features.recetas.domain.model.Recipe
 import com.example.theloffle.features.recetas.data.datasource.RecipeLocalDataSource
+import kotlinx.coroutines.withContext
 
 // Right now the list is hardcode but we can make it dynamilic from bbdd
 private val filters = listOf(
@@ -56,14 +58,23 @@ class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) 
     }
 
     override suspend fun getRecipesInFile(fileName: String): List<Recipe> {
-        val recipes = localDataSource?.getAll() ?: allRecipes
+        val recipes = if(localDataSource != null){
+            // Usamos una corrutina en la busqueda
+            withContext(workDispatcher){
+                localDataSource.getAll()
+            }
+        }
+        else{
+            allRecipes
+        }
         return recipes.filter { it.tags.contains(fileName) }
     }
 
     // Si la bbdd existe busca por id
     override suspend fun getRecipeById(id: Int): Recipe? {
         return if(localDataSource != null){
-            localDataSource.getById(id)
+            // Usamos una corrutina
+            withContext(workDispatcher) { localDataSource.getById(id) }
         }
         else{
             allRecipes.find {it.id == id}
@@ -73,7 +84,13 @@ class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) 
     // Se obtienen las recetas que tienen los filtros
     override suspend fun getRecipesByFilters(filters: List<String>): List<Recipe> {
         if (filters.isEmpty()) return emptyList()
-        val recipes = localDataSource?.getAll() ?: allRecipes
+        val recipes = if(localDataSource != null){
+            // Usamos una corrutina para la busqueda
+            withContext(workDispatcher){ localDataSource.getAll() }
+        }
+        else{
+            allRecipes
+        }
         return recipes.filter { it.tags.containsAll(filters) }
     }
 }
