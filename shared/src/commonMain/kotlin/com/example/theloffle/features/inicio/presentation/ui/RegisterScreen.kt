@@ -1,10 +1,13 @@
 package com.example.theloffle.features.inicio.presentation.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.painterResource
+import theloffle.shared.generated.resources.Res
+import theloffle.shared.generated.resources.circle_confirmation
+import theloffle.shared.generated.resources.circle_error
+
 
 @Composable
 fun RegisterScreen (
@@ -25,7 +34,10 @@ fun RegisterScreen (
         String,
         String
     ) -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    isSuccess: Boolean?,
+    resetRegistrationState: () -> Unit
+
 ) {
 
     var name by remember { mutableStateOf("") }
@@ -40,65 +52,96 @@ fun RegisterScreen (
 
 
 
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text("You can register here:")
+        if (isLoading) {
+            CircularProgressIndicator()
+        } else if (isSuccess == true) {
 
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Name") }
-        )
+            Image(
+                painter = painterResource(Res.drawable.circle_confirmation),
+                contentDescription = "Registration successful",
+                modifier = Modifier.size(80.dp)
 
-        OutlinedTextField(
-            value = surname,
-            onValueChange = { surname = it },
-            label = { Text("Surname") }
-        )
+            )
+            Text("Registration successful!")
+                
+        } else if (isSuccess == false) {
+            Image(
+                painter = painterResource(Res.drawable.circle_error),
+                contentDescription = "Registration successful",
+                modifier = Modifier.size(80.dp)
 
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("E-Mail") }
-        )
+            )
+            Text("Registration went wrong - Email is already used!")
 
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") }
-        )
-        if (!passwordValid && !password.isEmpty()) {
-            Text("Password is not valid, need to have more than 8 signs!")
-        }
+            Button(
+                onClick = resetRegistrationState
+            ) {
+                Text("Try Again")
+            }
+
+        } else {
 
 
-        Button(
-            onClick = {
-                registerUser(email, password, name, surname)
-            },
-            enabled = inputsValid && !isLoading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF7FC97F)
+            Text("You can register here:")
+
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Name") }
             )
 
-
-        ) {
-
-            Text("Create an Account")
-        }
-
-        Button(
-            onClick = backClick,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF7FC97F)
+            OutlinedTextField(
+                value = surname,
+                onValueChange = { surname = it },
+                label = { Text("Surname") }
             )
 
-        ) {
-            Text("Back")
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("E-Mail") }
+            )
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") }
+            )
+            if (!passwordValid && !password.isEmpty()) {
+                Text("Password is not valid, need to have more than 8 signs!")
+            }
+
+
+            Button(
+                onClick = {
+                    registerUser(email, password, name, surname)
+                },
+                enabled = inputsValid && !isLoading,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7FC97F)
+                )
+
+            ) {
+
+                Text("Create an Account")
+            }
+
+            Button(
+                onClick = backClick,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7FC97F)
+                )
+
+            ) {
+                Text("Back")
+            }
         }
     }
 }

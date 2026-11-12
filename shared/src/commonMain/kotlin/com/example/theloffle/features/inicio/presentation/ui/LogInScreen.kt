@@ -17,15 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun SignInScreen(
+fun LogInScreen(
     backClick: () -> Unit,
-    registerUser: (
+    logInUser: (
             String,
             String,
-            String,
-            String
             ) -> Unit,
-            isLoading: Boolean
+    isLoading: Boolean
     ) {
 
     var email by remember { mutableStateOf("") }
@@ -54,7 +52,9 @@ fun SignInScreen(
         )
 
         Button(
-            onClick = { },
+            onClick = {
+                logInUser(email, password)
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF7FC97F)
             )
