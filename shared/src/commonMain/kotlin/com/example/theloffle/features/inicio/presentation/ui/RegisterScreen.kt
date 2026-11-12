@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.circle_confirmation
-
+import theloffle.shared.generated.resources.circle_error
 
 
 @Composable
@@ -35,7 +35,8 @@ fun RegisterScreen (
         String
     ) -> Unit,
     isLoading: Boolean,
-    isSuccess: Boolean?
+    isSuccess: Boolean?,
+    resetRegistrationState: () -> Unit
 
 ) {
 
@@ -69,9 +70,21 @@ fun RegisterScreen (
 
             )
             Text("Registration successful!")
-
                 
         } else if (isSuccess == false) {
+            Image(
+                painter = painterResource(Res.drawable.circle_error),
+                contentDescription = "Registration successful",
+                modifier = Modifier.size(80.dp)
+
+            )
+            Text("Registration went wrong - Email is already used!")
+
+            Button(
+                onClick = resetRegistrationState
+            ) {
+                Text("Try Again")
+            }
 
         } else {
 

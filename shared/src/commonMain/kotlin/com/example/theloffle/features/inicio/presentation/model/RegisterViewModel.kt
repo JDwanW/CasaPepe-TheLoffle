@@ -32,4 +32,8 @@ class RegisterViewModel(
             _isLoading.value = false
         }
     }
+
+    fun resetRegistrationState() {
+        _isSuccess.value = null
+    }
 }

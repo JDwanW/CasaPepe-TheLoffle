@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 //APP DATA
 import com.example.theloffle.core.UI_System.theme.AppColors
@@ -130,17 +128,26 @@ fun App(
                 startDestination = Route.HomeScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
+
                 composable<Route.RegisterScreen> {
                     val viewModel: RegisterViewModel = viewModel {
                         RegisterViewModel(
                             repository = containerRepo.authRepoInstance
                         )
                     }
-
                     RegisterScreenRoot(
                         viewModel = viewModel,
+
                         backClick = {
                             navController.popBackStack()
+                        },
+                        onRegisterSuccess = {
+                            navController.navigate(Route.HomeScreen) {
+                                popUpTo<Route.RegisterScreen> {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
                         }
                     )
                 }

@@ -2,6 +2,7 @@ package com.example.theloffle.features.inicio.data
 
 import com.example.theloffle.features.inicio.domain.model.User
 import com.example.theloffle.features.inicio.domain.repository.AuthRepo
+import kotlinx.coroutines.delay
 
 
 private val users = mutableListOf<User>(
@@ -21,6 +22,8 @@ class AuthRepoImp : AuthRepo {
         name: String,
         surname: String
     ): Boolean {
+
+        delay(2000)
 
         val normalizedEmail = email.trim().lowercase()
 
