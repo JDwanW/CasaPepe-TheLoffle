@@ -1,0 +1,29 @@
+-- Esta tabla sera la que abarque la parte de usuario tanto de
+-- La feature de Inicio como la de Perfil
+CREATE TABLE Users (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, -- Id unica que crea la bbdd
+    email TEXT NOT NULL UNIQUE, -- Email del usuario, debe ser unico
+    password_hash TEXT NOT NULL, -- Contrasenia haseada del usuario
+    username TEXT NOT NULL UNIQUE, -- Nombre de usuario, debe ser unico
+    name TEXT NOT NULL, -- Nombre de la persona
+    surname TEXT NOT NULL, -- Apellido de la persona
+    profile_photo TEXT -- Foto de perfil, voluntaria
+);
+
+-- Sentencias
+
+-- Seleccionar por ID
+selectForId:
+SELECT * FROM Users WHERE id = :id;
+
+-- Seleccionar por Username
+selectForUsername:
+SELECT * FROM Users WHERE username = :username;
+
+-- Seleccionar por email
+selectForEmail:
+SELECT * FROM Users WHERE email = :email;
+
+insertUser:
+INSERT INTO Users(email, password_hash, username, name, surname, profile_photo) -- Id es automatico
+VALUES (:email, :password_hash, :username, :name, :surname, :profile_photo);
