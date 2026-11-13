@@ -41,6 +41,9 @@ import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
 //VIEW MODEL
 import androidx.lifecycle.viewmodel.compose.viewModel
+//LOG-IN SCREEN
+import com.example.theloffle.features.inicio.presentation.model.LogInViewModell
+import com.example.theloffle.features.inicio.presentation.ui.LogInScreenRoot
 //REGISTER SCREEN
 import com.example.theloffle.features.inicio.presentation.model.RegisterViewModel
 import com.example.theloffle.features.inicio.presentation.ui.RegisterScreenRoot
@@ -126,9 +129,39 @@ fun App(
                 navController = navController,
                 // TODO: need to check if user is logged in or not, if logged in
                 // TODO: start = Home if not start = LogIn
-                startDestination = Route.HomeScreen,
+                startDestination = Route.LogInScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
+
+                composable<Route.LogInScreen> {
+
+                    val viewModel: LogInViewModell = viewModel {
+                        LogInViewModell(
+                            repository = containerRepo.authRepoInstance
+                        )
+                    }
+
+                    LogInScreenRoot(
+                        viewModel = viewModel,
+
+                        backClick = {
+                            navController.popBackStack()
+                        },
+
+                        onLoginSuccess = {
+                            navController.navigate(Route.HomeScreen) {
+                                popUpTo<Route.LogInScreen> {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
+                        },
+
+                        onRegisterClick = {
+                            navController.navigate(Route.RegisterScreen)
+                        }
+                    )
+                }
 
                 composable<Route.RegisterScreen> {
                     val viewModel: RegisterViewModel = viewModel {
