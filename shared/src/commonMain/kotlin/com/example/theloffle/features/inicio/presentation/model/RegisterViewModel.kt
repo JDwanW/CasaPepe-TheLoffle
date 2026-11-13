@@ -15,7 +15,7 @@ class RegisterViewModel(
     private val _isSuccess = MutableStateFlow<Boolean?>(null)
     val isSuccess = _isSuccess.asStateFlow()
 
-    fun register(email: String, password: String, name: String, surname: String) {
+    fun register(email: String, password: String, name: String, surname: String, username: String) {
 
 
         viewModelScope.launch {
@@ -25,7 +25,8 @@ class RegisterViewModel(
                 email = email,
                 password = password,
                 name = name,
-                surname = surname
+                surname = surname,
+                username = username
             )
 
             _isSuccess.value = success

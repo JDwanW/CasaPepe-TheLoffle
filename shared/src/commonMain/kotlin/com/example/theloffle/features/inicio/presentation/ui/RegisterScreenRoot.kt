@@ -28,8 +28,8 @@ fun RegisterScreenRoot(
 
     RegisterScreen(
         backClick = backClick,
-        registerUser = {email,password,name,surname ->
-            viewModel.register(email,password,name,surname)
+        registerUser = { name, surname, email, password, username ->
+            viewModel.register(email, password, name, surname, username)
         },
         resetRegistrationState = { ->
             viewModel.resetRegistrationState()

@@ -5,7 +5,7 @@ data class User (
     val password : String,
     val name : String,
     val surname : String,
-
+    val username : String,
 ) {
     val normalizedEmail = email.trim().lowercase()
 }

@@ -45,6 +45,7 @@ fun RegisterScreen (
         String,
         String,
         String,
+        String,
         String
     ) -> Unit,
     isLoading: Boolean,
@@ -57,14 +58,13 @@ fun RegisterScreen (
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     val nameValid = name.length > 2
     val surnameValid = surname.length > 3
     val emailValid = email.length > 5
     val passwordValid = password.length >= 8
-    val inputsValid = nameValid && surnameValid && emailValid && passwordValid
-
-
-
+    val usernameValid = username.length > 2
+    val inputsValid = nameValid && surnameValid && emailValid && passwordValid && usernameValid
 
     Column(
         modifier = Modifier
@@ -112,7 +112,7 @@ fun RegisterScreen (
                 modifier = Modifier.size(80.dp)
 
             )
-            Text("Registration went wrong - Email is already used!")
+            Text("Registration went wrong - Email or Username is already used!")
 
             Button(
                 onClick = resetRegistrationState,
@@ -171,7 +171,7 @@ fun RegisterScreen (
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },visualTransformation = PasswordVisualTransformation(),
+                label = { Text("Email") },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -209,6 +209,25 @@ fun RegisterScreen (
                 modifier = Modifier.fillMaxWidth()
             )
 
+            OutlinedTextField(
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Username") },
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = AppColors.textPrimary,
+                    unfocusedTextColor = AppColors.textPrimary,
+                    focusedLabelColor = AppColors.buttonSecondary,
+                    unfocusedLabelColor = AppColors.textPrimary,
+                    focusedBorderColor = AppColors.buttonSecondary,
+                    unfocusedBorderColor = AppColors.buttonPrimary,
+                    focusedContainerColor = AppColors.background,
+                    unfocusedContainerColor = AppColors.background
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+
             Text(
                 text = "Back to LogIn",
                 color = AppColors.buttonSecondary,
@@ -226,7 +245,7 @@ fun RegisterScreen (
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { registerUser(name, surname, email, password) },
+                onClick = { registerUser(name, surname, email, password, username) },
                 enabled = inputsValid && !isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
