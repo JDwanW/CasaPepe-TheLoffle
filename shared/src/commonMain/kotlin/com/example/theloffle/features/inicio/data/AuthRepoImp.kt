@@ -32,7 +32,7 @@ class AuthRepoImp : AuthRepo {
         val normalizedEmail = email.trim().lowercase()
 
         val exists = users.any { user ->
-            user.email == normalizedEmail || user.username == username
+            user.email == normalizedEmail || user.username == username}
         if (!exists) {
             users.add(
                 User(normalizedEmail, password, name, surname, username)
