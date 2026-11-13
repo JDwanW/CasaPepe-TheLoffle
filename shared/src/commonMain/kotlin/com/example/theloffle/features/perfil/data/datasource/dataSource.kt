@@ -10,6 +10,7 @@ object MockUserDataSource {
             username = "Ppe",
             password = "123asd123",
             numberOfMeal= listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
+            mealDone = listOf(false,false),
             profilePhoto = "",
             recipeList = emptyList(),
         )

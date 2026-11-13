@@ -1,4 +1,4 @@
-package com.example.theloffle.features.diario.ui
+package com.example.theloffle.features.diario.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

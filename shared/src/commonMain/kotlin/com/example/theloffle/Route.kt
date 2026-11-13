@@ -5,6 +5,11 @@ import kotlinx.serialization.Serializable
 import com.example.theloffle.features.recetas.domain.model.Recipe
 @Serializable
 sealed interface Route {
+
+    @Serializable
+    data object LogInScreen : Route
+    @Serializable
+    data object RegisterScreen : Route
     @Serializable
     data object PrincipalScreen: Route
     @Serializable

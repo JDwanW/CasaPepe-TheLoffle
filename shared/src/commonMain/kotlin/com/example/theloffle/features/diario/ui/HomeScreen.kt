@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.features.diario.domain.model.FoodPages
+import com.example.theloffle.features.diario.presentation.HomeUiState
+import com.example.theloffle.features.diario.presentation.HomeViewModel
 import com.example.theloffle.features.diario.presentation.components.RegisterBlock
 import com.example.theloffle.features.diario.presentation.components.ScrollBlock
 

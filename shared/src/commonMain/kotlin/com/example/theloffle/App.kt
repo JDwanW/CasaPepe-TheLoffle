@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 //APP DATA
 import com.example.theloffle.core.UI_System.theme.AppColors
@@ -43,10 +41,18 @@ import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
 //VIEW MODEL
 import androidx.lifecycle.viewmodel.compose.viewModel
+//LOG-IN SCREEN
+import com.example.theloffle.features.inicio.presentation.model.LogInViewModell
+import com.example.theloffle.features.inicio.presentation.ui.LogInScreenRoot
+//REGISTER SCREEN
+import com.example.theloffle.features.inicio.presentation.model.RegisterViewModel
+import com.example.theloffle.features.inicio.presentation.ui.RegisterScreenRoot
 //HOME SCREEN
 import com.example.theloffle.features.diario.ui.HomeScreenRoot
-import com.example.theloffle.features.diario.ui.HomeViewModel
+import com.example.theloffle.features.diario.presentation.HomeViewModel
 //MEAL REGISTER SCREEN
+import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
+import com.example.theloffle.features.diario.presentation.MealRegisterViewModel
 //RECIPE SCREEN
 import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
@@ -70,7 +76,8 @@ fun App(
     val currentDestination = backStackEntry?.destination
     // Pasamos la database al container
     val containerRepo = remember { DefaultAppContainer(database) }
-    val showBottomBar = currentDestination?.hasRoute<Route.PublicationScreen>() == false
+    val showBottomBar = !(currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
+            currentDestination?.hasRoute<Route.MealRegisterScreen>() == true)
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
@@ -122,9 +129,62 @@ fun App(
                 navController = navController,
                 // TODO: need to check if user is logged in or not, if logged in
                 // TODO: start = Home if not start = LogIn
-                startDestination = Route.HomeScreen,
+                startDestination = Route.LogInScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
+
+                composable<Route.LogInScreen> {
+
+                    val viewModel: LogInViewModell = viewModel {
+                        LogInViewModell(
+                            repository = containerRepo.authRepoInstance
+                        )
+                    }
+
+                    LogInScreenRoot(
+                        viewModel = viewModel,
+
+                        backClick = {
+                            navController.popBackStack()
+                        },
+
+                        onLoginSuccess = {
+                            navController.navigate(Route.HomeScreen) {
+                                popUpTo<Route.LogInScreen> {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
+                        },
+
+                        onRegisterClick = {
+                            navController.navigate(Route.RegisterScreen)
+                        }
+                    )
+                }
+
+                composable<Route.RegisterScreen> {
+                    val viewModel: RegisterViewModel = viewModel {
+                        RegisterViewModel(
+                            repository = containerRepo.authRepoInstance
+                        )
+                    }
+                    RegisterScreenRoot(
+                        viewModel = viewModel,
+
+                        backClick = {
+                            navController.popBackStack()
+                        },
+                        onRegisterSuccess = {
+                            navController.navigate(Route.HomeScreen) {
+                                popUpTo<Route.RegisterScreen> {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
+                        }
+                    )
+                }
                 composable<Route.HomeScreen> {
                     val viewModel: HomeViewModel = viewModel {
                         HomeViewModel(repository = containerRepo.recipeRepoInstance)
@@ -145,12 +205,27 @@ fun App(
                         modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
                     )
                 }
-                composable<Route.MealRegisterScreen> {
-                    /*onNavigateToHome = {
-                        navController.navigate(Route.HomeScreen){
-                            popUpTo<Route.HomeScreen> {inclusive = true}
-                        }
-                    },*/
+                composable<Route.MealRegisterScreen> { backStackEntry ->
+                    val routeData = backStackEntry.toRoute<Route.MealRegisterScreen>()
+                    val foodPage = routeData.mealId
+
+                    val mealRegisterViewModel: MealRegisterViewModel = viewModel {
+                        MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
+                    }
+
+                    val recipeViewModel: RecipeViewModel = viewModel {
+                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
+                    }
+
+                    MealRegisterScreenRoot(
+                        foodPage = foodPage,
+                        viewModel = mealRegisterViewModel,
+                        recipeViewModel = recipeViewModel,
+                        onNavigateBack = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
                 composable<Route.RecipeScreen> {
                     val viewModel: RecipeViewModel = viewModel {

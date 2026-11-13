@@ -34,7 +34,6 @@ private val filters = listOf(
 class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) : RecipeRepo {
     private val selected = mutableSetOf<String>()
     private val filtersByFile = mutableMapOf<String, Set<String>>()
-    // TODO: Create another Repo as proxy just for tests
     private val allRecipes = MockRecipeDataSource.recipes
 
     init{

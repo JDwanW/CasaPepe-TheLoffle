@@ -22,8 +22,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -31,7 +29,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -44,8 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.theloffle.core.UI_System.components.Header
-import com.example.theloffle.features.recetas.domain.model.File
-import com.example.theloffle.features.recetas.domain.model.Recipe
 
 @Composable
 fun SearchScreenRoot(
@@ -80,33 +75,17 @@ private fun SearchScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+        // Se le pasa onHomeClick permitiendole el onClick para usar el logo como route a HomeScreen
         Header(
             onHomeClick = onNavigateToHome
         )
-        /*
-        Creating Search Row "Button" so user can search users
-        */
+        // Se crea aqui la barra del buscador
         OutlinedTextField(
             value = uiState.searchQuery,
+            // TODO: se debe modificar la funcion en SearchViewModel para la logica de busqueda
             onValueChange = onSearchQueryChange,
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text("Introduzca nombre de usuario") },
-            /*leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Buscar"
-                )
-            },
-            trailingIcon = {
-                if (uiState.searchQuery.isNotEmpty()) {
-                    IconButton(onClick = { onSearchQueryChange("") }) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Borrar texto"
-                        )
-                    }
-                }
-            },*/
             singleLine = true,
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
@@ -114,9 +93,7 @@ private fun SearchScreen(
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface
             )
         )
-        /*
-        Creating Filter Row "Button" so user can choose which filter he wanna search from
-        */
+        // Se crea aqui el scrollBar para los filtros
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -124,16 +101,18 @@ private fun SearchScreen(
         ) {
             items(uiState.filters) { filterName ->
                 val isSelected = filterName in uiState.selectedFilters
-
                 FilterChip(
                     selected = isSelected,
+                    // TODO: se debe modificar la funcion en RecipeViewModel para que la busqueda sea por
+                    //  nota de valoracion de la publicacion.
+                    //  Creo que idealmente seria crear una nueva funcion para mantener esta
                     onClick = { onToggleFilter(filterName) },
                     label = { Text(filterName) }
                 )
             }
         }
 
-        // 3. Grid de Resultados
+        // Se muestra aqui los resultados de la busqueda
         Spacer(modifier = Modifier.height(16.dp))
         when {
             uiState.isLoading -> {
@@ -146,7 +125,6 @@ private fun SearchScreen(
                     CircularProgressIndicator()
                 }
             }
-
             uiState.recipes.isEmpty() -> {
                 Box(
                     modifier = Modifier
@@ -158,14 +136,13 @@ private fun SearchScreen(
                         text = if (uiState.searchQuery.isNotEmpty() || uiState.selectedFilters.isNotEmpty()) {
                             "No se encontraron recetas para tu búsqueda"
                         } else {
-                            "Empieza a escribir o selecciona un filtro para buscar"
+                            "No se esta mostrando ninguna receta"
                         },
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
-
             else -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -209,7 +186,6 @@ private fun SearchScreen(
                                         )
                                     }
                                 }
-
                                 // Overlay degradado para mejorar lectura del texto
                                 Box(
                                     modifier = Modifier
@@ -223,7 +199,6 @@ private fun SearchScreen(
                                             )
                                         )
                                 )
-
                                 Text(
                                     text = recipe.name,
                                     fontSize = 15.sp,
