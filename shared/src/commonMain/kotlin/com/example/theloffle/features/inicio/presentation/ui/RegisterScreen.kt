@@ -1,14 +1,23 @@
 package com.example.theloffle.features.inicio.presentation.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,11 +27,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.theloffle.core.UI_System.theme.AppColors
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.circle_confirmation
 import theloffle.shared.generated.resources.circle_error
+import theloffle.shared.generated.resources.logo
 
 
 @Composable
@@ -54,10 +67,31 @@ fun RegisterScreen (
 
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppColors.background)
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(70.dp))
+
+        Text(
+            text = "TheLoffle",
+            color = AppColors.textPrimary,
+            style = MaterialTheme.typography.headlineLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp)
+        )
+
+        Image(
+            painter = painterResource(Res.drawable.logo),
+            contentDescription = "TheLoffle Logo",
+            modifier = Modifier.size(75.dp)
+        )
+
+        Spacer(modifier = Modifier.height(70.dp))
 
         if (isLoading) {
             CircularProgressIndicator()
@@ -81,66 +115,129 @@ fun RegisterScreen (
             Text("Registration went wrong - Email is already used!")
 
             Button(
-                onClick = resetRegistrationState
+                onClick = resetRegistrationState,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppColors.buttonPrimary,
+                    contentColor = AppColors.textPrimary)
+
             ) {
                 Text("Try Again")
             }
 
         } else {
 
-
-            Text("You can register here:")
-
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name") }
+                label = { Text("Name") },
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = AppColors.textPrimary,
+                    unfocusedTextColor = AppColors.textPrimary,
+                    focusedLabelColor = AppColors.buttonSecondary,
+                    unfocusedLabelColor = AppColors.textPrimary,
+                    focusedBorderColor = AppColors.buttonSecondary,
+                    unfocusedBorderColor = AppColors.buttonPrimary,
+                    focusedContainerColor = AppColors.background,
+                    unfocusedContainerColor = AppColors.background
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedTextField(
                 value = surname,
                 onValueChange = { surname = it },
-                label = { Text("Surname") }
+                label = { Text("Surname") },
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = AppColors.textPrimary,
+                    unfocusedTextColor = AppColors.textPrimary,
+                    focusedLabelColor = AppColors.buttonSecondary,
+                    unfocusedLabelColor = AppColors.textPrimary,
+                    focusedBorderColor = AppColors.buttonSecondary,
+                    unfocusedBorderColor = AppColors.buttonPrimary,
+                    focusedContainerColor = AppColors.background,
+                    unfocusedContainerColor = AppColors.background
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("E-Mail") }
+                label = { Text("Email") },visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = AppColors.textPrimary,
+                    unfocusedTextColor = AppColors.textPrimary,
+                    focusedLabelColor = AppColors.buttonSecondary,
+                    unfocusedLabelColor = AppColors.textPrimary,
+                    focusedBorderColor = AppColors.buttonSecondary,
+                    unfocusedBorderColor = AppColors.buttonPrimary,
+                    focusedContainerColor = AppColors.background,
+                    unfocusedContainerColor = AppColors.background
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") }
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = AppColors.textPrimary,
+                    unfocusedTextColor = AppColors.textPrimary,
+                    focusedLabelColor = AppColors.buttonSecondary,
+                    unfocusedLabelColor = AppColors.textPrimary,
+                    focusedBorderColor = AppColors.buttonSecondary,
+                    unfocusedBorderColor = AppColors.buttonPrimary,
+                    focusedContainerColor = AppColors.background,
+                    unfocusedContainerColor = AppColors.background
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
-            if (!passwordValid && !password.isEmpty()) {
-                Text("Password is not valid, need to have more than 8 signs!")
-            }
 
+            Text(
+                text = "Back to LogIn",
+                color = AppColors.buttonSecondary,
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        backClick()
+                    }
+                    .padding(top = 8.dp)
+            )
+
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = {
-                    registerUser(email, password, name, surname)
-                },
+                onClick = { registerUser(name, surname, email, password) },
                 enabled = inputsValid && !isLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7FC97F)
+                    containerColor = AppColors.buttonPrimary,
+                    contentColor = AppColors.textPrimary
                 )
-
             ) {
-
-                Text("Create an Account")
-            }
-
-            Button(
-                onClick = backClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7FC97F)
-                )
-
-            ) {
-                Text("Back")
+                Text("Register")
             }
         }
     }
