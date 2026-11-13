@@ -3,7 +3,7 @@
 CREATE TABLE Users (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, -- Id unica que crea la bbdd
     email TEXT NOT NULL UNIQUE, -- Email del usuario, debe ser unico
-    password_hash TEXT NOT NULL, -- Contrasenia haseada del usuario
+    password TEXT NOT NULL, -- Contrasenia del usuario (Hasheada en un futuro)
     username TEXT NOT NULL UNIQUE, -- Nombre de usuario, debe ser unico
     name TEXT NOT NULL, -- Nombre de la persona
     surname TEXT NOT NULL, -- Apellido de la persona
@@ -11,6 +11,12 @@ CREATE TABLE Users (
 );
 
 -- Sentencias
+selectAll:
+SELECT * FROM Users;
+
+-- Sentencia para saber si la tabla esta vacia o cuantos hay
+countUsers:
+SELECT COUNT(*) FROM Users;
 
 -- Seleccionar por ID
 selectForId:
@@ -25,5 +31,5 @@ selectForEmail:
 SELECT * FROM Users WHERE email = :email;
 
 insertUser:
-INSERT INTO Users(email, password_hash, username, name, surname, profile_photo) -- Id es automatico
-VALUES (:email, :password_hash, :username, :name, :surname, :profile_photo);
+INSERT INTO Users(email, password, username, name, surname, profile_photo) -- Id es automatico
+VALUES (:email, :password, :username, :name, :surname, :profile_photo);
