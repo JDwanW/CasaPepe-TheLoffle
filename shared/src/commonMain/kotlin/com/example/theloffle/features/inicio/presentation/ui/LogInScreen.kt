@@ -40,7 +40,6 @@ import theloffle.shared.generated.resources.logo
 
 @Composable
 fun LogInScreen(
-    backClick: () -> Unit,
     logInUser: (String, String) -> Unit,
     isLoading: Boolean,
     isSuccess: Boolean?,

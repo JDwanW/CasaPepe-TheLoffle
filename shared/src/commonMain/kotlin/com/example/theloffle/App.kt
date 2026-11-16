@@ -144,10 +144,6 @@ fun App(
                     LogInScreenRoot(
                         viewModel = viewModel,
 
-                        backClick = {
-                            navController.popBackStack()
-                        },
-
                         onLoginSuccess = {
                             navController.navigate(Route.HomeScreen) {
                                 popUpTo<Route.LogInScreen> {

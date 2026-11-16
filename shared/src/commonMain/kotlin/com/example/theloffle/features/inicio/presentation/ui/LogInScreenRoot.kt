@@ -11,7 +11,6 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun LogInScreenRoot(
     viewModel: LogInViewModell,
-    backClick: () -> Unit,
     onLoginSuccess: () -> Unit,
     onRegisterClick: () -> Unit
 ) {
@@ -26,7 +25,6 @@ fun LogInScreenRoot(
     }
 
     LogInScreen(
-        backClick = backClick,
         logInUser = { email, password ->
             viewModel.login(email, password)
         },

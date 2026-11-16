@@ -127,6 +127,27 @@ fun RegisterScreen (
         } else {
 
             OutlinedTextField(
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Username") },
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = AppColors.textPrimary,
+                    unfocusedTextColor = AppColors.textPrimary,
+                    focusedLabelColor = AppColors.buttonSecondary,
+                    unfocusedLabelColor = AppColors.textPrimary,
+                    focusedBorderColor = AppColors.buttonSecondary,
+                    unfocusedBorderColor = AppColors.buttonPrimary,
+                    focusedContainerColor = AppColors.background,
+                    unfocusedContainerColor = AppColors.background
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
                 label = { Text("Name") },
@@ -194,25 +215,6 @@ fun RegisterScreen (
                 onValueChange = { password = it },
                 label = { Text("Password") },
                 visualTransformation = PasswordVisualTransformation(),
-                singleLine = true,
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = AppColors.textPrimary,
-                    unfocusedTextColor = AppColors.textPrimary,
-                    focusedLabelColor = AppColors.buttonSecondary,
-                    unfocusedLabelColor = AppColors.textPrimary,
-                    focusedBorderColor = AppColors.buttonSecondary,
-                    unfocusedBorderColor = AppColors.buttonPrimary,
-                    focusedContainerColor = AppColors.background,
-                    unfocusedContainerColor = AppColors.background
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username") },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
