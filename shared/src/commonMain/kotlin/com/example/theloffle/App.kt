@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 //APP DATA
@@ -29,7 +31,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
-
+//DATA BASE
+import com.example.theloffle.db.TheLoffleDatabase
 //RESOURCE IMAGE
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.main_filled
@@ -51,16 +54,17 @@ import com.example.theloffle.features.inicio.presentation.ui.RegisterScreenRoot
 //HOME SCREEN
 import com.example.theloffle.features.diario.ui.HomeScreenRoot
 import com.example.theloffle.features.diario.presentation.HomeViewModel
-//MEAL REGISTER SCREEN
-import com.example.theloffle.features.diario.ui.MealRegisterScreenRoot
+//MEAL REGISTER
 import com.example.theloffle.features.diario.presentation.MealRegisterViewModel
 //RECIPE SCREEN
-import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.recetas.ui.RecipeScreenRoot
 import com.example.theloffle.features.recetas.ui.RecipeViewModel
+//CREATE RECIPE SCREEN
+import com.example.theloffle.features.recetas.ui.CreateRecipeScreenRoot
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
+import com.example.theloffle.features.diario.domain.model.FoodPages
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 import com.example.theloffle.features.recetas.presentation.PublicationViewModel
@@ -80,16 +84,23 @@ fun App(
     val isLoggedIn by containerRepo.authRepoInstance
         .isLoggedIn
         .collectAsState()
-    val showBottomBar = isLoggedIn && !(
-                    currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
-                    currentDestination?.hasRoute<Route.MealRegisterScreen>() == true ||
-                    currentDestination?.hasRoute<Route.LogInScreen>() == true ||
-                    currentDestination?.hasRoute<Route.RegisterScreen>() == true
-            )
+    // Val para comprobar si estamos en selecion de recetas para quitar el bottombar
+    val isRecipeInSelectionMode = if (currentDestination?.hasRoute<Route.RecipeScreen>() == true) {
+        backStackEntry?.toRoute<Route.RecipeScreen>()?.isSelectionMode == true
+    } else {
+        false
+    }
+    val showBottomBar = !(
+            currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
+            currentDestination?.hasRoute<Route.CreateRecipeScreen>() == true ||
+            currentDestination?.hasRoute<Route.LogInScreen>() == true ||
+            currentDestination?.hasRoute<Route.RegisterScreen>() == true ||
+            isRecipeInSelectionMode
+        )
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
-        BottomBarItem(Route.RecipeScreen, "Recetas", Res.drawable.recipe_filled, Res.drawable.recipe_unfilled),
+        BottomBarItem(Route.RecipeScreen(), "Recetas", Res.drawable.recipe_filled, Res.drawable.recipe_unfilled),
         BottomBarItem(Route.SearchScreen, "Buscar", Res.drawable.search_filled, Res.drawable.search_unfilled),
         BottomBarItem(Route.ProfileScreen, "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
     )
@@ -137,7 +148,8 @@ fun App(
                 navController = navController,
                 // TODO: need to check if user is logged in or not, if logged in
                 // TODO: start = Home if not start = LogIn
-                startDestination = Route.LogInScreen,
+                startDestination = Route.HomeScreen,
+                // startDestination = if (isLoggedIn) Route.HomeScreen else Route.LogInScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
 
@@ -193,14 +205,29 @@ fun App(
                         }
                     )
                 }
-                composable<Route.HomeScreen> {
+                composable<Route.HomeScreen> { homeBackStackEntry ->
                     val viewModel: HomeViewModel = viewModel {
                         HomeViewModel(repository = containerRepo.recipeRepoInstance)
                     }
+
+                    val savedStateHandle = homeBackStackEntry.savedStateHandle
+                    val mealName = savedStateHandle.get<String>("registered_meal")
+                    val recipeId = savedStateHandle.get<Int>("registered_recipe_id")
+
+                    LaunchedEffect(mealName, recipeId) {
+                        if (mealName != null && recipeId != null) {
+                            viewModel.registerMealRecipe(FoodPages.valueOf(mealName), recipeId)
+                            savedStateHandle.remove<String>("registered_meal")
+                            savedStateHandle.remove<Int>("registered_recipe_id")
+                        }
+                    }
                     HomeScreenRoot(
                         viewModel = viewModel,
-                        onMealClick = { foodPage ->
-                            navController.navigate(Route.MealRegisterScreen(foodPage))
+                        onNavigateToSelectRecipe = { foodPage ->
+                            navController.navigate(Route.RecipeScreen(isSelectionMode = true, mealId = foodPage))
+                        },
+                        onNavigateToCreateRecipe = { foodPage ->
+                            navController.navigate(Route.CreateRecipeScreen(mealId = foodPage))
                         },
                         onPublicationClick = { recipeId ->
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
@@ -213,42 +240,85 @@ fun App(
                         modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
                     )
                 }
-                composable<Route.MealRegisterScreen> { backStackEntry ->
-                    val routeData = backStackEntry.toRoute<Route.MealRegisterScreen>()
-                    val foodPage = routeData.mealId
-
-                    val mealRegisterViewModel: MealRegisterViewModel = viewModel {
-                        MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
-                    }
-
-                    val recipeViewModel: RecipeViewModel = viewModel {
+                composable<Route.RecipeScreen> { backStackEntry ->
+                    val routeData = backStackEntry.toRoute<Route.RecipeScreen>()
+                    val viewModel: RecipeViewModel = viewModel {
                         RecipeViewModel(repository = containerRepo.recipeRepoInstance)
                     }
-
-                    MealRegisterScreenRoot(
-                        foodPage = foodPage,
-                        viewModel = mealRegisterViewModel,
-                        recipeViewModel = recipeViewModel,
+                    val mealRegisterViewModel: MealRegisterViewModel = viewModel{
+                        MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
+                    }
+                    LaunchedEffect(routeData.mealId) {
+                        if (routeData.isSelectionMode) {
+                            mealRegisterViewModel.initMealType(routeData.mealId)
+                        }
+                    }
+                    var selectedIdToReturn by remember { mutableStateOf<Int?>(null) }
+                    LaunchedEffect(mealRegisterViewModel.uiState.isSuccess) {
+                        if (mealRegisterViewModel.uiState.isSuccess) {
+                            mealRegisterViewModel.resetSuccessState()
+                            selectedIdToReturn?.let { id ->
+                                navController.previousBackStackEntry?.savedStateHandle?.apply {
+                                    set("registered_meal", routeData.mealId.name) // Pasamos el .name (String)
+                                    set("registered_recipe_id", id)
+                                }
+                            }
+                            navController.popBackStack()
+                        }
+                    }
+                    RecipeScreenRoot(
+                        viewModel = viewModel,
+                        isSelectionMode = routeData.isSelectionMode,
+                        onRecipeClick = { recipeId ->
+                            navController.navigate(Route.PublicationScreen(recipeId = recipeId))
+                        },
+                        onConfirmSelection = { selectedRecipeId ->
+                            selectedIdToReturn = selectedRecipeId
+                            val selectedRecipe = viewModel.uiState.value.recipes.find { it.id == selectedRecipeId }
+                            if (selectedRecipe != null) {
+                                mealRegisterViewModel.onSaveExistingRecipe(selectedRecipe)
+                            }
+                        },
                         onNavigateBack = {
                             navController.popBackStack()
+                        },
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen) {
+                                popUpTo<Route.HomeScreen> { inclusive = true }
+                            }
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
-                composable<Route.RecipeScreen> {
-                    val viewModel: RecipeViewModel = viewModel {
-                        RecipeViewModel(repository = containerRepo.recipeRepoInstance)
+                composable<Route.CreateRecipeScreen> { backStackEntry ->
+                    val routeData = backStackEntry.toRoute<Route.CreateRecipeScreen>()
+                    val foodPage = routeData.mealId
+
+                    val viewModel: MealRegisterViewModel = viewModel {
+                        MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
                     }
-                    RecipeScreenRoot(
-                        viewModel = viewModel,
-                        onRecipeClick = { recipeId ->
-                            navController.navigate(Route.PublicationScreen(recipeId = recipeId))
-                        },
-                        onNavigateToHome = {
-                            navController.navigate(Route.HomeScreen){
-                                //Limpia la pila para evitar acumular pantallas
-                                popUpTo<Route.HomeScreen> {inclusive = true}
+
+                    LaunchedEffect(foodPage) {
+                        viewModel.initMealType(foodPage)
+                    }
+
+                    LaunchedEffect(viewModel.uiState.isSuccess) {
+                        if (viewModel.uiState.isSuccess) {
+                            viewModel.resetSuccessState()
+                            if (foodPage != FoodPages.NONE) {
+                                navController.previousBackStackEntry?.savedStateHandle?.apply {
+                                    set("registered_meal", foodPage.name)
+                                    set("registered_recipe_id", viewModel.uiState.savedRecipeId ?: 0)
+                                }
                             }
+                            navController.popBackStack()
+                        }
+                    }
+                    CreateRecipeScreenRoot(
+                        foodPage = foodPage,
+                        viewModel = viewModel,
+                        onNavigateBack = {
+                            navController.popBackStack()
                         },
                         modifier = Modifier.padding(innerPadding)
                     )

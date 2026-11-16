@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 data class MealRegisterUiState(
     val selectedMealType: FoodPages = FoodPages.NONE,
+    val savedRecipeId: Int?= null,
     val name: String = "",
     val author: String = "",
     val ingredients: List<String> = emptyList(),
@@ -72,6 +73,29 @@ class MealRegisterViewModel(
         uiState = uiState.copy(ingredients = uiState.ingredients - ingredient)
     }
 
+
+    // Guarda en el registro una receta ya creada
+    fun onSaveExistingRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            uiState = uiState.copy(isLoading = true, errorMessage = null)
+
+            val result = repository.saveMealRecipe(
+                recipe = recipe,
+                imageBytes = null,
+                targetMeal = uiState.selectedMealType
+            )
+
+            result.onSuccess {
+                uiState = uiState.copy(isLoading = false, isSuccess = true, savedRecipeId = recipe.id)
+            }.onFailure { throwable ->
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = throwable.message ?: "Error al registrar la receta"
+                )
+            }
+        }
+    }
+
     // Guarda o publica asociando la comida (selectedMealType)
     fun onSaveRecipe(imageBytes: ByteArray?, isPublished: Boolean) {
         if (uiState.name.isBlank() || uiState.ingredients.isEmpty()) {
@@ -101,7 +125,7 @@ class MealRegisterViewModel(
             )
 
             result.onSuccess {
-                uiState = uiState.copy(isLoading = false, isSuccess = true)
+                uiState = uiState.copy(isLoading = false, isSuccess = true, savedRecipeId = newRecipe.id)
             }.onFailure { throwable ->
                 uiState = uiState.copy(
                     isLoading = false,
