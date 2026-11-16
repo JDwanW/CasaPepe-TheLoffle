@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.compose.foundation.layout.navigationBarsPadding
 //DATA BASE
 import com.example.theloffle.db.TheLoffleDatabase
 //RESOURCE IMAGE
@@ -131,7 +132,9 @@ fun App(
                             restoreState = true
                         }
                     },
-                    modifier = Modifier.clickable(
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                         onClick = {}
@@ -236,8 +239,7 @@ fun App(
                             // Navega al perfil del usuario
                             // navController.navigate(Route.ProfileScreen(username = username))
                         },
-                        // TODO: si cierras app y entras dando al icono por alguna razon hace un bottom padding
-                        modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
                 composable<Route.RecipeScreen> { backStackEntry ->
