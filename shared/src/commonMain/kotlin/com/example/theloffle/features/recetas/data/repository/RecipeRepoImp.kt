@@ -40,7 +40,7 @@ class RecipeRepoImp(
     private val filtersByFile = mutableMapOf<String, Set<String>>()
     private val allRecipes = MockRecipeDataSource.recipes
 
-    init{
+    init {
         localDataSource?.insertIfEmpty(MockRecipeDataSource.recipes)
     }
 
@@ -61,49 +61,57 @@ class RecipeRepoImp(
     }
 
     override suspend fun getRecipesInFile(fileName: String): List<Recipe> {
-        val recipes = if(localDataSource != null){
+        val recipes = if (localDataSource != null) {
             // Usamos una corrutina en la busqueda
-            withContext(workDispatcher){
+            withContext(workDispatcher) {
                 localDataSource.getAll()
             }
-        }
-        else{
+        } else {
             allRecipes
         }
-        return recipes.filter { it.tags.contains(fileName) }
+        return visible(recipes.filter { it.tags.contains(fileName) })
     }
 
-    // Si la bbdd existe busca por id
+    // busca por id
     override suspend fun getRecipeById(id: Int): Recipe? {
-        return if(localDataSource != null){
-            // Usamos una corrutina
+        val recipeFound = if (localDataSource != null) {
             withContext(workDispatcher) { localDataSource.getById(id) }
+        } else {
+            allRecipes.find { it.id == id }
         }
-        else{
-            allRecipes.find {it.id == id}
-        }
+        return if (recipeFound != null && couldSee(recipeFound)) recipeFound else null
     }
 
     // Se obtienen las recetas que tienen los filtros
     override suspend fun getRecipesByFilters(filters: List<String>): List<Recipe> {
         if (filters.isEmpty()) return emptyList()
-        val recipes = if(localDataSource != null){
+        val recipes = if (localDataSource != null) {
             // Usamos una corrutina para la busqueda
-            withContext(workDispatcher){ localDataSource.getAll() }
-        }
-        else{
+            withContext(workDispatcher) { localDataSource.getAll() }
+        } else {
             allRecipes
         }
-        return recipes.filter { it.tags.containsAll(filters) }
+        return visible(recipes.filter { it.tags.containsAll(filters) })
     }
 
     override suspend fun saveRecipe(recipe: Recipe): Int {
         val author = session.current.value ?: return -1 // Si es null --> -1
-        if(localDataSource == null) return -1
+        if (localDataSource == null) return -1
         // Usando corrutina devolvemos la id al insertar receta
         // El autor ponemos que sea el que ha iniciado la sesion
-        return withContext(workDispatcher){
-            localDataSource.insert(recipe.copy(author =author))
+        return withContext(workDispatcher) {
+            localDataSource.insert(recipe.copy(author = author))
         }
+    }
+
+    // Comprobamos la visibilidad para una receta concreta
+    private fun couldSee(recipe: Recipe): Boolean {
+        return recipe.published || recipe.author == session.current.value
+    }
+
+    // Devuelve lista de recetas que son visibles para el usuario
+    private fun visible(recipeList: List<Recipe>): List<Recipe> {
+        val actualUser = session.current.value
+        return recipeList.filter { couldSee(it) }
     }
 }
