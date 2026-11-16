@@ -43,7 +43,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -102,7 +101,9 @@ fun MealRegisterScreenRoot(
         onRemoveIngredient = viewModel::onRemoveIngredient,
         onSaveRecipe = viewModel::onSaveRecipe,
         onCancel = onNavigateBack,
-        modifier = modifier
+        modifier = modifier,
+        onAddTag = viewModel::onAddTag,
+        onRemoveTag = viewModel::onRemoveTag
     )
 }
 
@@ -117,6 +118,8 @@ private fun MealRegisterScreen(
     onDescriptionChanged: (String) -> Unit,
     onAddIngredient: (String) -> Unit,
     onRemoveIngredient: (String) -> Unit,
+    onAddTag: (String) -> Unit,
+    onRemoveTag: (String) -> Unit,
     onSaveRecipe: (imageBytes: ByteArray?, isPublished: Boolean) -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
@@ -189,7 +192,9 @@ private fun MealRegisterScreen(
                 onRemoveIngredient = onRemoveIngredient,
                 onSaveRecipe = onSaveRecipe,
                 onCancel = onCancel,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onAddTag = onAddTag,
+                onRemoveTag = onRemoveTag
             )
         }
     }
@@ -398,20 +403,21 @@ private fun CreateRecipeSection(
     onDescriptionChanged: (String) -> Unit,
     onAddIngredient: (String) -> Unit,
     onRemoveIngredient: (String) -> Unit,
+    onAddTag: (String) -> Unit,
+    onRemoveTag: (String) -> Unit,
     onSaveRecipe: (imageBytes: ByteArray?, isPublished: Boolean) -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
-    val chosenFilters = remember { mutableStateListOf<String>() }
 
-    val isFormValid = uiState.name.isNotBlank() && chosenFilters.isNotEmpty()
+    val isFormValid = uiState.name.isNotBlank() && uiState.chosenTags.isNotEmpty()
 
     var filtersExpanded by remember { mutableStateOf(false) }
     var ingredientsExpanded by remember { mutableStateOf(false) }
 
-    val remainingFilters = remember(uiState.selectedTags, chosenFilters.toList()) {
-        uiState.selectedTags.filter { it !in chosenFilters }
+    val remainingFilters = remember(uiState.selectedTags, uiState.chosenTags.toList()) {
+        uiState.selectedTags.filter { it !in uiState.chosenTags}
     }
 
     val remainingIngredients = remember(uiState.availableIngredients, uiState.ingredients) {
@@ -490,7 +496,7 @@ private fun CreateRecipeSection(
                             DropdownMenuItem(
                                 text = { Text(filter) },
                                 onClick = {
-                                    chosenFilters.add(filter)
+                                    onAddTag(filter)
                                     filtersExpanded = false
                                 }
                             )
@@ -500,7 +506,7 @@ private fun CreateRecipeSection(
             }
             // Aqui se muestra el mensaje de que se seleccione un filtro como minimo
             // En otro caso muestra los seleccionados y permite quitarlos
-            if (chosenFilters.isEmpty()) {
+            if (uiState.chosenTags.isEmpty()) {
                 Text(
                     text = "Añade al menos una categoría de la lista.",
                     color = MaterialTheme.colorScheme.error,
@@ -512,10 +518,10 @@ private fun CreateRecipeSection(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    chosenFilters.forEach { filter ->
+                    uiState.chosenTags.forEach { filter ->
                         InputChip(
                             selected = false,
-                            onClick = { chosenFilters.remove(filter) },
+                            onClick = { onRemoveTag(filter) },
                             label = { Text("$filter  ✕") }
                         )
                     }

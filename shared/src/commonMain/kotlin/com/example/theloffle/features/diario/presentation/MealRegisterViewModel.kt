@@ -17,6 +17,7 @@ data class MealRegisterUiState(
     val ingredients: List<String> = emptyList(),
     val availableIngredients: List<String> = emptyList(),
     val selectedTags: List<String> = emptyList(),
+    val chosenTags: List<String> = emptyList(),
     val description: String = "",
     val published: Boolean? = false,
     val rating: Double = 0.0,
@@ -87,7 +88,7 @@ class MealRegisterViewModel(
                 name = uiState.name,
                 author = uiState.author.ifBlank { "Usuario" },
                 ingredients = uiState.ingredients,
-                tags = uiState.selectedTags,
+                tags = uiState.chosenTags,
                 description = uiState.description,
                 published = isPublished,
                 imageUrl = uiState.imageUri,
@@ -114,4 +115,16 @@ class MealRegisterViewModel(
     fun resetSuccessState() {
         uiState = uiState.copy(isSuccess = false)
     }
+
+    // Para añadir y quitar tags
+    fun onAddTag(tag: String) {
+        if (tag.isNotBlank() && !uiState.chosenTags.contains(tag)) {
+            uiState = uiState.copy(chosenTags = uiState.chosenTags + tag)
+        }
+    }
+
+    fun onRemoveTag(tag: String) {
+        uiState = uiState.copy(chosenTags = uiState.chosenTags - tag)
+    }
 }
+
