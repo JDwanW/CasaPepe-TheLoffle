@@ -47,12 +47,11 @@ class ProfileViewModel(
                 val user = userRepository.getUserByUsername(username)
 
                 // Cargamos las recetas usando el username encontrado o el pasado por parámetro
-                val targetName = user?.username ?: username
-                val userPublishedRecipes = recipeRepository.getPublishedRecipesByUser(targetName)
+                val userPublishedRecipes = recipeRepository.getPublishedRecipesByUser(username)
 
                 _uiState.update {
                     it.copy(
-                        username = targetName,
+                        username = username,
                         profileImageUrl = user?.profilePhoto,
                         publishedRecipes = userPublishedRecipes,
                         isLoading = false

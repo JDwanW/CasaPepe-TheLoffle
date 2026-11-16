@@ -97,7 +97,7 @@ class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) 
         // TODO: DANI, a lo mejor es mejor comparar con el id del usuario
         // Si usas SQLDelight / Room, hazlo directamente en la query SQL:
         // SELECT * FROM Recipe WHERE published = 1 AND author = :author
-        return getRecipesByFilters(emptyList()).filter { recipe ->
+        return getRecipesByFilters(filters).filter { recipe ->
             recipe.published && recipe.author.equals(author, ignoreCase = true)
         }
     }
