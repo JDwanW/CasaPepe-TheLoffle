@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.core.UI_System.theme.AppColors
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
@@ -75,21 +76,7 @@ fun RegisterScreen (
     ) {
         Spacer(modifier = Modifier.height(70.dp))
 
-        Text(
-            text = "TheLoffle",
-            color = AppColors.textPrimary,
-            style = MaterialTheme.typography.headlineLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp)
-        )
-
-        Image(
-            painter = painterResource(Res.drawable.logo),
-            contentDescription = "TheLoffle Logo",
-            modifier = Modifier.size(75.dp)
-        )
+        Header()
 
         Spacer(modifier = Modifier.height(70.dp))
 
@@ -100,7 +87,7 @@ fun RegisterScreen (
             Image(
                 painter = painterResource(Res.drawable.circle_confirmation),
                 contentDescription = "Registration successful",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(100.dp)
 
             )
             Text("Registration successful!")
@@ -109,7 +96,7 @@ fun RegisterScreen (
             Image(
                 painter = painterResource(Res.drawable.circle_error),
                 contentDescription = "Registration successful",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(100.dp)
 
             )
             Text("Registration went wrong - Email or Username is already used!")
@@ -125,6 +112,8 @@ fun RegisterScreen (
             }
 
         } else {
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedTextField(
                 value = name,
@@ -187,13 +176,10 @@ fun RegisterScreen (
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
-
             OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation(),
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Username") },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -209,10 +195,13 @@ fun RegisterScreen (
                 modifier = Modifier.fillMaxWidth()
             )
 
+            Spacer(modifier = Modifier.height(12.dp))
+
             OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username") },
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(

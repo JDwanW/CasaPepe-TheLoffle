@@ -1,4 +1,5 @@
-//DATA BASE
+
+package com.example.theloffle.di
 import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.inicio.data.AuthRepoImp
 import com.example.theloffle.features.inicio.data.datasource.AuthLocalDataSource
