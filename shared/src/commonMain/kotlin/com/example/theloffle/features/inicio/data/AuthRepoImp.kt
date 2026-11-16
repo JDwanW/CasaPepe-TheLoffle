@@ -1,9 +1,12 @@
 package com.example.theloffle.features.inicio.data
 
 import androidx.compose.runtime.structuralEqualityPolicy
+import com.example.theloffle.core.database.workDispatcher
+import com.example.theloffle.features.inicio.data.datasource.AuthLocalDataSource
 import com.example.theloffle.features.inicio.domain.model.User
 import com.example.theloffle.features.inicio.domain.repository.AuthRepo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 
 private val users = mutableListOf<User>(
@@ -15,8 +18,9 @@ private val users = mutableListOf<User>(
     User("test", "test", "Theo", "Retisch", "Theorema")
 )
 
-class AuthRepoImp : AuthRepo {
-
+class AuthRepoImp(
+    private val localDataSource: AuthLocalDataSource? = null
+) : AuthRepo {
 
     override suspend fun register(
         email: String,
@@ -28,9 +32,25 @@ class AuthRepoImp : AuthRepo {
 
         //este delay solo es para que se vea el circulo un poco
         delay(2000)
-
         val normalizedEmail = email.trim().lowercase()
 
+        if(localDataSource != null){
+            return withContext(workDispatcher){
+                // Cargamos si la bbdd vacio los ejemplos para poder probar (solo una vez como mucho)
+                localDataSource.insertIfEmpty(users)
+                if(localDataSource.emailExists(normalizedEmail) ||
+                    localDataSource.usernameExists(username)){
+                    false
+                }
+                else{
+                    localDataSource.insert(User(normalizedEmail, password, name, surname, username))
+                    true
+                }
+            }
+        }
+
+        // Aqui no deberia llegar nunca, dejo lo que estaba porque no afecta
+        // Lo dejo en vez de borrarlo y asi podriamos decir que tenemos un "seguro por si falla"
         val exists = users.any { user ->
             user.email == normalizedEmail || user.username == username}
         if (!exists) {
@@ -49,13 +69,24 @@ class AuthRepoImp : AuthRepo {
 
         //este delay solo es para que se vea el circulo un poco
         delay(2000)
-
         val normalizedEmail = email.trim().lowercase()
 
-        val exists = users.any { user ->
-            user.email == normalizedEmail && user.password == password
+        // Comprueba que hay un usuario con ese email
+        // Recordemos que el email es unico asi que solo devolveria un usuario o ninguno findByEmail
+        if(localDataSource != null){
+            return withContext(workDispatcher){
+                // Cargamos si la bbdd vacio los ejemplos para poder probar
+                localDataSource.insertIfEmpty(users)
+                val user = localDataSource.findByEmail(normalizedEmail)
+                user != null && user.email.trim().lowercase() == email.trim().lowercase() &&
+                        user.password == password
+            }
         }
 
+        // Lo mismo lo dejo pero aqui pero aqui no llega nunca si va la bbdd
+        val exists = users.any { user ->
+            user.email.trim().lowercase() == normalizedEmail && user.password == password
+        }
         if (exists) {
             return true
         }

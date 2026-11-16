@@ -6,6 +6,7 @@ import com.example.theloffle.features.buscador.data.repository.SearchRepoImp
 import com.example.theloffle.features.buscador.domain.repository.SearchRepo
 import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.inicio.data.AuthRepoImp
+import com.example.theloffle.features.inicio.data.datasource.AuthLocalDataSource
 import com.example.theloffle.features.inicio.domain.repository.AuthRepo
 import com.example.theloffle.features.recetas.data.datasource.RecipeLocalDataSource
 
@@ -19,7 +20,7 @@ interface AppContainer {
 class DefaultAppContainer (private val database: TheLoffleDatabase? = null): AppContainer{
 
     override val authRepoInstance: AuthRepo by lazy{
-        AuthRepoImp()
+        AuthRepoImp(database?.let { AuthLocalDataSource(it) })
     }
 
     override val mealRegisterRepoInstance: MealRegisterRepo by lazy{
