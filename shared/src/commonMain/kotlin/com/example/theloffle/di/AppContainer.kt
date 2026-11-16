@@ -32,10 +32,11 @@ class DefaultAppContainer (private val database: TheLoffleDatabase? = null): App
     }
 
     override val mealRegisterRepoInstance: MealRegisterRepo by lazy{
-        MealRegisterRepoImp()
+        MealRegisterRepoImp(recipeRepoInstance)
     }
     override val recipeRepoInstance: RecipeRepo by lazy {
-        RecipeRepoImp(database?.let { RecipeLocalDataSource(it) })
+        RecipeRepoImp(database?.let { RecipeLocalDataSource(it) },
+            sessionInstance)
     }
     override val searchRepoInstance: SearchRepo by lazy {
         SearchRepoImp(recipeRepoInstance)

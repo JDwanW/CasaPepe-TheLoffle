@@ -1,5 +1,6 @@
 package com.example.theloffle.features.recetas.data.repository
 
+import com.example.theloffle.core.UserSession
 import com.example.theloffle.core.database.workDispatcher
 import com.example.theloffle.features.recetas.data.datasource.MockRecipeDataSource
 import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
@@ -31,7 +32,10 @@ private val filters = listOf(
     "Sartén"
 )
 
-class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) : RecipeRepo {
+class RecipeRepoImp(
+    private val localDataSource: RecipeLocalDataSource? = null,
+    private val session: UserSession
+) : RecipeRepo {
     private val selected = mutableSetOf<String>()
     private val filtersByFile = mutableMapOf<String, Set<String>>()
     private val allRecipes = MockRecipeDataSource.recipes
@@ -91,5 +95,15 @@ class RecipeRepoImp(private val localDataSource: RecipeLocalDataSource? = null) 
             allRecipes
         }
         return recipes.filter { it.tags.containsAll(filters) }
+    }
+
+    override suspend fun saveRecipe(recipe: Recipe): Int {
+        val author = session.current.value ?: return -1 // Si es null --> -1
+        if(localDataSource == null) return -1
+        // Usando corrutina devolvemos la id al insertar receta
+        // El autor ponemos que sea el que ha iniciado la sesion
+        return withContext(workDispatcher){
+            localDataSource.insert(recipe.copy(author =author))
+        }
     }
 }

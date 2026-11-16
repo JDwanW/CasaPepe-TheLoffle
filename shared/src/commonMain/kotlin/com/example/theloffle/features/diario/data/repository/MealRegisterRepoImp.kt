@@ -3,8 +3,7 @@ package com.example.theloffle.features.diario.data.repository
 import com.example.theloffle.features.diario.domain.model.FoodPages
 import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
 import com.example.theloffle.features.recetas.domain.model.Recipe
-import kotlin.random.Random
-import kotlin.time.Clock
+import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 
 // Right now the list is hardcode but we can make it dynamic from bbdd
 private val filters = listOf(
@@ -49,7 +48,9 @@ private val ingredients = listOf(
     "Pimienta Negra"
 )
 
-class MealRegisterRepoImp : MealRegisterRepo {
+class MealRegisterRepoImp(
+    private val recipeRepo: RecipeRepo
+) : MealRegisterRepo {
 
     override suspend fun getIngredientsList(): List<String> {
         return ingredients
@@ -64,7 +65,10 @@ class MealRegisterRepoImp : MealRegisterRepo {
         imageBytes: ByteArray?,
         targetMeal: FoodPages
     ): Result<Unit> {
-        // Método vacío para implementar la lógica de guardado más adelante
+        val id = recipeRepo.saveRecipe(recipe)
+        if(id <= 0){
+            return Result.failure(Exception("No se ha podido guardar la receta"))
+        }
         return Result.success(Unit)
     }
 }

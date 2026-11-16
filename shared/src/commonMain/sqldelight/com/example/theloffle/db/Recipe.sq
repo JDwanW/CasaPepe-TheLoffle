@@ -16,3 +16,7 @@ SELECT * FROM Recipes WHERE id = :id;
 insertRecipe:
 INSERT INTO Recipes(author, name, published, json) -- Id is automatically asigned
 VALUES (:author,:name, :published, :json);
+
+-- Para que devuelva el id del ultimo añadido a la bbdd
+lastInsertedId:
+SELECT last_insert_rowid();
