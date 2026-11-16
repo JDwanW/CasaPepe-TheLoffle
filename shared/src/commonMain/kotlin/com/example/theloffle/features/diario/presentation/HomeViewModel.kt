@@ -13,7 +13,7 @@ import com.example.theloffle.features.recetas.domain.model.Recipe
 
 data class HomeUiState(
     val selectedMeal: FoodPages = FoodPages.NONE,
-    val registeredMeals: Set<FoodPages> = emptySet(),
+    val registeredMeals: Map<FoodPages, Int> = emptyMap(),
     val feedRecipes: List<Recipe> = emptyList(),
     val isLoading: Boolean = false,
     val errorMessage: String? = null
@@ -46,8 +46,14 @@ class HomeViewModel(
             }
         }
     }
-
     fun onMealSelected(meal: FoodPages) {
         _uiState.update { it.copy(selectedMeal = meal) }
+    }
+    fun registerMealRecipe(meal: FoodPages, recipeId: Int) {
+        if (meal != FoodPages.NONE) {
+            _uiState.update { state ->
+                state.copy(registeredMeals = state.registeredMeals + (meal to recipeId))
+            }
+        }
     }
 }

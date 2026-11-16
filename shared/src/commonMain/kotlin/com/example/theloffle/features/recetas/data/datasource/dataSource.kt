@@ -9,7 +9,8 @@ object MockRecipeDataSource {
             author = "PepitoVAS",
             name = "Paella Valenciana",
             ingredients = listOf("ARROZ", "POLLO", "CONEJO"),
-            tags = listOf("Española", "Sartén", "Carnes"),
+            tags = listOf("Española", "Sartén", "Carnes", "Pescados", "Vegetariano",
+                "Vegano", "Sin Alergias",  "Sin Gluten", "Horno", "AirFryer",),
             description = "Cocinar a fuego lento...",
             published = true,
             imageUrl = "https://picsum.photos/seed/paella/400/300"
