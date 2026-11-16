@@ -38,6 +38,7 @@ import com.example.theloffle.core.UI_System.theme.AppColors
 import com.example.theloffle.features.diario.domain.model.FoodPages
 import com.example.theloffle.features.diario.presentation.MealRegisterUiState
 import com.example.theloffle.features.diario.presentation.MealRegisterViewModel
+import com.example.theloffle.features.recetas.ui.components.RecipeDetailLayout
 
 @Composable
 fun CreateRecipeScreenRoot(
@@ -47,6 +48,8 @@ fun CreateRecipeScreenRoot(
     modifier: Modifier = Modifier
 ) {
     val uiState = viewModel.uiState
+    val chosenFilters = remember { mutableStateListOf<String>() }
+    val isFormValid = uiState.name.isNotBlank() && chosenFilters.isNotEmpty()
 
     LaunchedEffect(foodPage) {
         viewModel.initMealType(foodPage)
@@ -59,264 +62,66 @@ fun CreateRecipeScreenRoot(
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Header()
-
-        CreateRecipeSection(
-            uiState = uiState,
-            onTitleChanged = viewModel::onTitleChanged,
-            onDescriptionChanged = viewModel::onDescriptionChanged,
-            onAddIngredient = viewModel::onAddIngredient,
-            onRemoveIngredient = viewModel::onRemoveIngredient,
-            onSaveRecipe = viewModel::onSaveRecipe,
-            onCancel = onNavigateBack,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@Composable
-private fun CreateRecipeSection(
-    uiState: MealRegisterUiState,
-    onTitleChanged: (String) -> Unit,
-    onDescriptionChanged: (String) -> Unit,
-    onAddIngredient: (String) -> Unit,
-    onRemoveIngredient: (String) -> Unit,
-    onSaveRecipe: (imageBytes: ByteArray?, isPublished: Boolean) -> Unit,
-    onCancel: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val scrollState = rememberScrollState()
-    val chosenFilters = remember { mutableStateListOf<String>() }
-
-    val isFormValid = uiState.name.isNotBlank() && chosenFilters.isNotEmpty()
-
-    var filtersExpanded by remember { mutableStateOf(false) }
-    var ingredientsExpanded by remember { mutableStateOf(false) }
-
-    val remainingFilters = remember(uiState.selectedTags, chosenFilters.toList()) {
-        uiState.selectedTags.filter { it !in chosenFilters }
-    }
-
-    val remainingIngredients = remember(uiState.availableIngredients, uiState.ingredients) {
-        uiState.availableIngredients.filter { it !in uiState.ingredients }
-    }
-
-    Column(modifier = modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            if (uiState.errorMessage != null) {
-                Text(
-                    text = uiState.errorMessage,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            OutlinedTextField(
-                value = uiState.name,
-                onValueChange = onTitleChanged,
-                label = { Text("Nombre de la receta *") },
-                isError = uiState.name.isBlank(),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Text(
-                text = "Foto de la receta",
-                style = MaterialTheme.typography.titleMedium,
-                color = AppColors.textPrimary
-            )
-            OutlinedButton(
-                onClick = { /* TODO: Disparar PhotoPicker */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(if (uiState.selectedImageBytes != null) "Cambiar Foto" else "Seleccionar Foto (Opcional)")
-            }
-
-            Text(
-                text = "Filtros / Categorías *",
-                style = MaterialTheme.typography.titleMedium,
-                color = AppColors.textPrimary
-            )
-            ExposedDropdownMenuBox(
-                expanded = filtersExpanded,
-                onExpandedChange = { filtersExpanded = !filtersExpanded },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text("Seleccionar filtro de la lista") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = filtersExpanded) },
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
-                )
-                ExposedDropdownMenu(
-                    expanded = filtersExpanded,
-                    onDismissRequest = { filtersExpanded = false }
-                ) {
-                    if (remainingFilters.isEmpty()) {
-                        DropdownMenuItem(
-                            text = { Text("No hay más filtros disponibles") },
-                            onClick = { filtersExpanded = false }
-                        )
-                    } else {
-                        remainingFilters.forEach { filter ->
-                            DropdownMenuItem(
-                                text = { Text(filter) },
-                                onClick = {
-                                    chosenFilters.add(filter)
-                                    filtersExpanded = false
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-
-            if (chosenFilters.isEmpty()) {
-                Text(
-                    text = "Añade al menos una categoría de la lista.",
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    chosenFilters.forEach { filter ->
-                        InputChip(
-                            selected = false,
-                            onClick = { chosenFilters.remove(filter) },
-                            label = { Text("$filter  ✕") }
-                        )
-                    }
-                }
-            }
-
-            Text(
-                text = "Ingredientes",
-                style = MaterialTheme.typography.titleMedium,
-                color = AppColors.textPrimary
-            )
-            ExposedDropdownMenuBox(
-                expanded = ingredientsExpanded,
-                onExpandedChange = { ingredientsExpanded = !ingredientsExpanded },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text("Seleccionar ingrediente de la lista") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = ingredientsExpanded) },
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
-                )
-                ExposedDropdownMenu(
-                    expanded = ingredientsExpanded,
-                    onDismissRequest = { ingredientsExpanded = false }
-                ) {
-                    if (remainingIngredients.isEmpty()) {
-                        DropdownMenuItem(
-                            text = { Text("No hay más ingredientes disponibles") },
-                            onClick = { ingredientsExpanded = false }
-                        )
-                    } else {
-                        remainingIngredients.forEach { ingredient ->
-                            DropdownMenuItem(
-                                text = { Text(ingredient) },
-                                onClick = {
-                                    onAddIngredient(ingredient)
-                                    ingredientsExpanded = false
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-
-            if (uiState.ingredients.isNotEmpty()) {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    uiState.ingredients.forEach { ingredient ->
-                        InputChip(
-                            selected = false,
-                            onClick = { onRemoveIngredient(ingredient) },
-                            label = { Text("$ingredient  ✕") }
-                        )
-                    }
-                }
-            }
-
-            OutlinedTextField(
-                value = uiState.description,
-                onValueChange = onDescriptionChanged,
-                label = { Text("Descripción (Opcional)") },
-                minLines = 3,
-                maxLines = 5,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Row(
+    RecipeDetailLayout(
+        isEditable = true,
+        name = uiState.name,
+        imageModel = uiState.selectedImageBytes ?: uiState.imageUri,
+        author = uiState.author,
+        published = false,
+        rating = 0.0,
+        tags = chosenFilters,
+        description = uiState.description,
+        ingredients = uiState.ingredients,
+        onNameChange = viewModel::onTitleChanged,
+        onPickImageClick = { /* TODO: Disparar PhotoPicker */ },
+        availableTags = uiState.selectedTags,
+        onAddTag = { if (it !in chosenFilters) chosenFilters.add(it) },
+        onRemoveTag = { chosenFilters.remove(it) },
+        availableIngredients = uiState.availableIngredients,
+        onAddIngredient = viewModel::onAddIngredient,
+        onRemoveIngredient = viewModel::onRemoveIngredient,
+        onDescriptionChange = viewModel::onDescriptionChanged,
+        bottomActions = {
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = { viewModel.onSaveRecipe(uiState.selectedImageBytes, false) },
+                        enabled = !uiState.isLoading && isFormValid,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(if (uiState.isLoading) "Guardando..." else "Subir Receta")
+                    }
+
+                    Button(
+                        onClick = { viewModel.onSaveRecipe(uiState.selectedImageBytes, true) },
+                        enabled = !uiState.isLoading && isFormValid,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AppColors.buttonPrimary,
+                            contentColor = AppColors.textPrimary
+                        ),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(if (uiState.isLoading) "Guardando..." else "Publicar Receta")
+                    }
+                }
+
                 OutlinedButton(
-                    onClick = { onSaveRecipe(uiState.selectedImageBytes, false) },
-                    enabled = !uiState.isLoading && isFormValid,
-                    modifier = Modifier.weight(1f)
+                    onClick = onNavigateBack,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.error
+                    ),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(if (uiState.isLoading) "Guardando..." else "Subir Receta")
-                }
-
-                Button(
-                    onClick = { onSaveRecipe(uiState.selectedImageBytes, true) },
-                    enabled = !uiState.isLoading && isFormValid,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(if (uiState.isLoading) "Guardando..." else "Publicar Receta")
+                    Text("Cancelar Receta")
                 }
             }
-
-            OutlinedButton(
-                onClick = onCancel,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = MaterialTheme.colorScheme.error
-                ),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Cancelar Receta")
-            }
-        }
-    }
+        },
+        modifier = modifier
+    )
 }

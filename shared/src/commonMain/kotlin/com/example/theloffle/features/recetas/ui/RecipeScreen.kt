@@ -57,6 +57,7 @@ fun RecipeScreenRoot(
     isSelectionMode: Boolean = false,
     onRecipeClick: (Int) -> Unit = {},
     onConfirmSelection: (Int) -> Unit = {},
+    onNavigateToCreateRecipe: () -> Unit = {},
     onNavigateBack: () -> Unit = {},
     onNavigateToHome: () -> Unit = {},
     modifier: Modifier = Modifier
@@ -70,6 +71,7 @@ fun RecipeScreenRoot(
         onSelectFile = viewModel::onSelectFile,
         onRecipeClick = onRecipeClick,
         onConfirmSelection = onConfirmSelection,
+        onNavigateToCreateRecipe = onNavigateToCreateRecipe,
         onCloseFile = viewModel::onCloseFile,
         onNavigateBack = onNavigateBack,
         onNavigateToHome = onNavigateToHome,
@@ -86,12 +88,19 @@ private fun RecipeScreen(
     onSelectFile: (File) -> Unit,
     onRecipeClick: (Int) -> Unit,
     onConfirmSelection: (Int) -> Unit,
+    onNavigateToCreateRecipe: () -> Unit,
     onCloseFile: () -> Unit,
     onNavigateBack: () -> Unit,
     onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val collections = remember { listOf("Mis Recetas", "Publicadas", "Guardadas") }
+    val collections = remember(isSelectionMode) {
+        if (isSelectionMode) {
+            listOf("Mis Recetas", "Publicadas", "Guardadas")
+        } else {
+            listOf("Mis Recetas", "Publicadas", "Guardadas", "Crear Receta")
+        }
+    }
     var selectedCollectionIndex by remember { mutableStateOf(0) }
     var selectedRecipeId by remember { mutableStateOf<Int?>(null) }
 
@@ -113,7 +122,10 @@ private fun RecipeScreen(
                 Tab(
                     selected = selectedCollectionIndex == index,
                     onClick = {
-                        if (selectedCollectionIndex != index) {
+                        // Si es Crear Receta
+                        if (!isSelectionMode && index == 3) {
+                            onNavigateToCreateRecipe()
+                        } else if (selectedCollectionIndex != index) {
                             selectedCollectionIndex = index
                             selectedRecipeId = null
                             onCloseFile()
@@ -121,7 +133,7 @@ private fun RecipeScreen(
                     },
                     selectedContentColor = AppColors.textPrimary,
                     unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    text = { Text(text = title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold) }
+                    text = { Text(text = title, fontSize = 12.sp, fontWeight = FontWeight.SemiBold) }
                 )
             }
         }

@@ -279,6 +279,9 @@ fun App(
                                 mealRegisterViewModel.onSaveExistingRecipe(selectedRecipe)
                             }
                         },
+                        onNavigateToCreateRecipe = {
+                            navController.navigate(Route.CreateRecipeScreen(mealId = FoodPages.NONE))
+                        },
                         onNavigateBack = {
                             navController.popBackStack()
                         },
