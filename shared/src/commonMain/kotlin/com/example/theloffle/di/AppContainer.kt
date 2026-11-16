@@ -1,3 +1,5 @@
+package com.example.theloffle.di
+
 import com.example.theloffle.features.diario.data.repository.MealRegisterRepoImp
 import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
 import com.example.theloffle.features.recetas.data.repository.RecipeRepoImp

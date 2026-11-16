@@ -1,6 +1,6 @@
 package com.example.theloffle
 
-import DefaultAppContainer
+import com.example.theloffle.di.DefaultAppContainer
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Alignment
