@@ -148,7 +148,7 @@ fun App(
                 navController = navController,
                 // TODO: need to check if user is logged in or not, if logged in
                 // TODO: start = Home if not start = LogIn
-                startDestination = Route.HomeScreen,
+                startDestination = Route.LogInScreen,
                 // startDestination = if (isLoggedIn) Route.HomeScreen else Route.LogInScreen,
                 modifier = Modifier.fillMaxSize()
             ) {

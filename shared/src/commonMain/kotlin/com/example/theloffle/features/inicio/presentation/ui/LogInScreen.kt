@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.theloffle.core.UI_System.components.Header
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.circle_confirmation
@@ -62,21 +63,7 @@ fun LogInScreen(
     ) {
         Spacer(modifier = Modifier.height(70.dp))
 
-        Text(
-            text = "TheLoffle",
-            color = AppColors.textPrimary,
-            style = MaterialTheme.typography.headlineLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp)
-        )
-
-        Image(
-            painter = painterResource(Res.drawable.logo),
-            contentDescription = "TheLoffle Logo",
-            modifier = Modifier.size(75.dp)
-        )
+        Header()
 
         Spacer(modifier = Modifier.height(70.dp))
 
@@ -89,7 +76,7 @@ fun LogInScreen(
             Image(
                 painter = painterResource(Res.drawable.circle_confirmation),
                 contentDescription = "Login successful",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(100.dp)
             )
 
             Text(
@@ -102,7 +89,7 @@ fun LogInScreen(
             Image(
                 painter = painterResource(Res.drawable.circle_error),
                 contentDescription = "Login failed",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(100.dp)
             )
 
             Text(
