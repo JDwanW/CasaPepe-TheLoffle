@@ -1,7 +1,10 @@
 package com.example.theloffle.features.inicio.domain.repository
 
-interface AuthRepo {
-    suspend fun register (email:String, password:String, name:String, surname:String, username:String): Boolean
+import kotlinx.coroutines.flow.StateFlow
 
+interface AuthRepo {
+    val isLoggedIn: StateFlow<Boolean>
+    suspend fun register (email:String, password:String, name:String, surname:String, username:String): Boolean
     suspend fun login (email:String, password:String):Boolean
+    suspend fun logout (): Unit
 }

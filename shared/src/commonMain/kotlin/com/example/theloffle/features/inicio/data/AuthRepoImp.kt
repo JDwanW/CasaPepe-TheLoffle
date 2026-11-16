@@ -4,6 +4,8 @@ import androidx.compose.runtime.structuralEqualityPolicy
 import com.example.theloffle.features.inicio.domain.model.User
 import com.example.theloffle.features.inicio.domain.repository.AuthRepo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 
 private val users = mutableListOf<User>(
@@ -17,6 +19,8 @@ private val users = mutableListOf<User>(
 
 class AuthRepoImp : AuthRepo {
 
+    private val _isLoggedIn = MutableStateFlow(false)
+    override val isLoggedIn = _isLoggedIn.asStateFlow()
 
     override suspend fun register(
         email: String,
@@ -56,9 +60,11 @@ class AuthRepoImp : AuthRepo {
             user.email == normalizedEmail && user.password == password
         }
 
-        if (exists) {
-            return true
-        }
-        return false
+        _isLoggedIn.value = exists
+        return exists
+    }
+
+    override suspend fun logout (){
+        _isLoggedIn.value = false
     }
 }

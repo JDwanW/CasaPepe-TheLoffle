@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -76,8 +77,15 @@ fun App(
     val currentDestination = backStackEntry?.destination
     // Pasamos la database al container
     val containerRepo = remember { DefaultAppContainer(database) }
-    val showBottomBar = !(currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
-            currentDestination?.hasRoute<Route.MealRegisterScreen>() == true)
+    val isLoggedIn by containerRepo.authRepoInstance
+        .isLoggedIn
+        .collectAsState()
+    val showBottomBar = isLoggedIn && !(
+                    currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
+                    currentDestination?.hasRoute<Route.MealRegisterScreen>() == true ||
+                    currentDestination?.hasRoute<Route.LogInScreen>() == true ||
+                    currentDestination?.hasRoute<Route.RegisterScreen>() == true
+            )
 
     val bottomItems = listOf(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
