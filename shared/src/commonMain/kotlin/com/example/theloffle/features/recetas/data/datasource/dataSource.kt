@@ -6,7 +6,7 @@ object MockRecipeDataSource {
     val recipes: List<Recipe> = listOf(
         Recipe(
             id = 1,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "Paella Valenciana",
             ingredients = listOf("ARROZ", "POLLO", "CONEJO"),
             tags = listOf("Española", "Sartén", "Carnes", "Pescados", "Vegetariano",
@@ -17,7 +17,7 @@ object MockRecipeDataSource {
         ),
         Recipe(
             id = 2,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "Pizza Margherita",
             ingredients = listOf("HARINA", "TOMATE", "MOZZARELLA"),
             tags = listOf("Italiana", "Horno", "Vegetariano"),
@@ -27,7 +27,7 @@ object MockRecipeDataSource {
         ),
         Recipe(
             id = 3,
-            author = "Haxassse",
+            author = "Theorema",
             name = "SmashBurguer XLL",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
@@ -37,7 +37,7 @@ object MockRecipeDataSource {
         ),
         Recipe(
             id = 4,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "NO TEXT",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
@@ -47,7 +47,7 @@ object MockRecipeDataSource {
         ),
         Recipe(
             id = 5,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "FULL TEXT",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
