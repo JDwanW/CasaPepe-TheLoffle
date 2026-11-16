@@ -1,3 +1,4 @@
+import com.example.theloffle.core.UserSession
 import com.example.theloffle.features.diario.data.repository.MealRegisterRepoImp
 import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
 import com.example.theloffle.features.recetas.data.repository.RecipeRepoImp
@@ -12,15 +13,22 @@ import com.example.theloffle.features.recetas.data.datasource.RecipeLocalDataSou
 
 interface AppContainer {
     val authRepoInstance : AuthRepo
+    val sessionInstance: UserSession
     val mealRegisterRepoInstance: MealRegisterRepo
     val recipeRepoInstance: RecipeRepo
     val searchRepoInstance: SearchRepo
 }
 
 class DefaultAppContainer (private val database: TheLoffleDatabase? = null): AppContainer{
+    override val sessionInstance: UserSession by lazy {
+        UserSession()
+    }
 
     override val authRepoInstance: AuthRepo by lazy{
-        AuthRepoImp(database?.let { AuthLocalDataSource(it) })
+        AuthRepoImp(database?.let {
+            AuthLocalDataSource(it)},
+            sessionInstance
+        )
     }
 
     override val mealRegisterRepoInstance: MealRegisterRepo by lazy{

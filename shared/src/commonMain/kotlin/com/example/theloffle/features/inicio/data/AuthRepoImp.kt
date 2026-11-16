@@ -1,6 +1,7 @@
 package com.example.theloffle.features.inicio.data
 
 import androidx.compose.runtime.structuralEqualityPolicy
+import com.example.theloffle.core.UserSession
 import com.example.theloffle.core.database.workDispatcher
 import com.example.theloffle.features.inicio.data.datasource.AuthLocalDataSource
 import com.example.theloffle.features.inicio.domain.model.User
@@ -19,7 +20,8 @@ private val users = mutableListOf<User>(
 )
 
 class AuthRepoImp(
-    private val localDataSource: AuthLocalDataSource? = null
+    private val localDataSource: AuthLocalDataSource? = null,
+    private val session: UserSession
 ) : AuthRepo {
 
     override suspend fun register(
@@ -44,6 +46,7 @@ class AuthRepoImp(
                 }
                 else{
                     localDataSource.insert(User(normalizedEmail, password, name, surname, username))
+                    session.open(username)
                     true
                 }
             }
@@ -57,6 +60,7 @@ class AuthRepoImp(
             users.add(
                 User(normalizedEmail, password, name, surname, username)
             )
+            session.open(username)
             return true
         }
         return false
@@ -78,16 +82,21 @@ class AuthRepoImp(
                 // Cargamos si la bbdd vacio los ejemplos para poder probar
                 localDataSource.insertIfEmpty(users)
                 val user = localDataSource.findByEmail(normalizedEmail)
-                user != null && user.email.trim().lowercase() == email.trim().lowercase() &&
-                        user.password == password
+                if(user != null && user.email.trim().lowercase() == email.trim().lowercase() &&
+                        user.password == password){
+                    session.open(user.username)
+                    true
+                }
+                else{
+                    false
+                }
             }
         }
 
-        // Lo mismo lo dejo pero aqui pero aqui no llega nunca si va la bbdd
-        val exists = users.any { user ->
-            user.email.trim().lowercase() == normalizedEmail && user.password == password
-        }
-        if (exists) {
+        // Lo mismo lo dejo pero aqui pero aqui no llega nunca si va la bbdd (solo si hubiera web)
+        val user = users.firstOrNull {it.email == normalizedEmail && it.password == password}
+        if (user != null) {
+            session.open(user.username)
             return true
         }
         return false
