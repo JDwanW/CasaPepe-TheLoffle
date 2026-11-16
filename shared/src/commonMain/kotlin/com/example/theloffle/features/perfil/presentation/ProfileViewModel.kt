@@ -15,6 +15,7 @@ data class ProfileUiState(
     val username: String = "Usuario",
     val profileImageUrl: String? = null,
     val publishedRecipes: List<Recipe> = emptyList(),
+    val isOwnProfile: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 ) {
@@ -24,12 +25,19 @@ data class ProfileUiState(
 }
 
 class ProfileViewModel(
+    private val targetUsername: String,
+    private val currentUsername: String?,
     private val userRepository: UserRepo,
     private val recipeRepository: RecipeRepo
 ) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(ProfileUiState())
+    private val isOwn = !currentUsername.isNullOrBlank() &&
+            targetUsername.removePrefix("@").equals(currentUsername.removePrefix("@"), ignoreCase = true)
+    private val _uiState = MutableStateFlow(ProfileUiState(isOwnProfile = isOwn))
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
+
+    init {
+        loadUserProfile(targetUsername)
+    }
 
     fun loadUserProfile(username: String) {
         viewModelScope.launch {

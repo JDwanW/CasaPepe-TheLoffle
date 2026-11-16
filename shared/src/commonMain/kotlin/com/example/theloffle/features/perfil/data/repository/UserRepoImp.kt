@@ -11,7 +11,11 @@ class UserRepoImp : UserRepo {
     override suspend fun getUserList(): List<User> {return allUsers}
 
     override suspend fun getUserByUsername(username: String): User? {
-        TODO("Not yet implemented")
+        val cleanTarget = username.removePrefix("@")
+        // TODO Si usas SQLDelight / localDataSource, llama a tu consulta o filtra la lista de usuarios:
+        return getUserList().find { user ->
+            user.username.removePrefix("@").equals(cleanTarget, ignoreCase = true)
+        }
     }
 
 }

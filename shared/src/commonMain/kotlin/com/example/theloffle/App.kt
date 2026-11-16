@@ -96,6 +96,15 @@ fun App(
     } else {
         false
     }
+    // Val para comprobar si estamos en perfil ajeno, para el bottombar
+    val isViewingOtherProfile = if (currentDestination?.hasRoute<Route.ProfileScreen>() == true) {
+        val routeUsername = backStackEntry?.toRoute<Route.ProfileScreen>()?.username
+        val loggedUser = currentUsername
+        routeUsername != null &&
+                !routeUsername.removePrefix("@").equals(loggedUser?.removePrefix("@"), ignoreCase = true)
+    } else {
+        false
+    }
     val showBottomBar = !(
             currentDestination?.hasRoute<Route.PublicationScreen>() == true ||
             currentDestination?.hasRoute<Route.CreateRecipeScreen>() == true ||
@@ -108,7 +117,7 @@ fun App(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
         BottomBarItem(Route.RecipeScreen(), "Recetas", Res.drawable.recipe_filled, Res.drawable.recipe_unfilled),
         BottomBarItem(Route.SearchScreen, "Buscar", Res.drawable.search_filled, Res.drawable.search_unfilled),
-        BottomBarItem(Route.ProfileScreen("PepitoVAS"), "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
+        BottomBarItem(Route.ProfileScreen(), "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
     )
 
     LaunchedEffect(toScreen) {
@@ -126,24 +135,30 @@ fun App(
                 BottomBar(
                     buttons = bottomItems,
                     isSelected = { route ->
-                        currentDestination?.hasRoute(route::class) == true
-                    },
-                    onItemClick = { route ->
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
+                        when {
+                            isViewingOtherProfile && route is Route.SearchScreen -> true
+                            isViewingOtherProfile && route is Route.ProfileScreen -> false
+                            else -> currentDestination?.hasRoute(route::class) == true
                         }
                     },
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        onClick = {}
-                    )
+                    onItemClick = { route ->
+                        if (route is Route.ProfileScreen && isViewingOtherProfile) {
+                            navController.navigate(Route.ProfileScreen()) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = false
+                                }
+                            }
+                        } else {
+                            navController.navigate(route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    },
+                    modifier = Modifier.navigationBarsPadding()
                 )
             }
         }
@@ -154,10 +169,7 @@ fun App(
         ) {
             NavHost(
                 navController = navController,
-                // TODO: need to check if user is logged in or not, if logged in
-                // TODO: start = Home if not start = LogIn
-                startDestination = Route.HomeScreen,
-                // startDestination = if (isLoggedIn) Route.HomeScreen else Route.LogInScreen,
+                startDestination = if (isLoggedIn) Route.HomeScreen else Route.LogInScreen,
                 modifier = Modifier.fillMaxSize()
             ) {
 
@@ -368,9 +380,14 @@ fun App(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
-                composable<Route.ProfileScreen> {
-                    val viewModel: ProfileViewModel = viewModel {
+                composable<Route.ProfileScreen> { backStackEntry ->
+                    val routeData = backStackEntry.toRoute<Route.ProfileScreen>()
+                    val targetUsername = routeData.username ?: currentUsername ?: ""
+
+                    val viewModel: ProfileViewModel = viewModel(key = targetUsername) {
                         ProfileViewModel(
+                            targetUsername = targetUsername,
+                            currentUsername = currentUsername,
                             userRepository = containerRepo.profileRepoInstance,
                             recipeRepository = containerRepo.recipeRepoInstance
                         )

@@ -139,21 +139,23 @@ private fun ProfileScreen(
                 )
             }
 
-            // Boton de ajustes
-            Button(
-                onClick = onSettingsClick,
-                shape = RoundedCornerShape(10.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.buttonPrimary,
-                    contentColor = AppColors.textPrimary
-                )
-            ) {
-                Text(
-                    text = "Ajustes",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp
-                )
+            // Boton de ajustes, solo si es su perfil
+            if (uiState.isOwnProfile) {
+                Button(
+                    onClick = onSettingsClick,
+                    shape = RoundedCornerShape(10.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AppColors.buttonPrimary,
+                        contentColor = AppColors.textPrimary
+                    )
+                ) {
+                    Text(
+                        text = "Ajustes",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 13.sp
+                    )
+                }
             }
         }
 
@@ -200,7 +202,11 @@ private fun ProfileScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Aún no has publicado ninguna receta.",
+                        text = if (uiState.isOwnProfile) {
+                            "Aún no has publicado ninguna receta."
+                        } else {
+                            "Este usuario aún no ha publicado ninguna receta."
+                        },
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center

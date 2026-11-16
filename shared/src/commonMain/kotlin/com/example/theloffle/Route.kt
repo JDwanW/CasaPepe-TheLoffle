@@ -23,6 +23,6 @@ sealed interface Route {
     @Serializable
     data class PublicationScreen (val recipeId: Int): Route
     @Serializable
-    data class ProfileScreen (val username: String?): Route
+    data class ProfileScreen (val username: String? = null): Route
 }
 
