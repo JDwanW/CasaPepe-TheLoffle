@@ -13,7 +13,8 @@ object MockRecipeDataSource {
                 "Vegano", "Sin Alergias",  "Sin Gluten", "Horno", "AirFryer",),
             description = "Cocinar a fuego lento...",
             published = true,
-            imageUrl = "https://picsum.photos/seed/paella/400/300"
+            imageUrl = "https://picsum.photos/seed/paella/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 2,
@@ -23,7 +24,8 @@ object MockRecipeDataSource {
             tags = listOf("Italiana", "Horno", "Vegetariano"),
             description = "Hornear a 250°C...",
             published = true,
-            imageUrl = "https://picsum.photos/seed/pizza/400/300"
+            imageUrl = "https://picsum.photos/seed/pizza/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 3,
@@ -33,7 +35,8 @@ object MockRecipeDataSource {
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = "1. Dorar el pan.\n" + "2. Hacer la carne.\n" + "3. Montar",
             published = true,
-            imageUrl = "https://picsum.photos/seed/burger/400/300"
+            imageUrl = "https://picsum.photos/seed/burger/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 4,
@@ -43,7 +46,8 @@ object MockRecipeDataSource {
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = null,
             published = true,
-            imageUrl = "https://picsum.photos/seed/burger/400/300"
+            imageUrl = "https://picsum.photos/seed/burger/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 5,
