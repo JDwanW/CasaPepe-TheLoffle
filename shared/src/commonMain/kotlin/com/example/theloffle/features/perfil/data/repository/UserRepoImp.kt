@@ -10,4 +10,8 @@ class UserRepoImp : UserRepo {
 
     override suspend fun getUserList(): List<User> {return allUsers}
 
+    override suspend fun getUserByUsername(username: String): User? {
+        TODO("Not yet implemented")
+    }
+
 }

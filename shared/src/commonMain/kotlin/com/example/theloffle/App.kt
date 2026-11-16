@@ -66,6 +66,8 @@ import com.example.theloffle.features.recetas.ui.CreateRecipeScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
 import com.example.theloffle.features.diario.domain.model.FoodPages
+import com.example.theloffle.features.perfil.presentation.ProfileViewModel
+import com.example.theloffle.features.perfil.ui.ProfileScreenRoot
 //PUBLICATION SCREEN
 import com.example.theloffle.features.recetas.ui.PublicationScreenRoot
 import com.example.theloffle.features.recetas.presentation.PublicationViewModel
@@ -85,6 +87,9 @@ fun App(
     val isLoggedIn by containerRepo.authRepoInstance
         .isLoggedIn
         .collectAsState()
+    val currentUsername by containerRepo.authRepoInstance
+        .currentUsername
+        .collectAsState()
     // Val para comprobar si estamos en selecion de recetas para quitar el bottombar
     val isRecipeInSelectionMode = if (currentDestination?.hasRoute<Route.RecipeScreen>() == true) {
         backStackEntry?.toRoute<Route.RecipeScreen>()?.isSelectionMode == true
@@ -103,7 +108,7 @@ fun App(
         BottomBarItem(Route.HomeScreen, "Inicio", Res.drawable.main_filled, Res.drawable.main_unfilled),
         BottomBarItem(Route.RecipeScreen(), "Recetas", Res.drawable.recipe_filled, Res.drawable.recipe_unfilled),
         BottomBarItem(Route.SearchScreen, "Buscar", Res.drawable.search_filled, Res.drawable.search_unfilled),
-        BottomBarItem(Route.ProfileScreen, "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
+        BottomBarItem(Route.ProfileScreen("PepitoVAS"), "Perfil", Res.drawable.profile_filled, Res.drawable.profile_unfilled)
     )
 
     LaunchedEffect(toScreen) {
@@ -236,8 +241,7 @@ fun App(
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
                         },
                         onUserClick = { username ->
-                            // Navega al perfil del usuario
-                            // navController.navigate(Route.ProfileScreen(username = username))
+                            navController.navigate(Route.ProfileScreen(username = username))
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -364,7 +368,30 @@ fun App(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
-                composable<Route.ProfileScreen> {  }
+                composable<Route.ProfileScreen> {
+                    val viewModel: ProfileViewModel = viewModel {
+                        ProfileViewModel(
+                            userRepository = containerRepo.profileRepoInstance,
+                            recipeRepository = containerRepo.recipeRepoInstance
+                        )
+                    }
+
+                    ProfileScreenRoot(
+                        viewModel = viewModel,
+                        onRecipeClick = { recipeId ->
+                            navController.navigate(Route.PublicationScreen(recipeId = recipeId))
+                        },
+                        onSettingsClick = {
+                            // TODO: MATTHIS
+                        },
+                        onNavigateToHome = {
+                            navController.navigate(Route.HomeScreen) {
+                                popUpTo<Route.HomeScreen> { inclusive = true }
+                            }
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }

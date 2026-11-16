@@ -8,6 +8,7 @@ import com.example.theloffle.features.inicio.domain.repository.AuthRepo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 
@@ -27,6 +28,8 @@ class AuthRepoImp(
 ) : AuthRepo {
     private val _isLoggedIn = MutableStateFlow(false)
     override val isLoggedIn = _isLoggedIn.asStateFlow()
+    private val _currentUsername = MutableStateFlow<String?>(null)
+    override val currentUsername: StateFlow<String?> = _currentUsername.asStateFlow()
 
 
     override suspend fun register(
@@ -65,6 +68,7 @@ class AuthRepoImp(
             users.add(
                 User(normalizedEmail, password, name, surname, username)
             )
+            _currentUsername.value = username
             return true
         }
         return false
@@ -81,21 +85,25 @@ class AuthRepoImp(
 
         // Comprueba que hay un usuario con ese email
         // Recordemos que el email es unico asi que solo devolveria un usuario o ninguno findByEmail
-        val success = if (localDataSource != null) {
+        val authenticatedUser = if (localDataSource != null) {
             withContext(workDispatcher) {
-                // Cargamos si la bbdd vacio los ejemplos para poder probar
                 localDataSource.insertIfEmpty(users)
                 val user = localDataSource.findByEmail(normalizedEmail)
-                user != null && user.email.trim().lowercase() == email.trim().lowercase() &&
-                        user.password == password
+                if (user != null && user.normalizedEmail == normalizedEmail && user.password == password) {
+                    user
+                } else {
+                    null
+                }
             }
         } else {
             // Lo mismo lo dejo pero aqui pero aqui no llega nunca si va la bbdd
-            users.any { user ->
+            users.find { user ->
                 user.email.trim().lowercase() == normalizedEmail && user.password == password
             }
         }
+        val success = authenticatedUser != null
         _isLoggedIn.value = success
+        _currentUsername.value = authenticatedUser?.username
         return success
     }
 

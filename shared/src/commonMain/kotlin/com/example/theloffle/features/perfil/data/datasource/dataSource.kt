@@ -7,10 +7,10 @@ object MockUserDataSource {
     val users: List<User> = listOf(
         User(
             id = 1,
-            username = "Ppe",
+            username = "PepitoVAS",
             password = "123asd123",
-            numberOfMeal= listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
-            mealDone = listOf(false,false),
+            //numberOfMeal= listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
+            //mealDone = listOf(false,false),
             profilePhoto = "",
             recipeList = emptyList(),
         )

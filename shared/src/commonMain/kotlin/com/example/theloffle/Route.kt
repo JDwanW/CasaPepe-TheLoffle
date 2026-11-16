@@ -2,7 +2,7 @@ package com.example.theloffle
 
 import com.example.theloffle.features.diario.domain.model.FoodPages
 import kotlinx.serialization.Serializable
-import com.example.theloffle.features.recetas.domain.model.Recipe
+
 @Serializable
 sealed interface Route {
 
@@ -21,8 +21,8 @@ sealed interface Route {
     @Serializable
     data class RecipeScreen (val isSelectionMode: Boolean = false, val mealId: FoodPages = FoodPages.NONE): Route
     @Serializable
-    data class PublicationScreen(val recipeId: Int): Route
+    data class PublicationScreen (val recipeId: Int): Route
     @Serializable
-    data object ProfileScreen: Route
+    data class ProfileScreen (val username: String?): Route
 }
 

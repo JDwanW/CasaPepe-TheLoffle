@@ -9,4 +9,5 @@ interface RecipeRepo {
     suspend fun getRecipesInFile(fileName: String): List<Recipe>
     suspend fun getRecipeById(id: Int): Recipe?
     suspend fun getRecipesByFilters(filters: List<String>): List<Recipe>
+    suspend fun getPublishedRecipesByUser(author: String): List<Recipe>
 }
