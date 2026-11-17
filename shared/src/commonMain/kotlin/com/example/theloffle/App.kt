@@ -65,7 +65,11 @@ import com.example.theloffle.features.recetas.ui.CreateRecipeScreenRoot
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
+import com.example.theloffle.features.configuración.presentation.model.SettingsViewModel
+import com.example.theloffle.features.configuración.presentation.ui.PersonalDataScreen
+import com.example.theloffle.features.configuración.presentation.ui.PersonalDataScreenRoot
 import com.example.theloffle.features.configuración.presentation.ui.SettingsScreen
+import com.example.theloffle.features.configuración.presentation.ui.SettingsScreenRoot
 import com.example.theloffle.features.diario.domain.model.FoodPages
 import com.example.theloffle.features.perfil.presentation.ProfileViewModel
 import com.example.theloffle.features.perfil.ui.ProfileScreenRoot
@@ -417,19 +421,34 @@ fun App(
                 }
 
                 composable<Route.SettingsScreen> {
-                    SettingsScreen(
-                        onLogoutClick = {
-                            // Später Logout implementieren
+                    val viewModel: SettingsViewModel = viewModel {
+                        SettingsViewModel(
+                            authRepo = containerRepo.authRepoInstance
+                        )
+                    }
+                    SettingsScreenRoot(
+                        viewModel = viewModel,
+                        onNavigateToPersonalData = {
+                            navController.navigate(Route.PersonalDataScreen)
                         },
-                        showDataPersonal = {
-                            // Später zur Seite für persönliche Daten navigieren
-                        },
-                        changePassword = {
-                            // Später zur Passwortänderung navigieren
-                        },
-                        backClick = {
+                        onBackClick = {
                             navController.popBackStack()
+                        }
+                    )
+                }
 
+                composable<Route.PersonalDataScreen> {
+
+                    val viewModel: SettingsViewModel = viewModel {
+                        SettingsViewModel(
+                            authRepo = containerRepo.authRepoInstance
+                        )
+                    }
+
+                    PersonalDataScreenRoot(
+                        viewModel = viewModel,
+                        onBackClick = {
+                            navController.popBackStack()
                         }
                     )
                 }

@@ -29,6 +29,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.arrow_back
+import theloffle.shared.generated.resources.arrow_right
 import theloffle.shared.generated.resources.profile_unfilled
 
 
@@ -138,7 +139,7 @@ fun SettingsScreen(
             icon = Res.drawable.profile_unfilled,
             isDanger = true,
             showArrow = false,
-            onClick = { }
+            onClick = {onLogoutClick()}
         )
 
         SettingsItem(
@@ -231,7 +232,6 @@ private fun SettingsItem(
         }
 
         if (showArrow) {
-            /*
             Icon(
                 painter = painterResource(Res.drawable.arrow_right),
                 contentDescription = null,
@@ -239,7 +239,6 @@ private fun SettingsItem(
                 modifier = Modifier.size(20.dp)
             )
 
-             */
         }
     }
 }

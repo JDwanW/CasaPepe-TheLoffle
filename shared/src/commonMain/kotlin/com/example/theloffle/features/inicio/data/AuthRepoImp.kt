@@ -31,7 +31,7 @@ class AuthRepoImp(
     private val _currentUsername = MutableStateFlow<String?>(null)
     override val currentUsername: StateFlow<String?> = _currentUsername.asStateFlow()
 
-
+    // para registrarse en el RegisterScreen
     override suspend fun register(
         email: String,
         password: String,
@@ -41,11 +41,11 @@ class AuthRepoImp(
     ): Boolean {
 
         //este delay solo es para que se vea el circulo un poco
-        delay(2000)
+        delay(1500)
         val normalizedEmail = email.trim().lowercase()
 
-        if (localDataSource != null) {
-            return withContext(workDispatcher) {
+        val success = if (localDataSource != null) {
+             withContext(workDispatcher) {
                 // Cargamos si la bbdd vacio los ejemplos para poder probar (solo una vez como mucho)
                 localDataSource.insertIfEmpty(users)
                 if (localDataSource.emailExists(normalizedEmail) ||
@@ -58,29 +58,40 @@ class AuthRepoImp(
                 }
             }
         }
-
-        // Aqui no deberia llegar nunca, dejo lo que estaba porque no afecta
-        // Lo dejo en vez de borrarlo y asi podriamos decir que tenemos un "seguro por si falla"
-        val exists = users.any { user ->
-            user.email == normalizedEmail || user.username == username
+        else{
+            // Aqui no deberia llegar nunca, dejo lo que estaba porque no afecta
+            // Lo dejo en vez de borrarlo y asi podriamos decir que tenemos un "seguro por si falla"
+            val exists = users.any { user ->
+                user.email == normalizedEmail || user.username == username
+            }
+            if (!exists) {
+                users.add(
+                    User(normalizedEmail, password, name, surname, username)
+                )
+                _currentUsername.value = username
+                true
+            }
+            else {
+                false
+            }
         }
-        if (!exists) {
-            users.add(
-                User(normalizedEmail, password, name, surname, username)
-            )
+
+        if (success) {
+            _isLoggedIn.value = true
             _currentUsername.value = username
-            return true
         }
-        return false
-    }
 
+        return success
+
+    }
+    // para hacer el login en el LogIn-Screen
     override suspend fun login(
         email: String,
         password: String
     ): Boolean {
 
         //este delay solo es para que se vea el circulo un poco
-        delay(2000)
+        delay(1500)
         val normalizedEmail = email.trim().lowercase()
 
         // Comprueba que hay un usuario con ese email
@@ -107,8 +118,24 @@ class AuthRepoImp(
         return success
     }
 
-    
+    // para hacer el logout en settings
     override suspend fun logout (){
         _isLoggedIn.value = false
+        _currentUsername.value = null
+    }
+
+    // para cargar los datos para el PersonalData Screen
+    // tal vez luego cambiarlo al UserRepo? Tiene mas sentido imao
+    // UserRepo trabaja con Mock Data Base
+    override suspend fun getCurrentUser(): User? {
+        val username = _currentUsername.value ?: return null
+
+        return if (localDataSource != null) {
+            withContext(workDispatcher) {
+                localDataSource.findByUsername(username)
+            }
+        } else {
+            users.find { it.username == username }
+        }
     }
 }
