@@ -48,6 +48,7 @@ fun SettingsScreen(
     )
 
     {
+        //para el Icono a lado del la funcionalidad
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,6 +75,7 @@ fun SettingsScreen(
 
         }
 
+        //para ver los datos personales
         SettingsItem(
             title = "Datos personales",
             subtitle = "Nombre, usuario y correo electrónico",
@@ -81,6 +83,7 @@ fun SettingsScreen(
             onClick = { showDataPersonal() }
         )
 
+        //para cambiar la contrasena
         SettingsItem(
             title = "Cambiar contraseña",
             subtitle = "Seguridad de la cuenta",
@@ -89,6 +92,7 @@ fun SettingsScreen(
 
             )
 
+        //para ver settings de privacidad / private/public account
         SettingsItem(
             title = "Privacidad",
             subtitle = "Visibilidad del perfil",
@@ -106,6 +110,7 @@ fun SettingsScreen(
             onClick = { }
         )
 
+        //para cambiar el idioma de la applicación
         SettingsItem(
             title = "Idioma",
             subtitle = "Español, Deutsch, English",
@@ -113,6 +118,7 @@ fun SettingsScreen(
             onClick = { }
         )
 
+        //para turn on/turn of notificaciónes
         SettingsItem(
             title = "Notificaciones",
             subtitle = "Gestionar avisos",
