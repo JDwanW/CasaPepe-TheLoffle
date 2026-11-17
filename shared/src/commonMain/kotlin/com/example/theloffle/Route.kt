@@ -7,6 +7,9 @@ import kotlinx.serialization.Serializable
 sealed interface Route {
 
     @Serializable
+    data object SettingsScreen : Route
+
+    @Serializable
     data object LogInScreen : Route
     @Serializable
     data object RegisterScreen : Route

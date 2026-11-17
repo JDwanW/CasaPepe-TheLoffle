@@ -65,6 +65,7 @@ import com.example.theloffle.features.recetas.ui.CreateRecipeScreenRoot
 //SEARCH SCREEN
 import com.example.theloffle.features.buscador.ui.SearchScreenRoot
 import com.example.theloffle.features.buscador.ui.SearchViewModel
+import com.example.theloffle.features.configuración.presentation.ui.SettingsScreen
 import com.example.theloffle.features.diario.domain.model.FoodPages
 import com.example.theloffle.features.perfil.presentation.ProfileViewModel
 import com.example.theloffle.features.perfil.ui.ProfileScreenRoot
@@ -110,6 +111,7 @@ fun App(
             currentDestination?.hasRoute<Route.CreateRecipeScreen>() == true ||
             currentDestination?.hasRoute<Route.LogInScreen>() == true ||
             currentDestination?.hasRoute<Route.RegisterScreen>() == true ||
+            currentDestination?.hasRoute<Route.SettingsScreen>() == true ||
             isRecipeInSelectionMode
         )
 
@@ -401,7 +403,9 @@ fun App(
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
                         },
                         onSettingsClick = {
-                            // TODO: MATTHIS
+                            navController.navigate(Route.SettingsScreen) {
+                                launchSingleTop = true
+                            }
                         },
                         onNavigateToHome = {
                             navController.navigate(Route.HomeScreen) {
@@ -409,6 +413,24 @@ fun App(
                             }
                         },
                         modifier = Modifier.padding(innerPadding)
+                    )
+                }
+
+                composable<Route.SettingsScreen> {
+                    SettingsScreen(
+                        onLogoutClick = {
+                            // Später Logout implementieren
+                        },
+                        showDataPersonal = {
+                            // Später zur Seite für persönliche Daten navigieren
+                        },
+                        changePassword = {
+                            // Später zur Passwortänderung navigieren
+                        },
+                        backClick = {
+                            navController.popBackStack()
+
+                        }
                     )
                 }
             }

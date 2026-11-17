@@ -11,4 +11,8 @@ object AppColors {
     val background = Color.White
     val textPrimary = Color(0xFF234132)
     //val textSecondary = Color(0xFF777777)
+    val settingsRed = Color(0xFFD32F2F)
+    val settingsGray = Color.Gray
+    val settingsRedBackground = Color(0xFFFFEBEE)
+    val settingsGrayBackground = Color(0xFFEEEEEE)
 }
