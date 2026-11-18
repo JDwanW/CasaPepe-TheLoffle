@@ -27,15 +27,15 @@ class RecipeLocalDataSource(
 
     // Insert a Recipe into the bbdd
     fun insert(recipe: Recipe): Int {
-        database.recipeQueries.insertRecipe(
-            author = recipe.author,
-            name = recipe.name,
-            // 1 True, 0 False. L for Long
-            published = if(recipe.published) 1L else 0L,
-            json = Json.encodeToString(recipe)
-        )
-        // Devuelve la id
-        return database.recipeQueries.lastInsertedId().executeAsOne().toInt()
+        return database.transactionWithResult {
+            database.recipeQueries.insertRecipe(
+                name = recipe.name,
+                author = recipe.author,
+                published = if(recipe.published) 1L else 0L,
+                json = Json.encodeToString(recipe)
+            )
+            database.recipeQueries.lastInsertedId().executeAsOne().toInt()
+        }
     }
 
     // Create the seed

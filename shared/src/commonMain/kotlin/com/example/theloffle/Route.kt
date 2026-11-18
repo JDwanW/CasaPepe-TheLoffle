@@ -18,11 +18,11 @@ sealed interface Route {
     @Serializable
     data object HomeScreen: Route
     @Serializable
-    data class CreateRecipeScreen (val mealId: FoodPages): Route
+    data class CreateRecipeScreen (val mealId: String): Route
     @Serializable
     data object SearchScreen: Route
     @Serializable
-    data class RecipeScreen (val isSelectionMode: Boolean = false, val mealId: FoodPages = FoodPages.NONE): Route
+    data class RecipeScreen (val isSelectionMode: Boolean = false, val mealId: String = FoodPages.NONE.name): Route
     @Serializable
     data class PublicationScreen (val recipeId: Int): Route
     @Serializable

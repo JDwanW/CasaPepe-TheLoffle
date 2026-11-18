@@ -255,10 +255,10 @@ fun App(
                     HomeScreenRoot(
                         viewModel = viewModel,
                         onNavigateToSelectRecipe = { foodPage ->
-                            navController.navigate(Route.RecipeScreen(isSelectionMode = true, mealId = foodPage))
+                            navController.navigate(Route.RecipeScreen(isSelectionMode = true, mealId = foodPage.name))
                         },
                         onNavigateToCreateRecipe = { foodPage ->
-                            navController.navigate(Route.CreateRecipeScreen(mealId = foodPage))
+                            navController.navigate(Route.CreateRecipeScreen(mealId = foodPage.name))
                         },
                         onPublicationClick = { recipeId ->
                             navController.navigate(Route.PublicationScreen(recipeId = recipeId))
@@ -279,7 +279,7 @@ fun App(
                     }
                     LaunchedEffect(routeData.mealId) {
                         if (routeData.isSelectionMode) {
-                            mealRegisterViewModel.initMealType(routeData.mealId)
+                            mealRegisterViewModel.initMealType(FoodPages.valueOf(routeData.mealId))
                         }
                     }
                     var selectedIdToReturn by remember { mutableStateOf<Int?>(null) }
@@ -288,7 +288,7 @@ fun App(
                             mealRegisterViewModel.resetSuccessState()
                             selectedIdToReturn?.let { id ->
                                 navController.previousBackStackEntry?.savedStateHandle?.apply {
-                                    set("registered_meal", routeData.mealId.name) // Pasamos el .name (String)
+                                    set("registered_meal", routeData.mealId)
                                     set("registered_recipe_id", id)
                                 }
                             }
@@ -309,7 +309,7 @@ fun App(
                             }
                         },
                         onNavigateToCreateRecipe = {
-                            navController.navigate(Route.CreateRecipeScreen(mealId = FoodPages.NONE))
+                            navController.navigate(Route.CreateRecipeScreen(mealId = FoodPages.NONE.name))
                         },
                         onNavigateBack = {
                             navController.popBackStack()
@@ -324,7 +324,7 @@ fun App(
                 }
                 composable<Route.CreateRecipeScreen> { backStackEntry ->
                     val routeData = backStackEntry.toRoute<Route.CreateRecipeScreen>()
-                    val foodPage = routeData.mealId
+                    val foodPage = FoodPages.valueOf(routeData.mealId)
 
                     val viewModel: MealRegisterViewModel = viewModel {
                         MealRegisterViewModel(repository = containerRepo.mealRegisterRepoInstance)
