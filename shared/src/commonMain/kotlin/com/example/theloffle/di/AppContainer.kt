@@ -1,15 +1,24 @@
+package com.example.theloffle.di
+
 import com.example.theloffle.core.UserSession
-import com.example.theloffle.features.diario.data.repository.MealRegisterRepoImp
-import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
-import com.example.theloffle.features.recetas.data.repository.RecipeRepoImp
-import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
-import com.example.theloffle.features.buscador.data.repository.SearchRepoImp
-import com.example.theloffle.features.buscador.domain.repository.SearchRepo
 import com.example.theloffle.db.TheLoffleDatabase
 import com.example.theloffle.features.inicio.data.AuthRepoImp
 import com.example.theloffle.features.inicio.data.datasource.AuthLocalDataSource
 import com.example.theloffle.features.inicio.domain.repository.AuthRepo
+//PROXY
 import com.example.theloffle.features.recetas.data.datasource.RecipeLocalDataSource
+//MEAL REGISTER
+import com.example.theloffle.features.diario.data.repository.MealRegisterRepoImp
+import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
+//RECIPE
+import com.example.theloffle.features.recetas.data.repository.RecipeRepoImp
+import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
+//SEARCH
+import com.example.theloffle.features.buscador.data.repository.SearchRepoImp
+import com.example.theloffle.features.buscador.domain.repository.SearchRepo
+//PROFILE
+import com.example.theloffle.features.perfil.data.repository.UserRepoImp
+import com.example.theloffle.features.perfil.domain.repository.UserRepo
 
 interface AppContainer {
     val authRepoInstance : AuthRepo
@@ -17,6 +26,7 @@ interface AppContainer {
     val mealRegisterRepoInstance: MealRegisterRepo
     val recipeRepoInstance: RecipeRepo
     val searchRepoInstance: SearchRepo
+    val profileRepoInstance: UserRepo
 }
 
 class DefaultAppContainer (private val database: TheLoffleDatabase? = null): AppContainer{
@@ -30,7 +40,6 @@ class DefaultAppContainer (private val database: TheLoffleDatabase? = null): App
             sessionInstance
         )
     }
-
     override val mealRegisterRepoInstance: MealRegisterRepo by lazy{
         MealRegisterRepoImp(recipeRepoInstance)
     }
@@ -40,5 +49,8 @@ class DefaultAppContainer (private val database: TheLoffleDatabase? = null): App
     }
     override val searchRepoInstance: SearchRepo by lazy {
         SearchRepoImp(recipeRepoInstance)
+    }
+    override val profileRepoInstance: UserRepo by lazy{
+        UserRepoImp()
     }
 }

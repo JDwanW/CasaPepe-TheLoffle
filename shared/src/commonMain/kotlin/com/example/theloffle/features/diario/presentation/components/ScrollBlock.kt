@@ -47,14 +47,12 @@ fun ScrollBlock(
             id = 1,
             username = "Pepias1",
             password = "123asas12",
-            numberOfMeal = listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
-            mealDone =  listOf(false,false),
+            //numberOfMeal = listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
+            //mealDone =  listOf(false,false),
             profilePhoto = "",
             recipeList = emptyList()
 
         )
-        //instead items = recipes, it should be a list of pair <User,Recipe>
-        // 1 user 1 recipe
         items(
             items = recipes,
             key = { recipe -> recipe.id }

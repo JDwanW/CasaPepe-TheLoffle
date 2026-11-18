@@ -6,11 +6,11 @@ import com.example.theloffle.features.perfil.domain.model.User
 object MockUserDataSource {
     val users: List<User> = listOf(
         User(
-            id = 0,
-            username = "Ppe",
+            id = 1,
+            username = "PepitoVAS",
             password = "123asd123",
-            numberOfMeal= listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
-            mealDone = listOf(false,false),
+            //numberOfMeal= listOf(FoodPages.BREAKFAST, FoodPages.LUNCH),
+            //mealDone = listOf(false,false),
             profilePhoto = "",
             recipeList = emptyList(),
         )

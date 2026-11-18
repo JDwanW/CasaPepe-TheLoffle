@@ -12,11 +12,16 @@ class UserSession {
     private  val _current = MutableStateFlow<String?>(null)
     val current: StateFlow<String?> = _current.asStateFlow()
 
+    private val _isLoggedIn = MutableStateFlow(false)
+    val isLoggedIn: StateFlow<Boolean> = _isLoggedIn.asStateFlow()
+
     fun open(username: String){
         _current.value = username
+        _isLoggedIn.value = true
     }
 
     fun close(){
         _current.value = null
+        _isLoggedIn.value = false
     }
 }

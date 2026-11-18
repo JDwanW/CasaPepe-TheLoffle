@@ -6,47 +6,52 @@ object MockRecipeDataSource {
     val recipes: List<Recipe> = listOf(
         Recipe(
             id = 1,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "Paella Valenciana",
             ingredients = listOf("ARROZ", "POLLO", "CONEJO"),
-            tags = listOf("Española", "Sartén", "Carnes"),
+            tags = listOf("Española", "Sartén", "Carnes", "Pescados", "Vegetariano",
+                "Vegano", "Sin Alergias",  "Sin Gluten", "Horno", "AirFryer",),
             description = "Cocinar a fuego lento...",
             published = true,
-            imageUrl = "https://picsum.photos/seed/paella/400/300"
+            imageUrl = "https://picsum.photos/seed/paella/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 2,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "Pizza Margherita",
             ingredients = listOf("HARINA", "TOMATE", "MOZZARELLA"),
             tags = listOf("Italiana", "Horno", "Vegetariano"),
             description = "Hornear a 250°C...",
             published = true,
-            imageUrl = "https://picsum.photos/seed/pizza/400/300"
+            imageUrl = "https://picsum.photos/seed/pizza/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 3,
-            author = "Haxassse",
+            author = "Theorema",
             name = "SmashBurguer XLL",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = "1. Dorar el pan.\n" + "2. Hacer la carne.\n" + "3. Montar",
             published = true,
-            imageUrl = "https://picsum.photos/seed/burger/400/300"
+            imageUrl = "https://picsum.photos/seed/burger/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 4,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "NO TEXT",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),
             description = null,
             published = true,
-            imageUrl = "https://picsum.photos/seed/burger/400/300"
+            imageUrl = "https://picsum.photos/seed/burger/400/300",
+            rating = 4.1
         ),
         Recipe(
             id = 5,
-            author = "PepitoVAS",
+            author = "Theorema",
             name = "FULL TEXT",
             ingredients = listOf("CARNE", "PAN", "QUESO"),
             tags = listOf("Hamburguesa", "Sartén", "Carnes"),

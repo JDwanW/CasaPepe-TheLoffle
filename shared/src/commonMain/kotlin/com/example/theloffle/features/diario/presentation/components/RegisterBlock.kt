@@ -1,5 +1,6 @@
 package com.example.theloffle.features.diario.presentation.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +31,9 @@ import theloffle.shared.generated.resources.snack
 
 @Composable
 fun RegisterBlock(
-    registeredMeals: Set<FoodPages>,
-    onMealClick: (FoodPages) -> Unit,
+    registeredMeals: Map<FoodPages, Int>,
+    onRegisterMealClick: (FoodPages) -> Unit,
+    onRegisteredMealClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -59,14 +61,20 @@ fun RegisterBlock(
             )
 
             meals.forEach { (typeMeal, text, image) ->
-                val isDone = registeredMeals.contains(typeMeal)
+                val registeredRecipeId = registeredMeals[typeMeal]
+                val isDone = registeredRecipeId != null
 
                 CreateRegisterButton(
-                    typeMeal = typeMeal,
                     text = text,
                     image = image,
                     isDone = isDone,
-                    onMealSelected = onMealClick
+                    onClick = {
+                        if (registeredRecipeId != null) {
+                            onRegisteredMealClick(registeredRecipeId)
+                        } else {
+                            onRegisterMealClick(typeMeal)
+                        }
+                    }
                 )
             }
         }
@@ -75,19 +83,18 @@ fun RegisterBlock(
 
 @Composable
 private fun CreateRegisterButton(
-    typeMeal: FoodPages,
     text: String,
     image: DrawableResource,
     isDone: Boolean,
-    onMealSelected: (FoodPages) -> Unit
+    onClick: () -> Unit
 ) {
     Button(
-        onClick = { onMealSelected(typeMeal) },
+        onClick = onClick,
         modifier = Modifier.size(70.dp),
         shape = RoundedCornerShape(10.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isDone) AppColors.foodDone else AppColors.buttonPrimary
+            containerColor = if (isDone) AppColors.foodDone else AppColors.foodMissed
         )
     ) {
         Image(
