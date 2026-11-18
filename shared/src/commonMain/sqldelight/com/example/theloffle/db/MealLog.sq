@@ -1,0 +1,30 @@
+CREATE TABLE MealLog (
+    username TEXT NOT NULL, -- Quien la registra
+    day TEXT NOT NULL, -- Fecha cuando se registro
+    slot TEXT NOT NULL, -- Cuando se registro
+    recipeId INTEGER NOT NULL,
+    PRIMARY KEY(username, day, slot, recipeId) -- Clave primaria combinada
+);
+
+-- Sentencias
+
+registerMeal:
+INSERT OR IGNORE INTO MealLog(username, day, slot, recipeId)
+VALUES(:username, :day, :slot, :recipeId);
+
+unregisterMeal:
+DELETE FROM MealLog
+WHERE  username = :username AND day = :day AND slot = :slot AND recipeId = :recipeId;
+
+-- Filtrar por Slot (Desayuno, Comida, Cena, etc)
+selectMealsForSlot:
+SELECT Recipes.* FROM Recipes
+JOIN MealLog ON Recipes.id = MealLog.recipeId
+WHERE MealLog.username = :username
+  AND MealLog.day = :day
+  AND MealLog.slot = :slot;
+
+ -- Que registros se han hecho ese dia
+ selectRegisteredSlots:
+ SELECT DISTINCT slot FROM MealLog
+ WHERE username = :username AND day = :day;
