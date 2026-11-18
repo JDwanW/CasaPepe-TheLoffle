@@ -1,0 +1,34 @@
+CREATE TABLE SavedRecipes (
+    username TEXT NOT NULL, -- Es el username que guarda la receta no el Autor!!
+    recipeId INTEGER NOT NULL,
+    PRIMARY KEY (username, recipeId) -- Guardamos por clave username-id receta
+);
+
+-- Sentencias
+saveRecipe:
+INSERT OR IGNORE INTO SavedRecipes(username, recipeId)
+VALUES (:username, :recipeId);
+
+removeRecipe:
+DELETE FROM SavedRecipes
+WHERE username = :username AND recipeId = :recipeId;
+
+-- Seleccionar de las recetas creadas
+selectMyRecipes:
+SELECT * FROM Recipes
+WHERE author = :username;
+
+-- Seleccionar las recetas publicadas
+selectMyRecipesPublished:
+SELECT * FROM Recipes
+WHERE author = :username
+AND published = 1;
+
+-- Seleccionar recetas guardadas
+-- Seleccionamos las recetas de Recipes que cumplen que el id de la receta esta guardado
+-- y que su autor no es el que lo ha guardado
+-- vease lo ha hecho otra persona
+selectMySavedRecipes:
+SELECT * FROM Recipes
+WHERE id IN (SELECT recipeId FROM SavedRecipes WHERE username = :username)
+  AND author != :username;
