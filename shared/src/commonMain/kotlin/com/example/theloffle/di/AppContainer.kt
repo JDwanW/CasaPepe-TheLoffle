@@ -16,6 +16,7 @@ import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 //SEARCH
 import com.example.theloffle.features.buscador.data.repository.SearchRepoImp
 import com.example.theloffle.features.buscador.domain.repository.SearchRepo
+import com.example.theloffle.features.diario.data.datasource.MealLogLocalDataSource
 //PROFILE
 import com.example.theloffle.features.perfil.data.repository.UserRepoImp
 import com.example.theloffle.features.perfil.domain.repository.UserRepo
@@ -41,7 +42,11 @@ class DefaultAppContainer (private val database: TheLoffleDatabase? = null): App
         )
     }
     override val mealRegisterRepoInstance: MealRegisterRepo by lazy{
-        MealRegisterRepoImp(recipeRepoInstance)
+        MealRegisterRepoImp(
+            recipeRepoInstance,
+            sessionInstance,
+            database?.let { MealLogLocalDataSource(it, RecipeLocalDataSource(it)) }
+        )
     }
     override val recipeRepoInstance: RecipeRepo by lazy {
         RecipeRepoImp(database?.let { RecipeLocalDataSource(it) },

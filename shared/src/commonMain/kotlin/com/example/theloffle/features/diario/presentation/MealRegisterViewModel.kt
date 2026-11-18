@@ -75,26 +75,10 @@ class MealRegisterViewModel(
     }
 
 
-    // Guarda en el registro una receta ya creada
+    // Guarda en el registro una receta ya creada(ya no)
+    // Rehecha mas simple con la bbdd, ahora usa una receta existente solo confirma su id
     fun onSaveExistingRecipe(recipe: Recipe) {
-        viewModelScope.launch {
-            uiState = uiState.copy(isLoading = true, errorMessage = null)
-
-            val result = repository.saveMealRecipe(
-                recipe = recipe,
-                imageBytes = null,
-                targetMeal = uiState.selectedMealType
-            )
-
-            result.onSuccess {
-                uiState = uiState.copy(isLoading = false, isSuccess = true, savedRecipeId = recipe.id)
-            }.onFailure { throwable ->
-                uiState = uiState.copy(
-                    isLoading = false,
-                    errorMessage = throwable.message ?: "Error al registrar la receta"
-                )
-            }
-        }
+        uiState = uiState.copy(isSuccess = true, savedRecipeId = recipe.id)
     }
 
     // Guarda o publica asociando la comida (selectedMealType)
@@ -124,9 +108,9 @@ class MealRegisterViewModel(
                 imageBytes = imageBytes,
                 targetMeal = uiState.selectedMealType
             )
-
+            // Devuelve el id de la receta
             result.onSuccess {
-                uiState = uiState.copy(isLoading = false, isSuccess = true, savedRecipeId = newRecipe.id)
+                id -> uiState = uiState.copy(isLoading = false, isSuccess = true, savedRecipeId = id)
             }.onFailure { throwable ->
                 uiState = uiState.copy(
                     isLoading = false,

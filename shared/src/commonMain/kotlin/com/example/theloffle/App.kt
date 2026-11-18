@@ -235,7 +235,10 @@ fun App(
                 }
                 composable<Route.HomeScreen> { homeBackStackEntry ->
                     val viewModel: HomeViewModel = viewModel {
-                        HomeViewModel(repository = containerRepo.recipeRepoInstance)
+                        HomeViewModel(
+                            repository = containerRepo.recipeRepoInstance,
+                            mealRepository = containerRepo.mealRegisterRepoInstance
+                        )
                     }
 
                     val savedStateHandle = homeBackStackEntry.savedStateHandle

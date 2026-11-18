@@ -3,6 +3,7 @@ package com.example.theloffle.features.diario.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.theloffle.features.diario.domain.model.FoodPages
+import com.example.theloffle.features.diario.domain.repository.MealRegisterRepo
 import com.example.theloffle.features.recetas.domain.repository.RecipeRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,14 +21,17 @@ data class HomeUiState(
 )
 
 class HomeViewModel(
-    private val repository: RecipeRepo
+    private val repository: RecipeRepo,
+    private val mealRepository: MealRegisterRepo
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    // Cargamos la feed y los registros diarios hechos
     init {
         loadFeed()
+        loadRegisteredMeals()
     }
 
     fun loadFeed() {
@@ -46,14 +50,25 @@ class HomeViewModel(
             }
         }
     }
+
+    fun loadRegisteredMeals() {
+        viewModelScope.launch {
+            val meals = mealRepository.todayMeals()
+            _uiState.update { it.copy(registeredMeals = meals) }
+        }
+    }
+
     fun onMealSelected(meal: FoodPages) {
         _uiState.update { it.copy(selectedMeal = meal) }
     }
+
+    // Registra la receta en la comida elegida (Desayuno, Cena, etc) y recarga lo guardado hoy
     fun registerMealRecipe(meal: FoodPages, recipeId: Int) {
-        if (meal != FoodPages.NONE) {
-            _uiState.update { state ->
-                state.copy(registeredMeals = state.registeredMeals + (meal to recipeId))
-            }
+        if (meal == FoodPages.NONE) return
+        viewModelScope.launch {
+            mealRepository.registerMeal(recipeId, meal)
+                .onSuccess { loadRegisteredMeals() }
+                .onFailure { error -> _uiState.update { it.copy(errorMessage = error.message) } }
         }
     }
 }
