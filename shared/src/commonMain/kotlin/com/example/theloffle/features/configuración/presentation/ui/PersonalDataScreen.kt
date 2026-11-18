@@ -17,8 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.theloffle.features.configuración.presentation.model.PersonalDataUiState
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.arrow_back
+import theloffle.shared.generated.resources.auth_password
+import theloffle.shared.generated.resources.personal_data_email
+import theloffle.shared.generated.resources.personal_data_name
+import theloffle.shared.generated.resources.personal_data_surname
+import theloffle.shared.generated.resources.personal_data_title
+import theloffle.shared.generated.resources.personal_data_username
+import theloffle.shared.generated.resources.settings_back
+import theloffle.shared.generated.resources.settings_change_password_subtitle
 
 @Composable
 fun PersonalDataScreen(
@@ -37,9 +46,10 @@ fun PersonalDataScreen(
                 .height(60.dp),
             contentAlignment = Alignment.Center
         ) {
+            //el icono para volver a la configuración
             Icon(
                 painter = painterResource(Res.drawable.arrow_back),
-                contentDescription = "Volver",
+                contentDescription = stringResource(Res.string.settings_back),
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .size(40.dp)
@@ -47,37 +57,44 @@ fun PersonalDataScreen(
                 tint = Color.Black
             )
 
+            //Titúlo de la pagina -> Configuración
             Text(
-                text = "Datos personales",
+                text = stringResource(Res.string.auth_password),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
         }
 
+
         Spacer(Modifier.height(30.dp))
 
+        //para mostrar el nombre
         PersonalDataItem(
-            title = "Nombre",
+            title = stringResource(Res.string.personal_data_name),
             value = uiState.name
         )
 
+        //para mostrar el apellido
         PersonalDataItem(
-            title = "Apellidos",
+            title = stringResource(Res.string.personal_data_surname),
             value = uiState.surname
         )
 
+        //para mostrar el username
         PersonalDataItem(
-            title = "Nombre de usuario",
+            title = stringResource(Res.string.personal_data_username),
             value = uiState.username
         )
 
+        //para mostrar la email
         PersonalDataItem(
-            title = "Correo electrónico",
+            title = stringResource(Res.string.personal_data_email),
             value = uiState.email
         )
     }
 }
 
+//elementos para el Screen
 @Composable
 private fun PersonalDataItem(
     title: String,

@@ -1,0 +1,75 @@
+
+<resources>
+
+
+    <!-- LogInScreen -->
+    <string name="login_successfull_messsage">Erfolgreich angemeldet!</string>
+    <string name="login_failed_message">Anmeldung fehlgeschlagen!</string>
+    <string name="try_again_button">Zurück</string>
+
+    <string name="auth_email">E-Mail-Adresse</string>
+    <string name="auth_password">Passwort</string>
+    <string name="login_no_account">Noch kein Konto? Registrieren</string>
+    <string name="login_button">Anmelden</string>
+
+    <!-- RegisterScreen -->
+
+    <string name="register_name">Vorname</string>
+    <string name="register_surname">Nachname</string>
+    <string name="register_username">Benutzername</string>
+    <string name="register_back_login">Zurück zur Anmeldung</string>
+    <string name="register_button">Registrieren</string>
+
+    <!-- SettingsScreen -->
+
+    <!-- TITEL -->
+    <string name="settings_title">Einstellungen</string>
+
+    <!-- KONTO -->
+    <string name="settings_account_section">KONTO</string>
+
+    <string name="settings_personal_data">Persönliche Daten</string>
+    <string name="settings_personal_data_subtitle">Name, Benutzername und E-Mail-Adresse</string>
+
+    <string name="settings_change_password">Passwort ändern</string>
+    <string name="settings_change_password_subtitle">Kontosicherheit</string>
+
+    <string name="settings_privacy">Privatsphäre</string>
+    <string name="settings_privacy_subtitle">Sichtbarkeit des Profils</string>
+
+    <!-- EINSTELLUNGEN -->
+    <string name="settings_preferences_section">PRÄFERENZEN</string>
+
+    <string name="settings_appearance">Darstellung</string>
+    <string name="settings_appearance_subtitle">Hell, dunkel oder System</string>
+
+    <string name="settings_language">Sprache</string>
+    <string name="settings_language_subtitle">Español, Deutsch, English, 中文</string>
+
+    <string name="settings_notifications">Benachrichtigungen</string>
+    <string name="settings_notifications_subtitle">Benachrichtigungen verwalten</string>
+
+    <!-- INFORMATIONEN -->
+    <string name="settings_information_section">INFORMATIONEN</string>
+
+    <string name="settings_about">Über TheLöffel</string>
+    <string name="settings_about_subtitle">Geschichte der App</string>
+
+    <!-- KONTO UND SICHERHEIT -->
+    <string name="settings_logout">Abmelden</string>
+    <string name="settings_delete_account">Konto löschen</string>
+
+    <!-- SONSTIGES -->
+    <string name="settings_version">TheLöffel · Version 1.0</string>
+    <string name="settings_back">Zurück</string>
+
+    <!-- PersonalDataScreen -->
+
+
+    <string name="personal_data_title">Persönliche Daten</string>
+    <string name="personal_data_name">Vorname</string>
+    <string name="personal_data_surname">Nachname</string>
+    <string name="personal_data_username">Benutzername</string>
+    <string name="personal_data_email">E-Mail-Adresse</string>
+
+</resources>

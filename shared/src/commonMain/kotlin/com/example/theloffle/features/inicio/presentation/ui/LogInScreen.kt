@@ -37,7 +37,18 @@ import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.circle_confirmation
 import theloffle.shared.generated.resources.circle_error
 import com.example.theloffle.core.UI_System.theme.AppColors
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import theloffle.shared.generated.resources.auth_email
+import theloffle.shared.generated.resources.auth_password
+import theloffle.shared.generated.resources.login_button
+import theloffle.shared.generated.resources.login_no_account
+import theloffle.shared.generated.resources.login_no_account
+import theloffle.shared.generated.resources.login_successfull_messsage
+import theloffle.shared.generated.resources.login_failed_message
 import theloffle.shared.generated.resources.logo
+import theloffle.shared.generated.resources.settings_back
+import theloffle.shared.generated.resources.try_again_button
 
 @Composable
 fun LogInScreen(
@@ -80,7 +91,7 @@ fun LogInScreen(
             )
 
             Text(
-                text = "Login successful!",
+                text = stringResource(Res.string.login_successfull_messsage),
                 color = Color.Black
             )
 
@@ -93,7 +104,7 @@ fun LogInScreen(
             )
 
             Text(
-                text = "Incorrect email or password!",
+                text = stringResource(Res.string.login_failed_message),
                 color = Color.Black
             )
 
@@ -105,7 +116,7 @@ fun LogInScreen(
                     containerColor = AppColors.buttonPrimary,
                     contentColor = AppColors.textPrimary)
             ) {
-                Text("Try Again")
+                stringResource(Res.string.try_again_button)
             }
 
         } else {
@@ -113,7 +124,7 @@ fun LogInScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = {Text(stringResource(Res.string.auth_email))},
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -134,7 +145,7 @@ fun LogInScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = {Text(stringResource(Res.string.auth_password))},
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
@@ -152,7 +163,7 @@ fun LogInScreen(
             )
 
             Text(
-                text = "Don't have an account? Register",
+                text = stringResource(Res.string.login_no_account),
                 color = AppColors.buttonSecondary,
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
@@ -179,7 +190,7 @@ fun LogInScreen(
                     contentColor = AppColors.textPrimary
                 )
             ) {
-                Text("Log in")
+                Text(stringResource(Res.string.login_button))
             }
         }
     }

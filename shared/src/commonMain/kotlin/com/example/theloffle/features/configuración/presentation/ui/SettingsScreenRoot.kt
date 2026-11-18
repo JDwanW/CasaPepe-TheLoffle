@@ -10,7 +10,8 @@ import com.example.theloffle.features.configuración.presentation.model.Settings
 fun SettingsScreenRoot(
     viewModel: SettingsViewModel,
     onBackClick: () -> Unit,
-    onNavigateToPersonalData: () -> Unit
+    onNavigateToPersonalData: () -> Unit,
+    onLanguageClick: (String) -> Unit
 ) {
     SettingsScreen(
         backClick = onBackClick,
@@ -18,7 +19,8 @@ fun SettingsScreenRoot(
             viewModel.logout()
         },
         showDataPersonal = onNavigateToPersonalData,
-        changePassword = {}
+        changePassword = {},
+        onLanguageClick = onLanguageClick
     )
 }
 

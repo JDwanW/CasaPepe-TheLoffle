@@ -1,0 +1,74 @@
+<resources>
+
+    <!-- LogInScreen -->
+    <string name="login_successfull_messsage">登录成功！</string>
+    <string name="login_failed_message">登录失败！</string>
+    <string name="try_again_button">返回</string>
+
+    <string name="auth_email">电子邮箱</string>
+    <string name="auth_password">密码</string>
+    <string name="login_no_account">还没有账号？立即注册</string>
+    <string name="login_button">登录</string>
+
+    <!-- RegisterScreen -->
+
+    <string name="register_name">名字</string>
+    <string name="register_surname">姓氏</string>
+    <string name="register_username">用户名</string>
+    <string name="register_back_login">返回登录</string>
+    <string name="register_button">注册</string>
+
+    <!-- SettingsScreen -->
+
+    <!-- 标题 -->
+    <string name="settings_title">设置</string>
+
+    <!-- 账户 -->
+    <string name="settings_account_section">账户</string>
+
+    <string name="settings_personal_data">个人信息</string>
+    <string name="settings_personal_data_subtitle">姓名、用户名和电子邮箱</string>
+
+    <string name="settings_change_password">修改密码</string>
+    <string name="settings_change_password_subtitle">账户安全</string>
+
+    <string name="settings_privacy">隐私</string>
+    <string name="settings_privacy_subtitle">个人资料可见性</string>
+
+    <!-- 偏好设置 -->
+    <string name="settings_preferences_section">偏好设置</string>
+
+    <string name="settings_appearance">外观</string>
+    <string name="settings_appearance_subtitle">浅色、深色或跟随系统</string>
+
+    <string name="settings_language">语言</string>
+    <string name="settings_language_subtitle">Español, Deutsch, English, 中文</string>
+
+    <string name="settings_notifications">通知</string>
+    <string name="settings_notifications_subtitle">管理通知</string>
+
+    <!-- 信息 -->
+    <string name="settings_information_section">信息</string>
+
+    <string name="settings_about">关于 TheLöffel</string>
+    <string name="settings_about_subtitle">应用背后的故事</string>
+
+    <!-- 账户与安全 -->
+    <string name="settings_logout">退出登录</string>
+    <string name="settings_delete_account">删除账户</string>
+
+    <!-- 其他 -->
+    <string name="settings_version">TheLöffel · 版本 1.0</string>
+    <string name="settings_back">返回</string>
+
+
+    <!-- PersonalDataScreen -->
+
+
+    <string name="personal_data_title">个人信息</string>
+    <string name="personal_data_name">名字</string>
+    <string name="personal_data_surname">姓氏</string>
+    <string name="personal_data_username">用户名</string>
+    <string name="personal_data_email">电子邮箱</string>
+
+</resources>

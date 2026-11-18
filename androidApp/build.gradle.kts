@@ -13,6 +13,7 @@ kotlin {
 }
 dependencies {
     implementation(project(":shared"))
+    implementation(libs.androidx.lifecycle.viewmodelCompose)
 
     implementation(libs.androidx.activity.compose)
 
