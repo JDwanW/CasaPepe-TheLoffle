@@ -27,4 +27,11 @@ class MealLogLocalDataSource(
     fun usedSlots(username: String, day: String): List<String> {
         return localDataSource.mealLogQueries.selectRegisteredSlots(username, day).executeAsList()
     }
+
+    // Que Comidas estan registradas
+    fun registeredMeals(username: String, day: String): Map<String, Int> =
+        localDataSource.mealLogQueries.selectRegisteredMeals(username, day)
+            .executeAsList()
+            // Map
+            .associate { it.slot to it.recipeId.toInt() }
 }

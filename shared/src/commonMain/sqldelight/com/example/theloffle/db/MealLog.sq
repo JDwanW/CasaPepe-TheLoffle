@@ -28,3 +28,8 @@ WHERE MealLog.username = :username
  selectRegisteredSlots:
  SELECT DISTINCT slot FROM MealLog
  WHERE username = :username AND day = :day;
+
+-- Seleccionas los registros de ese dia (Con id)
+ selectRegisteredMeals:
+ SELECT slot, recipeId FROM MealLog
+ WHERE username = :username AND day = :day;
