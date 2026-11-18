@@ -11,9 +11,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.theloffle.core.localization.LanguageManager
 import com.example.theloffle.db.createDataBase
+import com.example.theloffle.di.AppContainerViewModel
+import com.example.theloffle.di.DefaultAppContainer
 import com.example.theloffle.notifications.Notification
 import kotlinx.serialization.json.Json
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+
 
 class MainActivity : ComponentActivity() {
 
@@ -26,7 +32,24 @@ class MainActivity : ComponentActivity() {
         // Create the DataBase
         val database = createDataBase(this)
         setContent {
-            App(database = database, toScreen = toScreen)
+
+            val containerViewModel: AppContainerViewModel = viewModel {
+                AppContainerViewModel(
+                    container = DefaultAppContainer(database)
+                )
+            }
+
+            App(
+                database = database,
+                appContainer = containerViewModel.container,
+                toScreen = toScreen,
+                onLanguageClick = { language ->
+                    LanguageManager.changeLanguage(
+                        this@MainActivity,
+                        language
+                    )
+                }
+            )
         }
     }
 

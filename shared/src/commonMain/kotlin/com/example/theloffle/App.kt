@@ -46,6 +46,7 @@ import theloffle.shared.generated.resources.search_filled
 import theloffle.shared.generated.resources.search_unfilled
 //VIEW MODEL
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.theloffle.di.AppContainer
 //LOG-IN SCREEN
 import com.example.theloffle.features.inicio.presentation.model.LogInViewModell
 import com.example.theloffle.features.inicio.presentation.ui.LogInScreenRoot
@@ -82,13 +83,17 @@ import com.example.theloffle.features.recetas.presentation.PublicationViewModel
 // Pasamos el database como parametro
 fun App(
     database: TheLoffleDatabase? = null,
-    toScreen: Route? = null
+    toScreen: Route? = null,
+    onLanguageClick: (String) -> Unit = {},
+    appContainer: AppContainer? = null
 ) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     // Pasamos la database al container
-    val containerRepo = remember { DefaultAppContainer(database) }
+    val containerRepo = remember(appContainer, database) {
+        appContainer ?: DefaultAppContainer(database)
+    }
     val isLoggedIn by containerRepo.authRepoInstance
         .isLoggedIn
         .collectAsState()
@@ -436,7 +441,9 @@ fun App(
                         },
                         onBackClick = {
                             navController.popBackStack()
-                        }
+                        },
+                        onLanguageClick = onLanguageClick
+
                     )
                 }
 

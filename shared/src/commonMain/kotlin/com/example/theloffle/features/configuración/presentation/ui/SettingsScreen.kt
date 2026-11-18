@@ -18,6 +18,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,12 +29,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.theloffle.core.UI_System.theme.AppColors
+//for the icons
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import theloffle.shared.generated.resources.Res
 import theloffle.shared.generated.resources.arrow_back
 import theloffle.shared.generated.resources.arrow_right
 import theloffle.shared.generated.resources.profile_unfilled
+//String for the text
+import org.jetbrains.compose.resources.stringResource
+import theloffle.shared.generated.resources.settings_about
+import theloffle.shared.generated.resources.settings_about_subtitle
+import theloffle.shared.generated.resources.settings_account_section
+import theloffle.shared.generated.resources.settings_back
+import theloffle.shared.generated.resources.settings_change_password
+import theloffle.shared.generated.resources.settings_change_password_subtitle
+import theloffle.shared.generated.resources.settings_delete_account
+import theloffle.shared.generated.resources.settings_information_section
+import theloffle.shared.generated.resources.settings_language
+import theloffle.shared.generated.resources.settings_language_subtitle
+import theloffle.shared.generated.resources.settings_logout
+import theloffle.shared.generated.resources.settings_notifications
+import theloffle.shared.generated.resources.settings_notifications_subtitle
+import theloffle.shared.generated.resources.settings_personal_data
+import theloffle.shared.generated.resources.settings_personal_data_subtitle
+import theloffle.shared.generated.resources.settings_preferences_section
+import theloffle.shared.generated.resources.settings_privacy
+import theloffle.shared.generated.resources.settings_privacy_subtitle
+import theloffle.shared.generated.resources.settings_title
+import theloffle.shared.generated.resources.settings_version
 
 
 @Composable
@@ -38,8 +65,14 @@ fun SettingsScreen(
     backClick : () -> Unit,
     onLogoutClick: () -> Unit,
     showDataPersonal : () -> Unit,
-    changePassword : () -> Unit
+    changePassword : () -> Unit,
+    onLanguageClick: (String) -> Unit
 ) {
+
+    var showLanguageDialog by remember {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = Modifier
         .fillMaxSize()
@@ -57,7 +90,8 @@ fun SettingsScreen(
         ) {
             Icon(
                 painter = painterResource(Res.drawable.arrow_back),
-                contentDescription = "Volver",
+                //no es visible, sin embargo lo traducimos para ser consistente
+                contentDescription = stringResource(Res.string.settings_back),
                 modifier = Modifier
                     .size(50.dp)
                     .clickable { backClick() },
@@ -67,7 +101,7 @@ fun SettingsScreen(
             Spacer(Modifier.width(16.dp))
 
             Text(
-                text = "Configuración",
+                text = stringResource(Res.string.settings_title),
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.align(Alignment.Center)
@@ -75,18 +109,21 @@ fun SettingsScreen(
 
         }
 
+        //aqui empieza la account section
+        SettingsSection(stringResource(Res.string.settings_account_section))
+
         //para ver los datos personales
         SettingsItem(
-            title = "Datos personales",
-            subtitle = "Nombre, usuario y correo electrónico",
+            title = stringResource(Res.string.settings_personal_data),
+            subtitle = stringResource(Res.string.settings_personal_data_subtitle),
             icon = Res.drawable.profile_unfilled,
             onClick = { showDataPersonal() }
         )
 
         //para cambiar la contrasena
         SettingsItem(
-            title = "Cambiar contraseña",
-            subtitle = "Seguridad de la cuenta",
+            title = stringResource(Res.string.settings_change_password),
+            subtitle = stringResource(Res.string.settings_change_password_subtitle),
             icon = Res.drawable.profile_unfilled,
             onClick = { changePassword() }
 
@@ -94,44 +131,63 @@ fun SettingsScreen(
 
         //para ver settings de privacidad / private/public account
         SettingsItem(
-            title = "Privacidad",
-            subtitle = "Visibilidad del perfil",
+            title = stringResource(Res.string.settings_privacy),
+            subtitle = stringResource(Res.string.settings_privacy_subtitle),
             icon = Res.drawable.profile_unfilled,
             onClick = { }
         )
 
         Spacer(Modifier.height(22.dp))
-        SettingsSection("PREFERENCIAS")
 
+        //aqui empieza la section de preferencias
+        SettingsSection(stringResource(Res.string.settings_preferences_section))
+
+        //para cambiar la contrasena
         SettingsItem(
-            title = "Apariencia",
-            subtitle = "Modo claro, oscuro o sistema",
+            title = stringResource(Res.string.settings_change_password),
+            subtitle = stringResource(Res.string.settings_change_password_subtitle),
             icon = Res.drawable.profile_unfilled,
             onClick = { }
         )
 
         //para cambiar el idioma de la applicación
         SettingsItem(
-            title = "Idioma",
-            subtitle = "Español, Deutsch, English",
+            title = stringResource(Res.string.settings_language),
+            subtitle = stringResource(Res.string.settings_language_subtitle),
             icon = Res.drawable.profile_unfilled,
-            onClick = { }
+            onClick = {
+                showLanguageDialog = true
+            }
         )
+
+        if (showLanguageDialog) {
+            LanguageDialog(
+                onDismiss = {
+                    showLanguageDialog = false
+                },
+                onLanguageSelected = { language ->
+                    onLanguageClick(language)
+                    showLanguageDialog = false
+                }
+            )
+        }
 
         //para turn on/turn of notificaciónes
         SettingsItem(
-            title = "Notificaciones",
-            subtitle = "Gestionar avisos",
+            title = stringResource(Res.string.settings_notifications),
+            subtitle = stringResource(Res.string.settings_notifications_subtitle),
             icon = Res.drawable.profile_unfilled,
             onClick = { }
         )
 
         Spacer(Modifier.height(22.dp))
-        SettingsSection("INFORMACIÓN")
+
+        //aqui empizea la section de información sobre TheLöffel
+        SettingsSection(stringResource(Res.string.settings_information_section))
 
         SettingsItem(
-            title = "Acerca de TheLöffel",
-            subtitle = " ",
+            title = stringResource(Res.string.settings_about),
+            subtitle = stringResource(Res.string.settings_about_subtitle),
             icon = Res.drawable.profile_unfilled,
             onClick = { }
         )
@@ -140,16 +196,20 @@ fun SettingsScreen(
         HorizontalDivider(color = Color(0xFFE0E0E0))
         Spacer(Modifier.height(12.dp))
 
+        //Aqui vienen los botones para LogOut y delete account
+
+        //Botón LotOut
         SettingsItem(
-            title = "Cerrar sesión",
+            title = stringResource(Res.string.settings_logout),
             icon = Res.drawable.profile_unfilled,
             isDanger = true,
             showArrow = false,
-            onClick = {onLogoutClick()}
+            onClick = onLogoutClick
         )
 
+        //Botón delete account
         SettingsItem(
-            title = "Eliminar cuenta",
+            title = stringResource(Res.string.settings_delete_account),
             icon = Res.drawable.profile_unfilled,
             isDanger = true,
             showArrow = false,
@@ -158,8 +218,9 @@ fun SettingsScreen(
 
         Spacer(Modifier.height(28.dp))
 
+        //para mostrar la versión de TheLoeffel
         Text(
-            text = "TheLöffel · Versión 1.0",
+            text = stringResource(Res.string.settings_version),
             color = Color.Gray,
             fontSize = 12.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
