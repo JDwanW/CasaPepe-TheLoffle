@@ -38,9 +38,20 @@ import theloffle.shared.generated.resources.arrow_right
 import theloffle.shared.generated.resources.profile_unfilled
 //String for the text
 import org.jetbrains.compose.resources.stringResource
+import theloffle.shared.generated.resources.icon_appearance
+import theloffle.shared.generated.resources.icon_delete
+import theloffle.shared.generated.resources.icon_end_session
+import theloffle.shared.generated.resources.icon_info
+import theloffle.shared.generated.resources.icon_language
+import theloffle.shared.generated.resources.icon_notification
+import theloffle.shared.generated.resources.icon_password
+import theloffle.shared.generated.resources.icon_privacy
+import theloffle.shared.generated.resources.icon_show_data
 import theloffle.shared.generated.resources.settings_about
 import theloffle.shared.generated.resources.settings_about_subtitle
 import theloffle.shared.generated.resources.settings_account_section
+import theloffle.shared.generated.resources.settings_appearance
+import theloffle.shared.generated.resources.settings_appearance_subtitle
 import theloffle.shared.generated.resources.settings_back
 import theloffle.shared.generated.resources.settings_change_password
 import theloffle.shared.generated.resources.settings_change_password_subtitle
@@ -116,7 +127,7 @@ fun SettingsScreen(
         SettingsItem(
             title = stringResource(Res.string.settings_personal_data),
             subtitle = stringResource(Res.string.settings_personal_data_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_show_data,
             onClick = { showDataPersonal() }
         )
 
@@ -124,7 +135,7 @@ fun SettingsScreen(
         SettingsItem(
             title = stringResource(Res.string.settings_change_password),
             subtitle = stringResource(Res.string.settings_change_password_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_password,
             onClick = { changePassword() }
 
             )
@@ -133,7 +144,7 @@ fun SettingsScreen(
         SettingsItem(
             title = stringResource(Res.string.settings_privacy),
             subtitle = stringResource(Res.string.settings_privacy_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_privacy,
             onClick = { }
         )
 
@@ -142,11 +153,11 @@ fun SettingsScreen(
         //aqui empieza la section de preferencias
         SettingsSection(stringResource(Res.string.settings_preferences_section))
 
-        //para cambiar la contrasena
+        //para cambiar la apariencia de la app
         SettingsItem(
-            title = stringResource(Res.string.settings_change_password),
-            subtitle = stringResource(Res.string.settings_change_password_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            title = stringResource(Res.string.settings_appearance),
+            subtitle = stringResource(Res.string.settings_appearance_subtitle),
+            icon = Res.drawable.icon_appearance,
             onClick = { }
         )
 
@@ -154,7 +165,7 @@ fun SettingsScreen(
         SettingsItem(
             title = stringResource(Res.string.settings_language),
             subtitle = stringResource(Res.string.settings_language_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_language,
             onClick = {
                 showLanguageDialog = true
             }
@@ -176,7 +187,7 @@ fun SettingsScreen(
         SettingsItem(
             title = stringResource(Res.string.settings_notifications),
             subtitle = stringResource(Res.string.settings_notifications_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_notification,
             onClick = { }
         )
 
@@ -188,7 +199,7 @@ fun SettingsScreen(
         SettingsItem(
             title = stringResource(Res.string.settings_about),
             subtitle = stringResource(Res.string.settings_about_subtitle),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_info,
             onClick = { }
         )
 
@@ -201,7 +212,7 @@ fun SettingsScreen(
         //Botón LotOut
         SettingsItem(
             title = stringResource(Res.string.settings_logout),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_end_session,
             isDanger = true,
             showArrow = false,
             onClick = onLogoutClick
@@ -210,7 +221,7 @@ fun SettingsScreen(
         //Botón delete account
         SettingsItem(
             title = stringResource(Res.string.settings_delete_account),
-            icon = Res.drawable.profile_unfilled,
+            icon = Res.drawable.icon_delete,
             isDanger = true,
             showArrow = false,
             onClick = { }
@@ -274,7 +285,7 @@ private fun SettingsItem(
                 painter = painterResource(icon),
                 contentDescription = null,
                 tint = foreground,
-                modifier = Modifier.size(23.dp)
+                modifier = Modifier.size(21.dp)
             )
         }
 
