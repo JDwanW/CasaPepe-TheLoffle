@@ -2,23 +2,28 @@
 <resources>
 
 
-    <!-- LogInScreen -->
-    <string name="login_successfull_messsage">Erfolgreich angemeldet!</string>
-    <string name="login_failed_message">Anmeldung fehlgeschlagen!</string>
-    <string name="try_again_button">Zurück</string>
 
+    <!-- feature Inicio -->
     <string name="auth_email">E-Mail-Adresse</string>
     <string name="auth_password">Passwort</string>
-    <string name="login_no_account">Noch kein Konto? Registrieren</string>
+    <string name="try_again_button">Zurück</string>
+
+    <!-- LogInScreen -->
+    <string name="login_successfull_messsage">Anmeldung erfolgreich!</string>
+    <string name="login_failed_message">Anmeldung fehlgeschlagen!</string>
+    <string name="login_no_account">Noch kein Konto? Registriere dich</string>
     <string name="login_button">Anmelden</string>
 
     <!-- RegisterScreen -->
-
     <string name="register_name">Vorname</string>
     <string name="register_surname">Nachname</string>
     <string name="register_username">Benutzername</string>
     <string name="register_back_login">Zurück zur Anmeldung</string>
     <string name="register_button">Registrieren</string>
+
+    <string name="register_successfull_messsage">Registrierung erfolgreich!</string>
+    <string name="register_failed_message">Registrierung fehlgeschlagen! Diese E-Mail-Adresse oder dieser Benutzername wird bereits verwendet.</string>
+    <string name="back_log_in">Zurück zur Anmeldung</string>
 
     <!-- SettingsScreen -->
 

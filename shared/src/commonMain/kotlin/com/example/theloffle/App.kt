@@ -182,7 +182,8 @@ fun App(
             NavHost(
                 navController = navController,
                 
-                startDestination = if (isLoggedIn) Route.HomeScreen else Route.LogInScreen,
+                startDestination = //Route.SettingsScreen,
+                    if (isLoggedIn) Route.HomeScreen else Route.LogInScreen,
 
                 modifier = Modifier.fillMaxSize()
             ) {

@@ -3,7 +3,6 @@ package com.example.theloffle.features.inicio.presentation.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,10 +32,19 @@ import androidx.compose.ui.unit.dp
 import com.example.theloffle.core.UI_System.components.Header
 import com.example.theloffle.core.UI_System.theme.AppColors
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import theloffle.shared.generated.resources.Res
+import theloffle.shared.generated.resources.auth_email
+import theloffle.shared.generated.resources.auth_password
+import theloffle.shared.generated.resources.back_log_in
 import theloffle.shared.generated.resources.circle_confirmation
 import theloffle.shared.generated.resources.circle_error
-import theloffle.shared.generated.resources.logo
+import theloffle.shared.generated.resources.register_failed_message
+import theloffle.shared.generated.resources.register_name
+import theloffle.shared.generated.resources.register_successfull_messsage
+import theloffle.shared.generated.resources.register_surname
+import theloffle.shared.generated.resources.register_username
+import theloffle.shared.generated.resources.try_again_button
 
 
 @Composable
@@ -90,7 +98,8 @@ fun RegisterScreen (
                 modifier = Modifier.size(100.dp)
 
             )
-            Text("Registration successful!")
+            Text(
+                text = stringResource(Res.string.register_successfull_messsage))
                 
         } else if (isSuccess == false) {
             Image(
@@ -99,7 +108,8 @@ fun RegisterScreen (
                 modifier = Modifier.size(100.dp)
 
             )
-            Text("Registration went wrong - Email or Username is already used!")
+            Text(
+                text = stringResource(Res.string.register_failed_message))
 
             Button(
                 onClick = resetRegistrationState,
@@ -108,7 +118,7 @@ fun RegisterScreen (
                     contentColor = AppColors.textPrimary)
 
             ) {
-                Text("Try Again")
+                Text(stringResource(Res.string.try_again_button))
             }
 
         } else {
@@ -118,7 +128,7 @@ fun RegisterScreen (
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name") },
+                label = { Text(stringResource(Res.string.register_name))},
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -139,7 +149,7 @@ fun RegisterScreen (
             OutlinedTextField(
                 value = surname,
                 onValueChange = { surname = it },
-                label = { Text("Surname") },
+                label = { Text(stringResource(Res.string.register_surname))},
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -160,7 +170,7 @@ fun RegisterScreen (
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text(stringResource(Res.string.auth_email))},
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -179,7 +189,7 @@ fun RegisterScreen (
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") },
+                label = { Text(stringResource(Res.string.register_username))},
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -200,7 +210,7 @@ fun RegisterScreen (
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text(stringResource(Res.string.auth_password))},
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
@@ -218,7 +228,7 @@ fun RegisterScreen (
             )
 
             Text(
-                text = "Back to LogIn",
+                text = stringResource(Res.string.back_log_in),
                 color = AppColors.buttonSecondary,
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,

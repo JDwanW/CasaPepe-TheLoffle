@@ -1,22 +1,27 @@
 <resources>
 
+
+    <!-- feature Inicio -->
+    <string name="auth_email">电子邮箱</string>
+    <string name="auth_password">密码</string>
+    <string name="try_again_button">返回</string>
+
     <!-- LogInScreen -->
     <string name="login_successfull_messsage">登录成功！</string>
     <string name="login_failed_message">登录失败！</string>
-    <string name="try_again_button">返回</string>
-
-    <string name="auth_email">电子邮箱</string>
-    <string name="auth_password">密码</string>
     <string name="login_no_account">还没有账号？立即注册</string>
     <string name="login_button">登录</string>
 
     <!-- RegisterScreen -->
-
     <string name="register_name">名字</string>
     <string name="register_surname">姓氏</string>
     <string name="register_username">用户名</string>
-    <string name="register_back_login">返回登录</string>
+    <string name="register_back_login">返回登录页面</string>
     <string name="register_button">注册</string>
+
+    <string name="register_successfull_messsage">注册成功！</string>
+    <string name="register_failed_message">注册失败！该电子邮箱或用户名已被使用。</string>
+    <string name="back_log_in">返回登录页面</string>
 
     <!-- SettingsScreen -->
 

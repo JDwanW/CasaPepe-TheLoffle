@@ -1,14 +1,13 @@
 <resources>
 
+    <!-- feature Inicio -->
+    <string name="auth_email">Correo electrónico</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="try_again_button">Volver</string>
 
     <!-- LogInScreen -->
     <string name="login_successfull_messsage">¡Inicio de sesión exitosa!</string>
     <string name="login_failed_message">¡Error de inicio de sesion! </string>
-    <string name="try_again_button">Volver</string>
-
-
-    <string name="auth_email">Correo electrónico</string>
-    <string name="auth_password">Contraseña</string>
     <string name="login_no_account">¿No tienes una cuenta? Regístrate</string>
     <string name="login_button">Iniciar sesión</string>
 
@@ -19,6 +18,11 @@
     <string name="register_username">Nombre de usuario</string>
     <string name="register_back_login">Volver al inicio de sesión</string>
     <string name="register_button">Registrarse</string>
+
+    <string name="register_successfull_messsage">¡Registro exitosa!</string>
+    <string name="register_failed_message">¡Error de registro! Has usado una mail/nickname usado.</string>
+    <string name="back_log_in">Volver al inicio de sesión</string>
+
 
 
     <!-- SettingsScreen -->
