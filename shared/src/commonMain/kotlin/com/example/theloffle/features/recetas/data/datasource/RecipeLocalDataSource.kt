@@ -44,5 +44,16 @@ class RecipeLocalDataSource(
             recipes.forEach { insert(it) }
         }
     }
+
+    // Funciones del apartado mis recetas
+    fun getMyRecipes(username: String): List<Recipe> =
+        database.saveRecipeQueries.selectMyRecipes(username).executeAsList().map { toRecipe(it) }
+
+    fun getMyPublishedRecipes(username: String): List<Recipe> =
+        database.saveRecipeQueries.selectMyRecipesPublished(username).executeAsList().map { toRecipe(it) }
+
+    // Solo devuelve Recetas de otras personas
+    fun getMySavedRecipes(username: String): List<Recipe> =
+        database.saveRecipeQueries.selectMySavedRecipes(username).executeAsList().map { toRecipe(it) }
 }
 

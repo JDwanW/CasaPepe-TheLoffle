@@ -116,11 +116,39 @@ class RecipeRepoImp(
     }
     // Se obtiene todas las recetas publicadas por el author, published = true
     override suspend fun getPublishedRecipesByUser(author: String): List<Recipe> {
-        // TODO: DANI, a lo mejor es mejor comparar con el id del usuario
-        // Si usas SQLDelight / Room, hazlo directamente en la query SQL:
-        // SELECT * FROM Recipe WHERE published = 1 AND author = :author
         return getRecipesByFilters(filters).filter { recipe ->
             recipe.published && recipe.author.equals(author, ignoreCase = true)
+        }
+    }
+
+    override suspend fun getMyRecipes(): List<Recipe> {
+        // Primero miramos que este la sesion iniciada y que exista la bbdd
+        val username = session.current.value ?: return emptyList()
+        if (localDataSource == null) return emptyList()
+
+        return withContext(workDispatcher) {
+            localDataSource.getMyRecipes(username)
+        }
+    }
+
+    override suspend fun getMyPublishedRecipes(): List<Recipe> {
+        // Primero miramos que este la sesion iniciada y que exista la bbdd
+        val username = session.current.value ?: return emptyList()
+        if (localDataSource == null) return emptyList()
+
+        return withContext(workDispatcher) {
+            localDataSource.getMyPublishedRecipes(username)
+        }
+    }
+
+    override suspend fun getMySavedRecipes(): List<Recipe> {
+        // Primero miramos que este la sesion iniciada y que exista la bbdd
+        val username = session.current.value ?: return emptyList()
+        if (localDataSource == null) return emptyList()
+
+        return withContext(workDispatcher) {
+            // Si teniamos alguna receta guardada que elimina el usuario nos deja de salir
+            visible(localDataSource.getMySavedRecipes(username))
         }
     }
 }

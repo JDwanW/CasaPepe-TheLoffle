@@ -17,7 +17,9 @@ data class RecipeUiState(
     val filters: List<String> = emptyList(),
     val selectedFilters: Set<String> = emptySet(),
     val openedFile: File? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val selectedCollection: Int = 0, // = Mis recetas, 1 Publicadas, 2 Guardadas
+    val collectionRecipes: List<Recipe> = emptyList()
 )
 
 class RecipeViewModel(
@@ -31,6 +33,7 @@ class RecipeViewModel(
 
     init {
         loadInitialFilters()
+        onSelectCollection(0)
     }
 
     private fun loadInitialFilters() {
@@ -55,33 +58,44 @@ class RecipeViewModel(
         }
     }
     fun onSelectFile(file: File) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(openedFile = file, isLoading = true) }
-            repository.applyFilterOnFile(file.name)
-            val recipeList = repository.getRecipesInFile(file.name)
-            _uiState.update {
-                it.copy(
-                    recipes = recipeList,
-                    isLoading = false
-                )
-            }
+        _uiState.update { state -> state.copy(
+                openedFile = file,
+                // De la lista completa de la pestaña solo los que tengan la etiqueta
+                recipes = state.collectionRecipes.filter { it.tags.contains(file.name) }
+            )
         }
     }
 
+    // Restaura la lista completa
     fun onCloseFile() {
-        viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    openedFile = null,
-                    recipes = emptyList(),
-                    selectedFilters = emptySet()
-                )
-            }
+        _uiState.update { state -> state.copy(
+                openedFile = null,
+                recipes = state.collectionRecipes,
+                selectedFilters = emptySet()
+            )
         }
     }
+
     fun loadRecipeById(id: Int) {
         viewModelScope.launch {
             _selectedRecipe.value = repository.getRecipeById(id)
+        }
+    }
+
+    fun onSelectCollection(index: Int) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(selectedCollection = index, isLoading = true, selectedFilters = emptySet())
+            }
+
+            // 0 Mis recetas 1 Publicados, 2 Guardados
+            val list = when (index) {
+                0 -> repository.getMyRecipes()
+                1 -> repository.getMyPublishedRecipes()
+                else -> repository.getMySavedRecipes()
+            }
+            // Guardamos la lista completa
+            _uiState.update { it.copy(collectionRecipes = list, recipes = list, isLoading = false) }
         }
     }
 }

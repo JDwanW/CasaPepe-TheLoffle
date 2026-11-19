@@ -73,6 +73,7 @@ fun RecipeScreenRoot(
         onConfirmSelection = onConfirmSelection,
         onNavigateToCreateRecipe = onNavigateToCreateRecipe,
         onCloseFile = viewModel::onCloseFile,
+        onSelectCollection = viewModel::onSelectCollection,
         onNavigateBack = onNavigateBack,
         onNavigateToHome = onNavigateToHome,
         modifier = modifier
@@ -90,6 +91,7 @@ private fun RecipeScreen(
     onConfirmSelection: (Int) -> Unit,
     onNavigateToCreateRecipe: () -> Unit,
     onCloseFile: () -> Unit,
+    onSelectCollection: (Int) -> Unit,
     onNavigateBack: () -> Unit,
     onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier
@@ -128,7 +130,7 @@ private fun RecipeScreen(
                         } else if (selectedCollectionIndex != index) {
                             selectedCollectionIndex = index
                             selectedRecipeId = null
-                            onCloseFile()
+                            onSelectCollection(index)
                         }
                     },
                     selectedContentColor = AppColors.textPrimary,

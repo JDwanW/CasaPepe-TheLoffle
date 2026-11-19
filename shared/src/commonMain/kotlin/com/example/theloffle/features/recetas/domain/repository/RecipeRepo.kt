@@ -11,4 +11,7 @@ interface RecipeRepo {
     suspend fun getRecipesByFilters(filters: List<String>): List<Recipe>
     suspend fun saveRecipe(recipe: Recipe): Int
     suspend fun getPublishedRecipesByUser(author: String): List<Recipe>
+    suspend fun getMyRecipes(): List<Recipe>
+    suspend fun getMyPublishedRecipes(): List<Recipe>
+    suspend fun getMySavedRecipes(): List<Recipe>
 }
