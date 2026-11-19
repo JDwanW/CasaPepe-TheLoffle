@@ -17,6 +17,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -70,7 +72,27 @@ fun PublicationScreenRoot(
                     tags = recipe.tags,
                     description = recipe.description.orEmpty(),
                     ingredients = recipe.ingredients,
-                    onHomeClick = onNavigateToHome
+                    onHomeClick = onNavigateToHome,
+                    // Ponemos visible boton de guardar solo si la receta no es del usuario
+                    // que ha iniciado sesion
+                    bottomActions = {
+                        if (!uiState.isOwnRecipe) {
+                            Button(
+                                onClick = viewModel::onToggleSaved,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppColors.buttonPrimary,
+                                    contentColor = AppColors.textPrimary
+                                ),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                // Cambiamos el texto en funcion de si esta guardada la receta o no
+                                Text(
+                                    if (uiState.isSaved) "Quitar de guardados"
+                                    else "Guardar receta"
+                                )
+                            }
+                        }
+                    }
                 )
             }
         }

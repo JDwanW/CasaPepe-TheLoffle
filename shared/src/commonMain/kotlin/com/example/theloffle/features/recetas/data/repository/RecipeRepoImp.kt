@@ -151,4 +151,32 @@ class RecipeRepoImp(
             visible(localDataSource.getMySavedRecipes(username))
         }
     }
+
+    // Devuelve si la receta esta guardada o no
+    override suspend fun isRecipeSaved(recipeId: Int): Boolean {
+        // Miramos que haya sesion iniciado y bbdd
+        val username = session.current.value ?: return false
+        if(localDataSource == null) return false
+        return withContext(workDispatcher){
+            localDataSource.isSaved(username, recipeId)
+        }
+    }
+
+    // Si pulsas el boton la guardas y si ya estaba guardada la quitas
+    override suspend fun toggleSavedRecipe(recipeId: Int): Boolean {
+        // Miramos si hay sesion iniciada y bbdd
+        val username = session.current.value ?: return false
+        if (localDataSource == null) return false
+
+        // Leer el estado y cambiarlo
+        return withContext(workDispatcher) {
+            if (localDataSource.isSaved(username, recipeId)) {
+                localDataSource.removeFromSaved(username, recipeId)
+                false
+            } else {
+                localDataSource.addToSaved(username, recipeId)
+                true
+            }
+        }
+    }
 }

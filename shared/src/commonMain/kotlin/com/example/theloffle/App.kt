@@ -382,7 +382,8 @@ fun App(
                     val recipeId = routeData.recipeId
 
                     val viewModel: PublicationViewModel = viewModel {
-                        PublicationViewModel(recipeRepository = containerRepo.recipeRepoInstance)
+                        PublicationViewModel(recipeRepository = containerRepo.recipeRepoInstance,
+                            session = containerRepo.sessionInstance)
                     }
 
                     PublicationScreenRoot(

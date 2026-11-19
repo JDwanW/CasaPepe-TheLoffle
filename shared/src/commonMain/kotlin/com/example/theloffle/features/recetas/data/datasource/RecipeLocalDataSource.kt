@@ -55,5 +55,19 @@ class RecipeLocalDataSource(
     // Solo devuelve Recetas de otras personas
     fun getMySavedRecipes(username: String): List<Recipe> =
         database.saveRecipeQueries.selectMySavedRecipes(username).executeAsList().map { toRecipe(it) }
+
+    // Guarda la Receta en la lista del usuario
+    fun addToSaved(username: String, recipeId: Int) {
+        database.saveRecipeQueries.saveRecipe(username, recipeId.toLong())
+    }
+
+    // Quita la receta de la lista del usuario
+    fun removeFromSaved(username: String, recipeId: Int) {
+        database.saveRecipeQueries.removeRecipe(username, recipeId.toLong())
+    }
+
+    // Es true si el usuario ya lo tiene guardado
+    fun isSaved(username: String, recipeId: Int): Boolean =
+        database.saveRecipeQueries.isRecipeSaved(username, recipeId.toLong()).executeAsOne() > 0
 }
 

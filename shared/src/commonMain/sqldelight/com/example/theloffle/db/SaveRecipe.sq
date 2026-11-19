@@ -32,3 +32,7 @@ selectMySavedRecipes:
 SELECT * FROM Recipes
 WHERE id IN (SELECT recipeId FROM SavedRecipes WHERE username = :username)
   AND author != :username;
+
+ isRecipeSaved:
+ SELECT COUNT(*) FROM SavedRecipes
+ WHERE username = :username AND recipeId= :recipeId;
