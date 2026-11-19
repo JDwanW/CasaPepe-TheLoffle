@@ -22,6 +22,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,7 +46,10 @@ fun PublicationScreenRoot(
     recipeId: Int,
     viewModel: PublicationViewModel,
     onNavigateToHome: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    // Para el boton de atras de escritorio
+    showBackButton: Boolean = false,
+    onNavigateBack: () -> Unit = {},
 ) {
     val uiState = viewModel.uiState
 
@@ -90,6 +94,15 @@ fun PublicationScreenRoot(
                                     if (uiState.isSaved) "Quitar de guardados"
                                     else "Guardar receta"
                                 )
+                            }
+                        }
+                        // Boton para volver atras
+                        if (showBackButton) {
+                            OutlinedButton(
+                                onClick = onNavigateBack,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("Volver")
                             }
                         }
                     }

@@ -85,7 +85,8 @@ fun App(
     database: TheLoffleDatabase? = null,
     toScreen: Route? = null,
     onLanguageClick: (String) -> Unit = {},
-    appContainer: AppContainer? = null
+    appContainer: AppContainer? = null,
+    showBackButton: Boolean = false
 ) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -394,6 +395,9 @@ fun App(
                                 popUpTo<Route.HomeScreen> {inclusive = true}
                             }
                         },
+                        // Gestion del boton de atras(Solo sale en desktop)
+                        showBackButton = showBackButton,
+                        onNavigateBack = { navController.popBackStack() },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

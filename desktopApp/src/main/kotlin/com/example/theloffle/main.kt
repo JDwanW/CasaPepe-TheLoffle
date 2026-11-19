@@ -9,7 +9,7 @@ fun main() {
     val database = createDataBase()
     application {
         Window(onCloseRequest = ::exitApplication, title = "TheLoffle") {
-            App(database)
+            App(database, showBackButton = true) // Le pasamos la bbdd y que nos pinte el botton de atras
         }
     }
 }
