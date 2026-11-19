@@ -77,10 +77,15 @@ fun SettingsScreen(
     onLogoutClick: () -> Unit,
     showDataPersonal : () -> Unit,
     changePassword : () -> Unit,
-    onLanguageClick: (String) -> Unit
+    onLanguageClick: (String) -> Unit,
+    onAppearanceClick: () -> Unit
 ) {
 
     var showLanguageDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var showAppearanceDialog by remember {
         mutableStateOf(false)
     }
 
@@ -158,8 +163,19 @@ fun SettingsScreen(
             title = stringResource(Res.string.settings_appearance),
             subtitle = stringResource(Res.string.settings_appearance_subtitle),
             icon = Res.drawable.icon_appearance,
-            onClick = { }
+            onClick = { showAppearanceDialog = true}
         )
+
+        if (showAppearanceDialog) {
+            AppearanceDialog(
+                isDarkMode = false,
+                onDismiss = {
+                    showAppearanceDialog = false
+                },
+                onThemeChange = {}
+            )
+        }
+
 
         //para cambiar el idioma de la applicación
         SettingsItem(

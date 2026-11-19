@@ -20,7 +20,8 @@ fun SettingsScreenRoot(
         },
         showDataPersonal = onNavigateToPersonalData,
         changePassword = {},
-        onLanguageClick = onLanguageClick
+        onLanguageClick = onLanguageClick,
+        onAppearanceClick = {}
     )
 }
 
