@@ -16,4 +16,5 @@ interface RecipeRepo {
     suspend fun getMySavedRecipes(): List<Recipe>
     suspend fun isRecipeSaved(recipeId: Int): Boolean
     suspend fun toggleSavedRecipe(recipeId: Int): Boolean
+    suspend fun searchRecipes(query: String, filters: List<String>): List<Recipe>
 }

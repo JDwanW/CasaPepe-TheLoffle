@@ -10,7 +10,6 @@ interface SearchRepo{
     suspend fun toggleFilter(filter: String): Boolean
     // Funcion que hace la busqueda del usuario por query y la devuelve
     suspend fun searchUser(query: String): List<User>
-    // Funcion que hace
-    suspend fun searchRecipes(selectedFilters: Set<String>): List<Recipe>
-
+    // Funcion que hace la busqueda de Recetas
+    suspend fun searchRecipes(query: String, selectedFilters: Set<String>): List<Recipe>
 }

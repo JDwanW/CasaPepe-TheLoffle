@@ -57,9 +57,8 @@ class SearchViewModel(
     private fun performSearch() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val results = repository.searchRecipes(
-                selectedFilters = _uiState.value.selectedFilters
-            )
+            val state = _uiState.value
+            val results = repository.searchRecipes(state.searchQuery, state.selectedFilters)
             _uiState.update { it.copy(recipes = results, isLoading = false) }
         }
     }

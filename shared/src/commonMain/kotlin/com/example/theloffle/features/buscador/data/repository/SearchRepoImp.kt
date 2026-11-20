@@ -47,8 +47,7 @@ class SearchRepoImp(
     override suspend fun searchUser(query: String): List<User> {
         return emptyList()
     }
-    override suspend fun searchRecipes(selectedFilters: Set<String>): List<Recipe> {
-        if (selectedFilters.isEmpty()) return emptyList()
-        return recipeRepo.getRecipesByFilters(selectedFilters.toList())
+    override suspend fun searchRecipes(query: String, selectedFilters: Set<String>): List<Recipe> {
+        return recipeRepo.searchRecipes(query, selectedFilters.toList())
     }
 }

@@ -188,4 +188,28 @@ class RecipeRepoImp(
             }
         }
     }
+
+    override suspend fun searchRecipes(
+        query: String,
+        filters: List<String>
+    ): List<Recipe> {
+        val text = query.trim()
+        // Sin texto ni filtros no buscamos nada
+        if (text.isEmpty() && filters.isEmpty()) return emptyList()
+        // Con bbdd leemos del disco en el dispatcher de trabajo
+        // Si falla la bbdd leemos los de ejemplo
+        val recipes = if (localDataSource != null) {
+            withContext(workDispatcher) { localDataSource.getAll() }
+        } else {
+            allRecipes
+        }
+        return visible(recipes.filter { recipe ->
+            // Filtra las recetas que contienen esos ingredientes, tags y nombre
+            recipe.tags.containsAll(filters) &&
+                    (text.isEmpty() ||
+                            recipe.ingredients.any { it.contains(text, ignoreCase = true) } ||
+                            recipe.tags.any { it.contains(text, ignoreCase = true) } ||
+                            recipe.name.contains(text, ignoreCase = true))
+        })
+    }
 }
