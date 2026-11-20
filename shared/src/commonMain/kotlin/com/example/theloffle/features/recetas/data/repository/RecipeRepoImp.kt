@@ -114,10 +114,19 @@ class RecipeRepoImp(
         val actualUser = session.current.value
         return recipeList.filter { couldSee(it) }
     }
-    // Se obtiene todas las recetas publicadas por el author, published = true
+
     override suspend fun getPublishedRecipesByUser(author: String): List<Recipe> {
-        return getRecipesByFilters(filters).filter { recipe ->
-            recipe.published && recipe.author.equals(author, ignoreCase = true)
+        // El nombre puede llegar con "@" delante
+        val cleanName = author.removePrefix("@")
+        // Sin base de datos (seria en web por como esta ahora) usamos las recetas de ejemplo
+        val recipes = if (localDataSource != null) {
+            withContext(workDispatcher) { localDataSource.getAll() }
+        } else {
+            allRecipes
+        }
+        // Solo los publicados cuyo autor coincide
+        return recipes.filter { recipe ->
+            recipe.published && recipe.author.removePrefix("@").equals(cleanName, ignoreCase = true)
         }
     }
 
