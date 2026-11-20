@@ -1,0 +1,145 @@
+﻿<mxfile host="app.diagrams.net" agent="TheLoffle">
+  <diagram id="bloques-theloffle" name="Diagrama de bloques">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1050" background="#F7F9FC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=26;fontStyle=1;fontColor=#1A202C;" value="TheLoffle - Diagrama de bloques de la aplicación" vertex="1">
+          <mxGeometry height="40" width="1200" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F1FB;strokeColor=#2B6CB0;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="androidApp/&lt;br&gt;MainActivity.kt&lt;br&gt;notifications/Notification.kt" vertex="1">
+          <mxGeometry height="96" width="340" x="60" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F1FB;strokeColor=#2B6CB0;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="desktopApp/&lt;br&gt;main.kt" vertex="1">
+          <mxGeometry height="96" width="340" x="520" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F1FB;strokeColor=#2B6CB0;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="webApp/&lt;br&gt;main.kt&lt;br&gt;index.html" vertex="1">
+          <mxGeometry height="96" width="340" x="980" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F6EC;strokeColor=#2F855A;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="shared / commonMain&lt;br&gt;App.kt - NavHost, Scaffold, BottomBar" vertex="1">
+          <mxGeometry height="96" width="520" x="430" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="ruta" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F6EC;strokeColor=#2F855A;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="Route.kt&lt;br&gt;AppPages.kt" vertex="1">
+          <mxGeometry height="76" width="250" x="60" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F6EC;strokeColor=#2F855A;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="Platform.kt&lt;br&gt;Greeting.kt&lt;br&gt;GreetingUtil.kt" vertex="1">
+          <mxGeometry height="96" width="250" x="60" y="334" as="geometry" />
+        </mxCell>
+        <mxCell id="di" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FD;strokeColor=#805AD5;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="di/&lt;br&gt;AppContainer.kt&lt;br&gt;DefaultAppContainer" vertex="1">
+          <mxGeometry height="96" width="320" x="1320" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="ui" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FD;strokeColor=#805AD5;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="core/UI_System&lt;br&gt;components/&lt;br&gt;BloqueCard.kt - BottomBar.kt - Header.kt&lt;br&gt;theme/AppColor.kt" vertex="1">
+          <mxGeometry height="120" width="320" x="1320" y="352" as="geometry" />
+        </mxCell>
+        <mxCell id="core" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FD;strokeColor=#805AD5;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="core/database&lt;br&gt;PlatformDispatchers.kt" vertex="1">
+          <mxGeometry height="76" width="320" x="1320" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFAEB;strokeColor=#D69E2E;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=3;" value="buscador/&lt;br&gt;ui/SearchScreen.kt&lt;br&gt;presentation/SearchViewModel.kt&lt;br&gt;domain/repository/SearchRepo.kt&lt;br&gt;data/repository/SearchRepoImp.kt" vertex="1">
+          <mxGeometry height="160" width="250" x="60" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFAEB;strokeColor=#D69E2E;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=3;" value="configuración/presentation/&lt;br&gt;ui/SettingsScreen.kt - PersonalDataScreen.kt&lt;br&gt;model/SettingsViewModel.kt" vertex="1">
+          <mxGeometry height="160" width="250" x="340" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFAEB;strokeColor=#D69E2E;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=3;" value="diario/&lt;br&gt;ui/HomeScreen.kt&lt;br&gt;presentation/HomeViewModel.kt - MealRegisterViewModel.kt&lt;br&gt;domain/model/FoodPages.kt&lt;br&gt;domain/repository/MealRegisterRepo.kt&lt;br&gt;data/repository/MealRegisterRepoImp.kt" vertex="1">
+          <mxGeometry height="160" width="250" x="620" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFAEB;strokeColor=#D69E2E;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=3;" value="inicio/&lt;br&gt;presentation/ui/LogInScreen.kt - RegisterScreen.kt&lt;br&gt;presentation/model/LogInViewModell.kt&lt;br&gt;domain/repository/AuthRepo.kt&lt;br&gt;data/AuthRepoImp.kt&lt;br&gt;data/datasource/AuthLocalDataSource.kt" vertex="1">
+          <mxGeometry height="160" width="250" x="900" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFAEB;strokeColor=#D69E2E;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=3;" value="perfil/&lt;br&gt;ui/ProfileScreen.kt&lt;br&gt;presentation/ProfileViewModel.kt&lt;br&gt;domain/repository/UserRepo.kt&lt;br&gt;data/repository/UserRepoImp.kt&lt;br&gt;data/datasource/dataSource.kt" vertex="1">
+          <mxGeometry height="160" width="250" x="1180" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFAEB;strokeColor=#D69E2E;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=3;" value="recetas/&lt;br&gt;ui/RecipeScreen.kt - CreateRecipeScreen.kt - PublicationScreen.kt&lt;br&gt;presentation/RecipeViewModel.kt - PublicationViewModel.kt&lt;br&gt;domain/repository/RecipeRepo.kt&lt;br&gt;data/repository/RecipeRepoImp.kt&lt;br&gt;data/datasource/RecipeLocalDataSource.kt" vertex="1">
+          <mxGeometry height="160" width="250" x="1460" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="shared / androidMain&lt;br&gt;Platform.android.kt&lt;br&gt;PlatformDispatchers.android.kt&lt;br&gt;db/DataBaseFactory.kt - TheLoffleDatabase" vertex="1">
+          <mxGeometry height="120" width="380" x="60" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="shared / jvmMain&lt;br&gt;Platform.jvm.kt&lt;br&gt;PlatformDispatchers.jvm.kt" vertex="1">
+          <mxGeometry height="120" width="300" x="480" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="shared / jsMain&lt;br&gt;Platform.js.kt&lt;br&gt;PlatformDispatchers.js.kt" vertex="1">
+          <mxGeometry height="120" width="300" x="820" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.6;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;spacing=4;" value="shared / wasmJsMain&lt;br&gt;Platform.wasmJs.kt&lt;br&gt;PlatformDispatchers.wasmJs.kt" vertex="1">
+          <mxGeometry height="120" width="300" x="1160" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDF2F7;strokeColor=#718096;strokeWidth=1.4;fontColor=#1A202C;align=center;verticalAlign=middle;fontSize=11.5;fontStyle=1;spacing=4;" value="Pruebas&lt;br&gt;commonTest - jvmTest&lt;br&gt;webTest - androidHostTest" vertex="1">
+          <mxGeometry height="120" width="210" x="1500" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="c1" target="app" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="c2" target="app" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="c3" target="app" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="ruta" target="app" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="api" target="app" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="app" target="di" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="app" target="ui" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="app" target="core" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="app" target="f1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="app" target="f2" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="app" target="f3" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="app" target="f4" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="app" target="f5" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="app" target="f6" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="di" target="f1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.2;strokeColor=#805AD5;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="di" target="f2" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.2;strokeColor=#805AD5;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="di" target="f3" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.2;strokeColor=#805AD5;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="di" target="f4" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.2;strokeColor=#805AD5;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="di" target="f5" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.2;strokeColor=#805AD5;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="di" target="f6" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.2;strokeColor=#805AD5;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="core" target="p1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="core" target="p2" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="core" target="p3" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="core" target="p4" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1.4;strokeColor=#4A5568;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,82 @@
+﻿<mxfile host="app.diagrams.net">
+  <diagram name="Modelo de datos" id="ModeloDatosTheLoffle">
+    <mxGraphModel dx="1030" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="u" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="User" vertex="1">
+          <mxGeometry height="165" width="150" x="80" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="u_attrs" parent="u" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;username*&lt;/div&gt;&lt;div&gt;name&lt;/div&gt;&lt;div&gt;surname&lt;/div&gt;&lt;div&gt;email&lt;/div&gt;&lt;div&gt;password&lt;/div&gt;&lt;div&gt;profile_photo&lt;/div&gt;" vertex="1">
+          <mxGeometry height="135" width="140" x="5" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="r" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Recipe" vertex="1">
+          <mxGeometry height="140" width="150" x="540" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r_attrs" parent="r" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;id*&lt;/div&gt;&lt;div&gt;author&lt;/div&gt;&lt;div&gt;name&lt;/div&gt;&lt;div&gt;published&lt;/div&gt;&lt;div&gt;json&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="140" x="5" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="s" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="SavedRecipes" vertex="1">
+          <mxGeometry height="90" width="170" x="310" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="s_attrs" parent="s" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;username*&lt;/div&gt;&lt;div&gt;recipeId*&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="5" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="m" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="MealLog" vertex="1">
+          <mxGeometry height="120" width="150" x="540" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="m_attrs" parent="m" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div&gt;username*&lt;/div&gt;&lt;div&gt;day*&lt;/div&gt;&lt;div&gt;slot*&lt;/div&gt;&lt;div&gt;recipeId*&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="140" x="5" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="lab1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Creates / Publishes" vertex="1">
+          <mxGeometry height="30" width="170" x="280" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="lab2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Saves" vertex="1">
+          <mxGeometry height="30" width="90" x="180" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="lab3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Saved in" vertex="1">
+          <mxGeometry height="30" width="100" x="430" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="lab4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Registers" vertex="1">
+          <mxGeometry height="30" width="100" x="170" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="lab5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Consumed in" vertex="1">
+          <mxGeometry height="30" width="110" x="645" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontSize=11;" value="json = Recipe serializado:&lt;br&gt;ingredients, tags, description,&lt;br&gt;imageUrl, rating" vertex="1">
+          <mxGeometry height="70" width="220" x="500" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="u_attrs" target="r_attrs" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;labelPadding=0 4;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="230" y="145" as="sourcePoint" />
+            <mxPoint x="540" y="125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="u_attrs" target="s_attrs" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;labelPadding=0 4;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="165" y="215" as="sourcePoint" />
+            <mxPoint x="310" y="395" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="r_attrs" target="s_attrs" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;labelPadding=0 4;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="600" y="200" as="sourcePoint" />
+            <mxPoint x="480" y="395" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="u_attrs" target="m_attrs" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;labelPadding=0 4;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="120" y="220" as="sourcePoint" />
+            <mxPoint x="540" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="r_attrs" target="m_attrs" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;labelPadding=0 4;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="620" y="200" as="sourcePoint" />
+            <mxPoint x="620" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
